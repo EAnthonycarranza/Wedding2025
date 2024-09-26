@@ -18,9 +18,9 @@ app.use(cors({
   }));  
 
 const JWT_SECRET = process.env.JWT_SECRET || "your_secret_key";
-const MONGO_URI = process.env.MONGO_URI || "mongodb://localhost:27017/weddingDB";
+const MONGO_URI = process.env.MONGO_URI;
 const SHEET_ID = process.env.GOOGLE_SPREADSHEET_ID; // Google Sheets ID from .env
-const GOOGLE_PRIVATE_KEY = process.env.GOOGLE_PRIVATE_KEY.replace(/\\n/g, '\n'); // Handle the private key formatting
+const GOOGLE_PRIVATE_KEY = process.env.GOOGLE_PRIVATE_KEY // Handle the private key formatting
 const GOOGLE_SERVICE_ACCOUNT_EMAIL = process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL;
 const GCLOUD_BUCKET_NAME = process.env.GCLOUD_BUCKET_NAME; // Bucket name from GCP
 
@@ -37,15 +37,17 @@ const sheets = google.sheets({ version: "v4", auth: sheetsAuth });
 
 // Initialize Google Cloud Storage
 const storage = new Storage({
-    credentials: {
-      client_email: GOOGLE_SERVICE_ACCOUNT_EMAIL,
-      private_key: GOOGLE_PRIVATE_KEY,
-    },
-    projectId: process.env.GOOGLE_CLOUD_PROJECT, // Ensure this is fetched correctly
-  });
-  
-  const bucket = storage.bucket(process.env.GCLOUD_BUCKET_NAME); // This should fetch 'newacwedding2025'
-  
+  credentials: {
+    client_email: GOOGLE_SERVICE_ACCOUNT_EMAIL,
+    private_key: GOOGLE_PRIVATE_KEY,
+  },
+  projectId: process.env.GOOGLE_CLOUD_PROJECT, // Ensure this is fetched correctly
+});
+
+// Use GCLOUD_BUCKET_NAME consistently
+const bucketName = GCLOUD_BUCKET_NAME;
+console.log('Bucket Name:', bucketName); // For debugging
+const bucket = storage.bucket(bucketName);  
 
 let rsvpCollection; // Declare RSVP collection here
 
