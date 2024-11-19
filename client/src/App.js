@@ -34,6 +34,7 @@ function App() {
     }
   
     try {
+      // Check authentication
       const response = await fetch("/check-auth", {
         method: "GET",
         headers: {
@@ -41,17 +42,23 @@ function App() {
         },
       });
   
-      // Parse JSON only once
+      // Handle non-JSON responses or unexpected errors
       if (!response.ok) {
-        throw new Error(`Error: ${response.status}`);
+        const contentType = response.headers.get("content-type");
+        if (contentType && contentType.includes("text/html")) {
+          throw new Error("Unexpected HTML response. Possible server routing issue.");
+        } else {
+          throw new Error(`Authentication check failed with status: ${response.status}`);
+        }
       }
   
-      const data = await response.json();
+      const data = await response.json(); // Parse the JSON response
       setIsAuthenticated(true);
       setFamilyName(data.familyName);
   
       navigate("/home");
   
+      // Fetch RSVP data
       const rsvpResponse = await fetch("/check-rsvp", {
         method: "GET",
         headers: {
@@ -59,12 +66,21 @@ function App() {
         },
       });
   
+      if (!rsvpResponse.ok) {
+        const contentType = rsvpResponse.headers.get("content-type");
+        if (contentType && contentType.includes("text/html")) {
+          throw new Error("Unexpected HTML response from RSVP check.");
+        } else {
+          throw new Error(`RSVP check failed with status: ${rsvpResponse.status}`);
+        }
+      }
+  
       const rsvpData = await rsvpResponse.json();
       if (!rsvpData.hasSubmittedRSVP) {
         setShowRSVPModal(true);
       }
     } catch (error) {
-      console.error("Error checking authentication:", error);
+      console.error("Error during authentication or RSVP check:", error.message);
       setIsAuthenticated(false);
     }
   };
