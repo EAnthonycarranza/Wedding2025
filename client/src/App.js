@@ -34,7 +34,7 @@ function App() {
     }
 
     try {
-      const response = await fetch("http://localhost:3001/check-auth", {
+      const response = await fetch("/check-auth", {
         method: "GET",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -48,7 +48,7 @@ function App() {
 
         navigate("/home");
 
-        const rsvpResponse = await fetch("http://localhost:3001/check-rsvp", {
+        const rsvpResponse = await fetch("/check-rsvp", {
           method: "GET",
           headers: {
             Authorization: `Bearer ${token}`,
@@ -85,7 +85,7 @@ function App() {
   const handleRSVPSubmit = async () => {
     const token = localStorage.getItem("token");
 
-    const response = await fetch("http://localhost:3001/submit-rsvp", {
+    const response = await fetch("/submit-rsvp", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

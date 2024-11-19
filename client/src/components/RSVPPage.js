@@ -26,7 +26,7 @@ const RSVPPage = () => {
     const fetchRSVPData = async () => {
       const token = localStorage.getItem("token");
       try {
-        const response = await fetch("http://localhost:3001/rsvp", {
+        const response = await fetch("/rsvp", {
           method: "GET",
           headers: { Authorization: `Bearer ${token}` },
         });
@@ -49,7 +49,7 @@ const RSVPPage = () => {
 
   const handleRSVPSubmit = async () => {
     const token = localStorage.getItem("token");
-    const response = await fetch("http://localhost:3001/rsvp", {
+    const response = await fetch("/rsvp", {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",

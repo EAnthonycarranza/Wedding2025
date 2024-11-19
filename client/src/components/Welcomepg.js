@@ -66,7 +66,7 @@ const Welcomepg = ({ setIsAuthenticated, setFamilyName }) => {
 
     try {
       // Authenticate the password and get family name from the server
-      const response = await axios.post('http://localhost:3001/authenticate', { password });
+      const response = await axios.post('/authenticate', { password });
 
       // Store the JWT token in localStorage
       const token = response.data.token;

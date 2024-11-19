@@ -22,7 +22,7 @@ const LoginPage = ({ onLoginSuccess }) => {
       };
 
       // Send the Google ID token to your backend for verification and get a JWT
-      const res = await axios.post('http://localhost:3001/google-auth', { token });
+      const res = await axios.post('/google-auth', { token });
 
       // Pass the user profile (including profile picture) back to App.js
       onLoginSuccess({ ...userProfile, token: res.data.token });
