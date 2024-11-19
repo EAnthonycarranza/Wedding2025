@@ -10,6 +10,15 @@ const fileUpload = require("express-fileupload"); // Use express-fileupload to h
 
 const app = express();
 app.use(express.json());
+const path = require("path");
+
+// Serve static files from the React app
+app.use(express.static(path.join(__dirname, "../client/build")));
+
+// Handle React routing: return all requests to React app
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "../client/build", "index.html"));
+});
 
 // CORS Configuration
 app.use(cors({
@@ -52,7 +61,7 @@ let rsvpCollection; // Declare RSVP collection here
 // MongoDB Connection
 async function connectMongoDB() {
   try {
-    const client = await MongoClient.connect(MONGO_URI);
+    const client = await MongoClient.connect(MONGO_URI, { useUnifiedTopology: true });
     const database = client.db("weddingDB");
     rsvpCollection = database.collection("rsvps");
     console.log("Connected to MongoDB and RSVP Collection initialized");
@@ -422,7 +431,8 @@ app.get("/check-rsvp", verifyJWT, async (req, res) => {
   }
 });
 
-const PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT || 3001; // Use Heroku's dynamic port or fallback to 3001 locally
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
+  console.log("Using Google Spreadsheet ID:", SHEET_ID);
 });
