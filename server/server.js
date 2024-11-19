@@ -22,8 +22,8 @@ const GCLOUD_BUCKET_NAME = process.env.GCLOUD_BUCKET_NAME; // Bucket name from G
 // Google Sheets API Setup using Service Account
 const sheetsAuth = new google.auth.GoogleAuth({
   credentials: {
-    client_email: GOOGLE_SERVICE_ACCOUNT_EMAIL,
-    private_key: GOOGLE_PRIVATE_KEY,
+    client_email: process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL, // From environment variables
+    private_key: process.env.GOOGLE_PRIVATE_KEY.replace(/\\n/g, '\n'),
   },
   scopes: ["https://www.googleapis.com/auth/spreadsheets"],
 });
