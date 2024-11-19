@@ -40,27 +40,36 @@ function App() {
           Authorization: `Bearer ${token}`,
         },
       });
-
-      const data = await response.json();
+    
+      let data;
+      try {
+        data = await response.json(); // Attempt to parse the response
+      } catch (err) {
+        console.error("Failed to parse JSON:", err);
+        console.error("Response text:", await response.text());
+        throw new Error("Invalid JSON response");
+      }
+    
       if (response.ok) {
         setIsAuthenticated(true);
         setFamilyName(data.familyName);
-
+    
         navigate("/home");
-
+    
         const rsvpResponse = await fetch("/check-rsvp", {
           method: "GET",
           headers: {
             Authorization: `Bearer ${token}`,
           },
         });
-
+    
         const rsvpData = await rsvpResponse.json();
         if (!rsvpData.hasSubmittedRSVP) {
           setShowRSVPModal(true);
         }
       } else {
         setIsAuthenticated(false);
+        console.error(`Authentication failed: ${response.status} - ${response.statusText}`);
       }
     } catch (error) {
       console.error("Error checking authentication:", error);
