@@ -400,12 +400,13 @@ app.get('/get-cloud-images', async (req, res) => {
     }
 });
 
+app.use(express.static(path.join(__dirname, "../client/build")));
+
 // Check authentication route
 app.get("/check-auth", verifyJWT, (req, res) => {
   res.status(200).json({ isAuthenticated: true, familyName: req.familyName });
 });
 
-app.use(express.static(path.join(__dirname, "../client/build")));
 app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname, "../client/build", "index.html"));
 });
