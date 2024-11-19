@@ -100,19 +100,6 @@ app.get("/check-auth", verifyJWT, (req, res) => {
   }
 });
 
-// Handle React routing: return all requests to React app
-app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "../client/build", "index.html"));
-});
-
-// CORS Configuration
-app.use(
-  cors({
-    origin: "https://hidden-citadel-88874-96e904553ae6.herokuapp.com", // Your Heroku frontend domain
-    credentials: true,
-  })
-);
-
 // 4. Check if RSVP has been submitted (from MongoDB only)
 app.get("/check-rsvp", verifyJWT, async (req, res) => {
   const familyName = req.familyName;
@@ -138,6 +125,19 @@ app.get("/check-rsvp", verifyJWT, async (req, res) => {
     res.status(500).json({ message: "Error checking RSVP" });
   }
 });
+
+// Handle React routing: return all requests to React app
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "../client/build", "index.html"));
+});
+
+// CORS Configuration
+app.use(
+  cors({
+    origin: "https://hidden-citadel-88874-96e904553ae6.herokuapp.com", // Your Heroku frontend domain
+    credentials: true,
+  })
+);
 
 // User authentication with JWT issuance
 app.post("/authenticate", (req, res) => {
