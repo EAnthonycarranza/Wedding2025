@@ -27,12 +27,12 @@ function App() {
 
   const checkAuth = async () => {
     const token = localStorage.getItem("token");
-
+  
     if (!token) {
       setIsAuthenticated(false);
       return;
     }
-
+  
     try {
       const response = await fetch("/check-auth", {
         method: "GET",
@@ -40,36 +40,28 @@ function App() {
           Authorization: `Bearer ${token}`,
         },
       });
-    
-      let data;
-      try {
-        data = await response.json(); // Attempt to parse the response
-      } catch (err) {
-        console.error("Failed to parse JSON:", err);
-        console.error("Response text:", await response.text());
-        throw new Error("Invalid JSON response");
+  
+      // Parse JSON only once
+      if (!response.ok) {
+        throw new Error(`Error: ${response.status}`);
       }
-    
-      if (response.ok) {
-        setIsAuthenticated(true);
-        setFamilyName(data.familyName);
-    
-        navigate("/home");
-    
-        const rsvpResponse = await fetch("/check-rsvp", {
-          method: "GET",
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-    
-        const rsvpData = await rsvpResponse.json();
-        if (!rsvpData.hasSubmittedRSVP) {
-          setShowRSVPModal(true);
-        }
-      } else {
-        setIsAuthenticated(false);
-        console.error(`Authentication failed: ${response.status} - ${response.statusText}`);
+  
+      const data = await response.json();
+      setIsAuthenticated(true);
+      setFamilyName(data.familyName);
+  
+      navigate("/home");
+  
+      const rsvpResponse = await fetch("/check-rsvp", {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+  
+      const rsvpData = await rsvpResponse.json();
+      if (!rsvpData.hasSubmittedRSVP) {
+        setShowRSVPModal(true);
       }
     } catch (error) {
       console.error("Error checking authentication:", error);
