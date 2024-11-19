@@ -33,7 +33,11 @@ const verifyJWT = (req, res, next) => {
 
 // Check authentication route
 app.get("/check-auth", verifyJWT, (req, res) => {
-  res.status(200).json({ isAuthenticated: true, familyName: req.familyName });
+  try {
+    res.status(200).json({ isAuthenticated: true, familyName: req.familyName });
+  } catch (error) {
+    res.status(500).json({ success: false, message: "Error checking authentication" });
+  }
 });
 
 // Handle React routing: return all requests to React app
@@ -42,10 +46,12 @@ app.get("*", (req, res) => {
 });
 
 // CORS Configuration
-app.use(cors({
-    origin: '*', // This allows all origins
+app.use(
+  cors({
+    origin: "https://hidden-citadel-88874-96e904553ae6.herokuapp.com", // Your Heroku frontend domain
     credentials: true,
-  }));  
+  })
+);
 
 const JWT_SECRET = process.env.JWT_SECRET || "your_secret_key";
 const MONGO_URI = process.env.MONGO_URI || "mongodb://localhost:27017/weddingDB";
