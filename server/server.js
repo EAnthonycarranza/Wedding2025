@@ -15,6 +15,22 @@ const path = require("path");
 // Serve static files from the React app
 app.use(express.static(path.join(__dirname, "../client/build")));
 
+// Middleware to verify JWT
+const verifyJWT = (req, res, next) => {
+  const authHeader = req.headers["authorization"];
+  if (!authHeader || !authHeader.startsWith("Bearer ")) {
+    return res.status(403).json({ message: "No token provided or invalid format" });
+  }
+  const token = authHeader.split(" ")[1];
+  jwt.verify(token, JWT_SECRET, (err, decoded) => {
+    if (err) {
+      return res.status(401).json({ message: "Failed to authenticate token" });
+    }
+    req.familyName = decoded.familyName;
+    next();
+  });
+};
+
 // Check authentication route
 app.get("/check-auth", verifyJWT, (req, res) => {
   res.status(200).json({ isAuthenticated: true, familyName: req.familyName });
@@ -104,22 +120,6 @@ app.post("/authenticate", (req, res) => {
     res.status(401).json({ success: false, message: "Invalid password" });
   }
 });
-
-// Middleware to verify JWT
-const verifyJWT = (req, res, next) => {
-  const authHeader = req.headers["authorization"];
-  if (!authHeader || !authHeader.startsWith("Bearer ")) {
-    return res.status(403).json({ message: "No token provided or invalid format" });
-  }
-  const token = authHeader.split(" ")[1];
-  jwt.verify(token, JWT_SECRET, (err, decoded) => {
-    if (err) {
-      return res.status(401).json({ message: "Failed to authenticate token" });
-    }
-    req.familyName = decoded.familyName;
-    next();
-  });
-};
 
 // 1. Get RSVP Data for a Family (from MongoDB only)
 app.get("/rsvp", verifyJWT, async (req, res) => {
