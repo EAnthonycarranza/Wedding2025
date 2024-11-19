@@ -5,14 +5,20 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter as Router } from 'react-router-dom';  // Import BrowserRouter
+import { GoogleOAuthProvider } from '@react-oauth/google';  // Import GoogleOAuthProvider
+
+// Your Google Client ID from Google Developer Console
+const GOOGLE_CLIENT_ID = '433087827563-o274sqhrou3i64os043p18pq54rssvc9.apps.googleusercontent.com';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    {/* Wrap the App only in Router */}
-    <Router>
-      <App />
-    </Router>
+    {/* Wrap the Router in GoogleOAuthProvider */}
+    <GoogleOAuthProvider clientId={GOOGLE_CLIENT_ID}>
+      <Router>
+        <App />
+      </Router>
+    </GoogleOAuthProvider>
   </React.StrictMode>
 );
 

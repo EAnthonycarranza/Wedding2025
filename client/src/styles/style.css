@@ -97,9 +97,10 @@
     padding: 40px 0;
     z-index: 1001;
   }
-  @media screen and (max-width: 768px) {
-    .fh5co-nav {
-      padding: 20px 0;
+  @media screen and (max-width: 680px) {
+    .fh5co-cover {
+      height: 600px;
+      background-position: -220px center; /* Move the background image left */
     }
   }
   .fh5co-nav #fh5co-logo {
@@ -118,6 +119,12 @@
       display: none;
     }
   }
+  @media screen and (max-width: 1000px) and (min-width: 769px) {
+    .fh5co-cover {
+      background-position: -190px center; /* Shift the background a little to the left */
+    }
+  }
+
   .fh5co-nav ul {
     padding: 0;
     margin: 2px 0 0 0;
@@ -1376,7 +1383,6 @@
     background: rgba(255, 255, 255, 0.3);
   }
   #fh5co-started .btn {
-    height: 54px;
     border: none !important;
     background: #9c0044;
     color: #fff;
@@ -1871,4 +1877,150 @@
   }
   .login-page3 section button:active {
     background-color: var(--login-btn-bg-active);
+  }
+
+  #fh5co-gallery-list {
+    display: flex;
+    flex-wrap: wrap;
+    list-style: none;
+    padding: 0;
+  }
+  
+  #fh5co-gallery-list li {
+    flex: 1 1 calc(33.33% - 20px);
+    margin: 10px;
+    height: 200px;
+    background-size: cover;
+    background-position: center;
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+  }
+  
+  #fh5co-gallery-list li:hover {
+    opacity: 0.8;
+  }
+  
+  .case-studies-summary {
+    position: absolute;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    color: #fff;
+    width: 100%;
+    padding: 10px;
+    text-align: center;
+  }
+
+  .ril__toolbar {
+    position: fixed !important;
+    bottom: 0 !important;
+    left: 0;
+    width: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    padding: 10px 20px;
+    z-index: 1500;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+  }
+  
+  .ril__toolbar button,
+  .ril__toolbar a {
+    color: white;
+    font-size: 16px;
+    margin-left: 10px;
+    text-decoration: none;
+    cursor: pointer;
+    background: none;
+    border: none;
+  }
+  
+  .ril__toolbar button:hover,
+  .ril__toolbar a:hover {
+    color: #9c0044; /* Highlight color on hover */
+  }
+  
+  .ril__toolbar .ril__navButtons {
+    display: none; /* Optionally hide Lightbox's default buttons if they're not needed */
+  }
+
+  .gallery-container {
+    padding-top: 100px; /* Add padding to prevent overlap with navbar */
+    max-width: 1200px;
+    margin: 0 auto;
+    padding-bottom: 50px; /* Add space at the bottom for footer clearance */
+  }
+  
+  .gallery-header {
+    margin-bottom: 30px;
+  }
+  
+  .gallery-header h2 {
+    font-family: "Sacramento", cursive;
+    font-size: 2.5rem;
+    color: #9c0044;
+  }
+  
+  .gallery-header p {
+    font-size: 1rem;
+    color: #666;
+  }
+  
+  .gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+  }
+  
+  .gallery-item {
+    position: relative;
+    background-size: cover;
+    background-position: center;
+    height: 200px;
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .gallery-item:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  }
+  
+  .gallery-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+  
+  .gallery-item:hover .gallery-overlay {
+    opacity: 1;
+  }
+
+  .download-all-container {
+    text-align: center;
+    margin-top: 30px;
+  }
+  
+  .download-all-button {
+    background-color: #9c0044;
+    color: white;
+    font-size: 1.2rem;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .download-all-button:hover {
+    background-color: #7a0036;
   }
