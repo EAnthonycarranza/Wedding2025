@@ -1,33 +1,113 @@
-    // src/components/Header.js
-    import React from "react";
-    import bgImage from "../img/img_bg_2.jpg"; // Import the background image
+import React from "react";
+import Countdown from "react-countdown"; // Import the countdown component
+import bgImage from "../img/img_bg_2.jpg"; // Import the background image
 
-    const Header = () => {
-    return (
-        <header
-        id="fh5co-header"
-        className="fh5co-cover"
-        role="banner"
-        style={{ backgroundImage: `url(${bgImage})`, backgroundSize: 'cover' }}
-        data-stellar-background-ratio="0.5"
+const Header = () => {
+  // Determine if screen width is greater than or equal to 1350px
+  const isWideScreen = window.innerWidth >= 1350;
+
+  // Countdown renderer function
+  const countdownRenderer = ({ days, hours, minutes, seconds, completed }) => {
+    if (completed) {
+      return (
+        <h2
+          style={{
+            fontFamily: "Sacramento",
+            fontSize: "3rem",
+            color: "#9c0044",
+            marginTop: "20px",
+          }}
         >
-        <div className="overlay"></div>
-        <div className="container">
-            <div className="row">
-            <div className="col-md-8 col-md-offset-2 text-center">
-                <div className="display-t">
-                <div className="display-tc animate-box" data-animate-effect="fadeIn">
-                    <h1>Christina &amp; Anthony</h1>
-                    <h2>We Are Getting Married</h2>
-                    <div className="simply-countdown simply-countdown-one"></div>
-                    <p><a href="#" className="btn btn-default btn-sm">Save the date</a></p>
-                </div>
-                </div>
-            </div>
-            </div>
+          The Big Day is Here!
+        </h2>
+      ); // Message displayed when the countdown ends
+    } else {
+      return (
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            gap: "20px",
+            fontFamily: "Sacramento",
+            color: "#fff",
+            fontSize: "2.5rem",
+            marginTop: "20px",
+          }}
+        >
+          <div>
+            <span style={{ display: "block", fontWeight: "bold" }}>{days}</span>
+            <span style={{ fontSize: "1.2rem" }}>Days</span>
+          </div>
+          <div>
+            <span style={{ display: "block", fontWeight: "bold" }}>{hours}</span>
+            <span style={{ fontSize: "1.2rem" }}>Hours</span>
+          </div>
+          <div>
+            <span style={{ display: "block", fontWeight: "bold" }}>{minutes}</span>
+            <span style={{ fontSize: "1.2rem" }}>Minutes</span>
+          </div>
+          <div>
+            <span style={{ display: "block", fontWeight: "bold" }}>{seconds}</span>
+            <span style={{ fontSize: "1.2rem" }}>Seconds</span>
+          </div>
         </div>
-        </header>
-    );
-    };
+      );
+    }
+  };
 
-    export default Header;
+  return (
+    <header
+      id="fh5co-header"
+      className="fh5co-cover"
+      role="banner"
+      style={{
+        backgroundImage: `url(${bgImage})`,
+        backgroundSize: "cover",
+        backgroundPosition: isWideScreen ? "center top" : "center center", // Adjust background position
+      }}
+      data-stellar-background-ratio="0.5"
+    >
+      <div className="overlay"></div>
+      <div className="container">
+        <div className="row">
+          <div className="col-md-8 col-md-offset-2 text-center">
+            <div className="display-t">
+              <div
+                className="display-tc animate-box"
+                data-animate-effect="fadeIn"
+              >
+                <h1
+                  style={{
+                    fontFamily: "Sacramento",
+                    fontSize: "4rem",
+                    color: "#fff",
+                    marginBottom: "10px",
+                  }}
+                >
+                  Christina &amp; Anthony
+                </h1>
+                <h2
+                  style={{
+                    fontFamily: "Sacramento",
+                    fontSize: "2.5rem",
+                    color: "#fff",
+                  }}
+                >
+                  We Are Getting Married
+                </h2>
+                <div className="simply-countdown">
+                  <Countdown
+                    date={new Date("2025-06-28T00:00:00")}
+                    renderer={countdownRenderer}
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+  );
+};
+
+export default Header;

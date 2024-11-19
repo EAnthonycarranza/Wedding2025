@@ -1,70 +1,73 @@
-// LightboxGallery.js
+import React, { useMemo } from "react";
+import Lightbox from "yet-another-react-lightbox";
+import Zoom from "yet-another-react-lightbox/plugins/zoom";
+import Download from "yet-another-react-lightbox/plugins/download";
+import Thumbnails from "yet-another-react-lightbox/plugins/thumbnails";
+import Fullscreen from "yet-another-react-lightbox/plugins/fullscreen";
+import Slideshow from "yet-another-react-lightbox/plugins/slideshow";
+import Counter from "yet-another-react-lightbox/plugins/counter";
+import Share from "yet-another-react-lightbox/plugins/share";
+import "yet-another-react-lightbox/styles.css";
+import "yet-another-react-lightbox/plugins/thumbnails.css";
 
-import React from 'react';
-import Lightbox from 'react-image-lightbox';
-import 'react-image-lightbox/style.css';
-import { IconButton } from '@mui/material';
-import DownloadIcon from '@mui/icons-material/Download';
-import axios from 'axios';
-import { saveAs } from 'file-saver';
+const LightboxGallery = ({ isOpen, currentIndex, images, onClose, setCurrentIndex }) => {
+  // Memoize slides to avoid unnecessary recalculations
+  const slides = useMemo(
+    () =>
+      images.map((image) => ({
+        src: image,
+      })),
+    [images]
+  );
 
-const LightboxGallery = ({
-  isOpen,
-  images,
-  photoIndex,
-  handleCloseLightbox,
-  handleNext,
-  handlePrev,
-}) => {
-  const handleDownloadCurrent = async () => {
-    try {
-      const imageUrl = images[photoIndex];
-      const response = await axios.get(imageUrl, { responseType: 'blob' });
-      const blob = new Blob([response.data], {
-        type: response.headers['content-type'],
-      });
-      saveAs(blob, `Image-${photoIndex + 1}.jpg`);
-    } catch (error) {
-      console.error('Error downloading image', error);
+  // Handle view changes safely
+  const handleViewChange = (viewEvent) => {
+    const newIndex = typeof viewEvent === "number" ? viewEvent : viewEvent?.index; // Extract index
+    if (newIndex !== currentIndex) {
+      setCurrentIndex(newIndex);
     }
   };
 
-  return isOpen && images.length > 0 ? (
+  return (
     <Lightbox
-      mainSrc={images[photoIndex]}
-      nextSrc={images[(photoIndex + 1) % images.length]}
-      prevSrc={images[(photoIndex + images.length - 1) % images.length]}
-      onCloseRequest={handleCloseLightbox}
-      onMoveNextRequest={handleNext}
-      onMovePrevRequest={handlePrev}
-      toolbarButtons={[
-        <IconButton
-          key="download"
-          onClick={handleDownloadCurrent}
-          sx={{ color: '#fff', marginRight: 2 }}
-        >
-          <DownloadIcon sx={{ fontSize: 30, color: '#fff' }} />
-        </IconButton>,
+      open={isOpen}
+      close={onClose}
+      slides={slides}
+      index={currentIndex}
+      on={{
+        view: handleViewChange, // Handle view changes
+      }}
+      plugins={[
+        Counter,     // Counter at the top-center
+        Thumbnails,  // Thumbnails at the bottom
+        Zoom,        // Zoom functionality
+        Fullscreen,  // Fullscreen toggle
+        Download,    // Download button
+        Share,       // Share button
+        Slideshow,   // Slideshow autoplay
       ]}
-      clickOutsideToClose={false}
-      reactModalProps={{
-        shouldCloseOnEsc: false,
-        style: {
-          overlay: {
-            backgroundColor: '#000',
-            zIndex: 1300,
-          },
-          content: {
-            backgroundColor: '#000',
-            top: '0',
-            left: '0',
-            right: '0',
-            bottom: '0',
-          },
+      zoom={{ maxZoomPixelRatio: 3 }} // Configure zoom behavior
+      download={{ filename: `image-${currentIndex + 1}.jpg` }} // Configure download functionality
+      thumbnails={{ width: 100, height: 80, borderRadius: 5 }} // Configure thumbnail behavior
+      fullscreen={{ auto: false }} // Configure fullscreen behavior
+      slideshow={{ autoplay: false, delay: 3000 }} // Configure slideshow settings
+      counter={{ position: "top-center" }} // Configure counter position
+      share={{
+        url: window.location.href, // Use current page URL
+        socialMedia: ["facebook", "twitter", "email"], // Share options
+      }}
+      styles={{
+        container: { backgroundColor: "rgba(0, 0, 0, 0.95)" },
+        image: {
+          display: "block",
+          margin: "auto",
+          maxWidth: "90%",
+          maxHeight: "90%",
+          objectFit: "contain",
         },
       }}
     />
-  ) : null;
+  );
 };
 
 export default LightboxGallery;

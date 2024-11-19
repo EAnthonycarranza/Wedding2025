@@ -16,7 +16,6 @@ const Home = () => {
       <CoupleInfo />
       <Events />
       <Timeline />
-      <RSVP />
     </div>
   );
 };

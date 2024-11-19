@@ -45,9 +45,10 @@ export default function Navbar({ familyName, onLogout }) {
     setAccountAnchorEl(null);
   };
 
-  // Navigate to selected route and close menu
+  // Handle scrolling to the top of the page before navigation
   const handleMenuItemClick = (path) => {
-    navigate(path);
+    window.scrollTo({ top: 0, behavior: 'smooth' }); // Scroll to the top smoothly
+    navigate(path); // Navigate to the selected route
     setMenuAnchorEl(null); // Close menu
   };
 
@@ -103,74 +104,89 @@ export default function Navbar({ familyName, onLogout }) {
           ) : (
             // Show text-based menu on desktop
             <Box sx={{ display: 'flex', flexGrow: 1, fontFamily: "'Sacramento', cursive" }}>
-              <Typography
-                variant="h6"
-                component="div"
-                onClick={() => navigate('/home')}
-                sx={{
-                  cursor: 'pointer',
-                  marginRight: '40px',
-                  fontFamily: "'Sacramento', cursive",
-                  fontSize: '24px',
-                  '&:hover': {
-                    backgroundColor: 'rgba(156, 0, 68, 0.1)',
-                    borderRadius: '20px',
-                  },
-                }}
-              >
-                Home
-              </Typography>
-              <Typography
-                variant="h6"
-                component="div"
-                onClick={() => navigate('/about')}
-                sx={{
-                  cursor: 'pointer',
-                  marginRight: '40px',
-                  fontFamily: "'Sacramento', cursive",
-                  fontSize: '24px',
-                  '&:hover': {
-                    backgroundColor: 'rgba(156, 0, 68, 0.1)',
-                    borderRadius: '20px',
-                  },
-                }}
-              >
-                Story
-              </Typography>
-              <Typography
-                variant="h6"
-                component="div"
-                onClick={() => navigate('/gallery')}
-                sx={{
-                  cursor: 'pointer',
-                  marginRight: '40px',
-                  fontFamily: "'Sacramento', cursive",
-                  fontSize: '24px',
-                  '&:hover': {
-                    backgroundColor: 'rgba(156, 0, 68, 0.1)',
-                    borderRadius: '20px',
-                  },
-                }}
-              >
-                Gallery
-              </Typography>
-              <Typography
-                variant="h6"
-                component="div"
-                onClick={() => navigate('/rsvp')}
-                sx={{
-                  cursor: 'pointer',
-                  marginRight: '40px',
-                  fontFamily: "'Sacramento', cursive",
-                  fontSize: '24px',
-                  '&:hover': {
-                    backgroundColor: 'rgba(156, 0, 68, 0.1)',
-                    borderRadius: '10px',
-                  },
-                }}
-              >
-                RSVP
-              </Typography>
+<Typography
+  variant="h6"
+  component="div"
+  onClick={() => handleMenuItemClick('/home')}
+  sx={{
+    cursor: 'pointer',
+    marginRight: '20px',
+    padding: '10px 20px',
+    fontFamily: "'Sacramento', cursive",
+    fontSize: '26px',
+    fontWeight: '500',
+    transition: 'background-color 0.3s ease, color 0.3s ease',
+    borderRadius: '15px',
+    '&:hover': {
+      backgroundColor: '#9c004433',
+    },
+  }}
+>
+  Home
+</Typography>
+
+<Typography
+  variant="h6"
+  component="div"
+  onClick={() => handleMenuItemClick('/about')}
+  sx={{
+    cursor: 'pointer',
+    marginRight: '20px',
+    padding: '10px 20px',
+    fontFamily: "'Sacramento', cursive",
+    fontSize: '26px',
+    fontWeight: '500',
+    transition: 'background-color 0.3s ease, color 0.3s ease',
+    borderRadius: '15px',
+    '&:hover': {
+      backgroundColor: '#9c004433',
+    },
+  }}
+>
+  Story
+</Typography>
+
+<Typography
+  variant="h6"
+  component="div"
+  onClick={() => handleMenuItemClick('/gallery')}
+  sx={{
+    cursor: 'pointer',
+    marginRight: '20px',
+    padding: '10px 20px',
+    fontFamily: "'Sacramento', cursive",
+    fontSize: '26px',
+    fontWeight: '500',
+    transition: 'background-color 0.3s ease, color 0.3s ease',
+    borderRadius: '15px',
+    '&:hover': {
+      backgroundColor: '#9c004433',
+    },
+  }}
+>
+  Gallery
+</Typography>
+
+<Typography
+  variant="h6"
+  component="div"
+  onClick={() => handleMenuItemClick('/rsvp')}
+  sx={{
+    cursor: 'pointer',
+    marginRight: '20px',
+    padding: '10px 20px',
+    fontFamily: "'Sacramento', cursive",
+    fontSize: '26px',
+    fontWeight: '500',
+    transition: 'background-color 0.3s ease, color 0.3s ease',
+    borderRadius: '15px',
+    '&:hover': {
+      backgroundColor: '#9c004433',
+    },
+  }}
+>
+  RSVP
+</Typography>
             </Box>
           )}
 

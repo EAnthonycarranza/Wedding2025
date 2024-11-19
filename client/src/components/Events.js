@@ -1,6 +1,7 @@
 // src/components/Events.js
 import React from "react";
 import bgImage from "../img/img_bg_3.jpg"; // Import your background image
+import { FaMapMarkerAlt } from "react-icons/fa"; // Import map marker icon
 
 const Events = () => {
   return (
@@ -34,8 +35,18 @@ const Events = () => {
                       </div>
                     </div>
                     <p className="mt-3">
-                      The main wedding ceremony will be held in a beautiful venue, surrounded by loved ones and family.
+                      The main wedding ceremony will be held at First Assembly of God San Antonio.
                     </p>
+                    {/* Directions Icon */}
+                    <a
+                      href="https://maps.app.goo.gl/2hnMFKR5gGK7aSRg9"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="btn directions-btn d-inline-flex align-items-center mt-2"
+                    >
+                      <FaMapMarkerAlt className="directions-icon" />
+                      Get Directions
+                    </a>
                   </div>
                 </div>
                 {/* Wedding Party */}
@@ -55,8 +66,18 @@ const Events = () => {
                       </div>
                     </div>
                     <p className="mt-3">
-                      Join us for the wedding reception and party, with music, dancing, and celebration.
+                      Join us for the wedding reception and party at The Club at Garden Ridge.
                     </p>
+                    {/* Directions Icon */}
+                    <a
+                      href="https://maps.app.goo.gl/FTLoMdF9MfTVbRJm7"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="btn directions-btn d-inline-flex align-items-center mt-2"
+                    >
+                      <FaMapMarkerAlt className="directions-icon" />
+                      Get Directions
+                    </a>
                   </div>
                 </div>
               </div> {/* End of row */}

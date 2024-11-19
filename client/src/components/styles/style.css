@@ -841,6 +841,8 @@
     margin: 0;
     padding: 0;
     color: white;
+    text-align: center;
+    
   }
   #fh5co-header .display-tc h1,
   #fh5co-counter .display-tc h1,
@@ -849,12 +851,14 @@
     font-size: 100px;
     line-height: 1.5;
     font-family: "Sacramento", Arial, serif;
+    text-align: center;
   }
   @media screen and (max-width: 768px) {
     #fh5co-header .display-tc h1,
     #fh5co-counter .display-tc h1,
     .fh5co-cover .display-tc h1 {
       font-size: 40px;
+      text-align: center;
     }
   }
   @media screen and (max-width: 480px) {
@@ -862,6 +866,7 @@
     #fh5co-counter .display-tc h1,
     .fh5co-cover .display-tc h1 {
       font-size: 30px;
+      text-align: center;
     }
   }
   #fh5co-header .display-tc h2,
@@ -870,18 +875,21 @@
     font-size: 20px;
     line-height: 1.5;
     margin-bottom: 30px;
+    text-align: center;
   }
   @media screen and (max-width: 480px) {
     #fh5co-header .display-tc h2,
     #fh5co-counter .display-tc h2,
     .fh5co-cover .display-tc h2 {
       font-size: 16px;
+      text-align: center;
     }
   }
   #fh5co-header .display-tc .btn,
   #fh5co-counter .display-tc .btn,
   .fh5co-cover .display-tc .btn {
     padding: 15px 20px;
+    text-align: center;
     background: #fff !important;
     color: #9c0044;
     border: none !important;
@@ -1376,7 +1384,7 @@
     background: rgba(255, 255, 255, 0.3);
   }
   #fh5co-started .btn {
-    height: 54px;
+    height: 0px !important;
     border: none !important;
     background: #9c0044;
     color: #fff;

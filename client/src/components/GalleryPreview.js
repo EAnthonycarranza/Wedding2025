@@ -1,36 +1,19 @@
-// GalleryPreview.js
-
 import React from 'react';
 import { Box, Grid, Checkbox } from '@mui/material';
 import CheckCircleOutlineIcon from '@mui/icons-material/RadioButtonUnchecked';
 import CheckIcon from '@mui/icons-material/Check';
 
-const GalleryPreview = ({
-  images,
-  checkedImages,
-  handleSelectImage,
-  handleOpenLightbox,
-}) => {
+const GalleryPreview = ({ images, checkedImages, handleSelectImage, handleOpenLightbox }) => {
   return (
-    <Box
-      sx={{
-        padding: 2,
-        maxWidth: '700px',
-        margin: '0 auto',
-      }}
-    >
+    <Box sx={{ padding: 2, maxWidth: '700px', margin: '0 auto' }}>
       <Grid container spacing={1} justifyContent="center">
-        {(images || []).map((imageUrl, index) => (
+        {(images || []).map((image, index) => (
           <Grid
             item
             xs={12}
             sm={6}
             key={index}
-            sx={{
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center',
-            }}
+            sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}
           >
             <Box
               sx={{
@@ -41,14 +24,10 @@ const GalleryPreview = ({
                 borderRadius: '10px',
                 overflow: 'hidden',
                 backgroundColor: 'rgba(255, 255, 255, 0.9)',
-                '&:hover .unselectedCheckbox': {
-                  opacity: 1,
-                  transition: 'opacity 0.5s ease-in-out',
-                },
               }}
             >
               <img
-                src={imageUrl}
+                src={image.url} // Now using image.url, which is returned from your server response
                 alt={`Gallery image ${index}`}
                 style={{
                   width: '100%',
@@ -56,42 +35,30 @@ const GalleryPreview = ({
                   objectFit: 'cover',
                   cursor: 'pointer',
                 }}
-                onClick={() => handleOpenLightbox(index)}
+                onClick={() => handleOpenLightbox(index)} // Open the lightbox with the current index
               />
+
+              {/* Checkbox to select/deselect images */}
               <Checkbox
                 icon={<CheckCircleOutlineIcon sx={{ fontSize: 50 }} />}
                 checkedIcon={<CheckIcon sx={{ fontSize: 50, color: 'white' }} />}
-                checked={checkedImages.includes(imageUrl)}
-                onChange={() => handleSelectImage(imageUrl)}
-                onClick={(e) => e.stopPropagation()}
+                checked={checkedImages.includes(image.url)} // Checks if the image URL is selected
+                onChange={() => handleSelectImage(image.url)} // Trigger selection of the image
+                onClick={(e) => e.stopPropagation()} // Prevent the checkbox click from triggering the lightbox
                 disableRipple
                 sx={{
                   position: 'absolute',
                   bottom: 10,
                   left: 10,
                   zIndex: 10,
-                  backgroundColor: checkedImages.includes(imageUrl)
-                    ? '#5A5BFF'
-                    : 'transparent',
+                  backgroundColor: checkedImages.includes(image.url) ? '#5A5BFF' : 'transparent',
                   color: 'white',
                   borderRadius: '50%',
                   padding: '5px',
-                  opacity: checkedImages.includes(imageUrl) ? 1 : 0,
-                  transition: checkedImages.includes(imageUrl)
-                    ? 'none'
-                    : 'opacity 0.5s ease-in-out',
+                  opacity: checkedImages.includes(image.url) ? 1 : 0,
+                  transition: checkedImages.includes(image.url) ? 'none' : 'opacity 0.5s ease-in-out',
                   display: 'block',
-                  '&:hover': {
-                    backgroundColor: checkedImages.includes(imageUrl)
-                      ? '#5A5BFF'
-                      : 'transparent',
-                  },
                 }}
-                className={
-                  !checkedImages.includes(imageUrl)
-                    ? 'unselectedCheckbox'
-                    : ''
-                }
               />
             </Box>
           </Grid>
@@ -100,5 +67,6 @@ const GalleryPreview = ({
     </Box>
   );
 };
+
 
 export default GalleryPreview;

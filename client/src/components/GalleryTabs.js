@@ -1,23 +1,10 @@
-// GalleryTabs.js
-
 import React, { useState } from 'react';
-import {
-  Box,
-  Select,
-  MenuItem,
-  IconButton,
-  Modal,
-  Typography,
-  FormControl,
-  InputLabel,
-  Switch,
-  FormControlLabel,
-  Slider,
-  Button,
-} from '@mui/material';
+import axios from 'axios';
+import { Box, Select, MenuItem, IconButton, FormControl, InputLabel } from '@mui/material';
 import RefreshIcon from '@mui/icons-material/Refresh';
 import SelectAllIcon from '@mui/icons-material/SelectAll';
 import FilterListIcon from '@mui/icons-material/FilterList';
+import ExitToAppIcon from '@mui/icons-material/ExitToApp'; // Logout icon
 
 const GalleryTabs = ({
   filterOption,
@@ -26,50 +13,35 @@ const GalleryTabs = ({
   enableMultiSelect,
   setEnableMultiSelect,
   applyFilters,
+  setImages,
+  onLogout, // Add the logout handler as a prop
 }) => {
-  // State for the dropdown menu
-  const [viewOption, setViewOption] = useState('allUploads');
-
-  // State for the filter modal
-  const [isFilterModalOpen, setIsFilterModalOpen] = useState(false);
-  const [sortBy, setSortBy] = useState('timeUploaded');
-  const [orderBy, setOrderBy] = useState('newestFirst');
-  const [setAsDefault, setSetAsDefault] = useState(false);
-
-  const handleViewChange = (event) => {
+  const [viewOption, setViewOption] = useState(filterOption || 'allUploads');
+  
+  const handleViewChange = async (event) => {
     setViewOption(event.target.value);
-    // You can add logic here to filter the gallery based on the selected view
     setFilterOption(event.target.value);
-  };
-
-  const handleRefresh = () => {
-    refreshGallery();
-  };
-
-  const handleMultiSelectToggle = () => {
-    setEnableMultiSelect((prev) => !prev);
-  };
-
-  const handleFilterModalOpen = () => {
-    setIsFilterModalOpen(true);
-  };
-
-  const handleFilterModalClose = () => {
-    setIsFilterModalOpen(false);
-  };
-
-  const handleApplyFilters = () => {
-    applyFilters({ sortBy, orderBy, setAsDefault });
-    setIsFilterModalOpen(false);
+    try {
+      const response = await axios.get(`http://localhost:3001/get-cloud-images`, {
+        params: {
+          filter: event.target.value,
+        },
+      });
+      setImages(response.data.images);  // This will update the images in the parent component
+    } catch (error) {
+      console.error('Error fetching filtered images:', error);
+    }
   };
 
   return (
     <Box
       sx={{
         display: 'flex',
-        alignItems: 'center',
+        justifyContent: 'center', // Center the tabs
+        maxWidth: '700px',
+        margin: '0 auto',
         padding: 1,
-        borderBottom: 1,
+        borderTop: 1,
         borderColor: 'divider',
       }}
     >
@@ -91,96 +63,22 @@ const GalleryTabs = ({
       </FormControl>
 
       {/* Icons */}
-      <IconButton onClick={handleRefresh}>
+      <IconButton onClick={refreshGallery}>
         <RefreshIcon />
       </IconButton>
 
-      <IconButton onClick={handleMultiSelectToggle}>
+      <IconButton onClick={() => setEnableMultiSelect((prev) => !prev)}>
         <SelectAllIcon color={enableMultiSelect ? 'primary' : 'inherit'} />
       </IconButton>
 
-      <IconButton onClick={handleFilterModalOpen}>
+      <IconButton>
         <FilterListIcon />
       </IconButton>
 
-      {/* Filter Modal */}
-      <Modal
-        open={isFilterModalOpen}
-        onClose={handleFilterModalClose}
-        aria-labelledby="filter-modal-title"
-        aria-describedby="filter-modal-description"
-      >
-        <Box
-          sx={{
-            position: 'absolute',
-            top: '50%',
-            left: '50%',
-            transform: 'translate(-50%, -50%)',
-            width: 300,
-            bgcolor: 'background.paper',
-            borderRadius: 2,
-            boxShadow: 24,
-            p: 4,
-          }}
-        >
-          <Typography id="filter-modal-title" variant="h6" component="h2">
-            Filter Options
-          </Typography>
-
-          {/* Sort By Dropdown */}
-          <FormControl fullWidth sx={{ mt: 2 }}>
-            <InputLabel id="sort-by-label">Sort By</InputLabel>
-            <Select
-              labelId="sort-by-label"
-              id="sort-by-select"
-              value={sortBy}
-              label="Sort By"
-              onChange={(e) => setSortBy(e.target.value)}
-            >
-              <MenuItem value="timeUploaded">Time Uploaded</MenuItem>
-              <MenuItem value="timeTaken">Time Taken</MenuItem>
-            </Select>
-          </FormControl>
-
-          {/* Order By Dropdown */}
-          <FormControl fullWidth sx={{ mt: 2 }}>
-            <InputLabel id="order-by-label">Order By</InputLabel>
-            <Select
-              labelId="order-by-label"
-              id="order-by-select"
-              value={orderBy}
-              label="Order By"
-              onChange={(e) => setOrderBy(e.target.value)}
-            >
-              <MenuItem value="newestFirst">Newest First</MenuItem>
-              <MenuItem value="oldestFirst">Oldest First</MenuItem>
-            </Select>
-          </FormControl>
-
-          {/* Set as Default Switch */}
-          <FormControlLabel
-            control={
-              <Switch
-                checked={setAsDefault}
-                onChange={(e) => setSetAsDefault(e.target.checked)}
-                color="primary"
-              />
-            }
-            label="Set as Default"
-            sx={{ mt: 2 }}
-          />
-
-          {/* Apply and Cancel Buttons */}
-          <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 3 }}>
-            <Button onClick={handleFilterModalClose} sx={{ mr: 2 }}>
-              Cancel
-            </Button>
-            <Button variant="contained" onClick={handleApplyFilters}>
-              Apply
-            </Button>
-          </Box>
-        </Box>
-      </Modal>
+      {/* Google Logout Icon */}
+      <IconButton onClick={onLogout}>
+        <ExitToAppIcon />
+      </IconButton>
     </Box>
   );
 };

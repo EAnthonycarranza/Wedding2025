@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
-import { Box, LinearProgress, Typography } from '@mui/material';
+import { Box, LinearProgress, Typography, MenuItem, FormControl, InputLabel, Select } from '@mui/material';
 import axios from 'axios';
-import { saveAs } from 'file-saver';
 
 const ImageUploader = ({ setMyUploads }) => {
   const [uploading, setUploading] = useState(false);
   const [uploadProgress, setUploadProgress] = useState(0);
+  const [category, setCategory] = useState('Engagement Party'); // Default category
 
   const handleImageChange = async (event) => {
     const files = Array.from(event.target.files);
@@ -14,9 +14,15 @@ const ImageUploader = ({ setMyUploads }) => {
     }
   };
 
+  const handleCategoryChange = (event) => {
+    setCategory(event.target.value);
+  };
+
   const uploadImage = async (imageFile) => {
     const formData = new FormData();
     formData.append('files', imageFile);
+    formData.append('category', category); // Add category to the formData
+
     setUploading(true);
 
     try {
@@ -48,6 +54,24 @@ const ImageUploader = ({ setMyUploads }) => {
           </Typography>
         </Box>
       )}
+      
+      {/* Category Dropdown */}
+      <FormControl fullWidth>
+        <InputLabel id="category-select-label">Category</InputLabel>
+        <Select
+          labelId="category-select-label"
+          value={category}
+          label="Category"
+          onChange={handleCategoryChange}
+        >
+          <MenuItem value="Ceremony & Reception">Ceremony & Reception</MenuItem>
+          <MenuItem value="Getting Ready">Getting Ready</MenuItem>
+          <MenuItem value="Day Before">Day Before</MenuItem>
+          <MenuItem value="Engagement Party">Engagement Party</MenuItem>
+        </Select>
+      </FormControl>
+
+      {/* Hidden File Input */}
       <input type="file" accept="image/*" multiple hidden onChange={handleImageChange} />
     </Box>
   );
