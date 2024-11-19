@@ -52,7 +52,7 @@ let rsvpCollection; // Declare RSVP collection here
 // MongoDB Connection
 async function connectMongoDB() {
   try {
-    const client = await MongoClient.connect(MONGO_URI, { useUnifiedTopology: true });
+    const client = await MongoClient.connect(MONGO_URI);
     const database = client.db("weddingDB");
     rsvpCollection = database.collection("rsvps");
     console.log("Connected to MongoDB and RSVP Collection initialized");
