@@ -12,47 +12,6 @@ const app = express();
 app.use(express.json());
 const path = require("path");
 
-// Serve static files from the React app
-app.use(express.static(path.join(__dirname, "../client/build")));
-
-// Middleware to verify JWT
-const verifyJWT = (req, res, next) => {
-  const authHeader = req.headers["authorization"];
-  if (!authHeader || !authHeader.startsWith("Bearer ")) {
-    return res.status(403).json({ message: "No token provided or invalid format" });
-  }
-  const token = authHeader.split(" ")[1];
-  jwt.verify(token, JWT_SECRET, (err, decoded) => {
-    if (err) {
-      return res.status(401).json({ message: "Failed to authenticate token" });
-    }
-    req.familyName = decoded.familyName;
-    next();
-  });
-};
-
-// Check authentication route
-app.get("/check-auth", verifyJWT, (req, res) => {
-  try {
-    res.status(200).json({ isAuthenticated: true, familyName: req.familyName });
-  } catch (error) {
-    res.status(500).json({ success: false, message: "Error checking authentication" });
-  }
-});
-
-// Handle React routing: return all requests to React app
-app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "../client/build", "index.html"));
-});
-
-// CORS Configuration
-app.use(
-  cors({
-    origin: "https://hidden-citadel-88874-96e904553ae6.herokuapp.com", // Your Heroku frontend domain
-    credentials: true,
-  })
-);
-
 const JWT_SECRET = process.env.JWT_SECRET || "your_secret_key";
 const MONGO_URI = process.env.MONGO_URI || "mongodb://localhost:27017/weddingDB";
 const SHEET_ID = process.env.GOOGLE_SPREADSHEET_ID; // Google Sheets ID from .env
@@ -112,6 +71,73 @@ const passwordList = {
   "I8&6t4!2": "Lopez Family",
   "J9@2g5$1": "Long Family",
 };
+
+// Serve static files from the React app
+app.use(express.static(path.join(__dirname, "../client/build")));
+
+// Middleware to verify JWT
+const verifyJWT = (req, res, next) => {
+  const authHeader = req.headers["authorization"];
+  if (!authHeader || !authHeader.startsWith("Bearer ")) {
+    return res.status(403).json({ message: "No token provided or invalid format" });
+  }
+  const token = authHeader.split(" ")[1];
+  jwt.verify(token, JWT_SECRET, (err, decoded) => {
+    if (err) {
+      return res.status(401).json({ message: "Failed to authenticate token" });
+    }
+    req.familyName = decoded.familyName;
+    next();
+  });
+};
+
+// Check authentication route
+app.get("/check-auth", verifyJWT, (req, res) => {
+  try {
+    res.status(200).json({ isAuthenticated: true, familyName: req.familyName });
+  } catch (error) {
+    res.status(500).json({ success: false, message: "Error checking authentication" });
+  }
+});
+
+// Handle React routing: return all requests to React app
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "../client/build", "index.html"));
+});
+
+// CORS Configuration
+app.use(
+  cors({
+    origin: "https://hidden-citadel-88874-96e904553ae6.herokuapp.com", // Your Heroku frontend domain
+    credentials: true,
+  })
+);
+
+// 4. Check if RSVP has been submitted (from MongoDB only)
+app.get("/check-rsvp", verifyJWT, async (req, res) => {
+  const familyName = req.familyName;
+
+  try {
+    console.log(`Checking RSVP for family: ${familyName}`);
+
+    if (!rsvpCollection) {
+      throw new Error("rsvpCollection is not initialized");
+    }
+
+    const familyRsvp = await rsvpCollection.findOne({ familyName });
+
+    if (familyRsvp) {
+      console.log(`RSVP found for family: ${familyName}`);
+      res.status(200).json({ hasSubmittedRSVP: true });
+    } else {
+      console.log(`No RSVP found for family: ${familyName}`);
+      res.status(200).json({ hasSubmittedRSVP: false });
+    }
+  } catch (err) {
+    console.error(`Error checking RSVP for family ${familyName}:`, err);
+    res.status(500).json({ message: "Error checking RSVP" });
+  }
+});
 
 // User authentication with JWT issuance
 app.post("/authenticate", (req, res) => {
@@ -411,31 +437,6 @@ app.get('/get-cloud-images', async (req, res) => {
     }
 });
 
-// 4. Check if RSVP has been submitted (from MongoDB only)
-app.get("/check-rsvp", verifyJWT, async (req, res) => {
-  const familyName = req.familyName;
-
-  try {
-    console.log(`Checking RSVP for family: ${familyName}`);
-
-    if (!rsvpCollection) {
-      throw new Error("rsvpCollection is not initialized");
-    }
-
-    const familyRsvp = await rsvpCollection.findOne({ familyName });
-
-    if (familyRsvp) {
-      console.log(`RSVP found for family: ${familyName}`);
-      res.status(200).json({ hasSubmittedRSVP: true });
-    } else {
-      console.log(`No RSVP found for family: ${familyName}`);
-      res.status(200).json({ hasSubmittedRSVP: false });
-    }
-  } catch (err) {
-    console.error(`Error checking RSVP for family ${familyName}:`, err);
-    res.status(500).json({ message: "Error checking RSVP" });
-  }
-});
 
 const PORT = process.env.PORT || 3001; // Use Heroku's dynamic port or fallback to 3001 locally
 app.listen(PORT, () => {
