@@ -15,6 +15,16 @@ const path = require("path");
 // Serve static files from the React app
 app.use(express.static(path.join(__dirname, "../client/build")));
 
+// Check authentication route
+app.get("/check-auth", verifyJWT, (req, res) => {
+  res.status(200).json({ isAuthenticated: true, familyName: req.familyName });
+});
+
+// Handle React routing: return all requests to React app
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "../client/build", "index.html"));
+});
+
 // CORS Configuration
 app.use(cors({
     origin: '*', // This allows all origins
@@ -393,17 +403,6 @@ app.get('/get-cloud-images', async (req, res) => {
       console.error("Error fetching cloud images:", error);
       res.status(500).json({ message: 'Error fetching images from Cloud Storage' });
     }
-});
-
-app.use(express.static(path.join(__dirname, "../client/build")));
-
-// Check authentication route
-app.get("/check-auth", verifyJWT, (req, res) => {
-  res.status(200).json({ isAuthenticated: true, familyName: req.familyName });
-});
-
-app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "../client/build", "index.html"));
 });
 
 // 4. Check if RSVP has been submitted (from MongoDB only)
