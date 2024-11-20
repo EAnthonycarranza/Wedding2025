@@ -59,19 +59,22 @@ export default function Navbar({ familyName, onLogout }) {
     setAccountAnchorEl(null); // Close account menu
   };
 
-  // Handle scrolling behavior: show navbar on scroll up, hide on scroll down
-  useEffect(() => {
-    const handleScroll = () => {
-      const currentScrollY = window.pageYOffset;
+// Inside the existing Navbar.js
+useEffect(() => {
+  const handleScroll = () => {
+    const currentScrollY = window.pageYOffset;
 
-      if (currentScrollY > lastScrollY) {
-        setShowNavbar(false); // Hide navbar on scroll down
-      } else {
-        setShowNavbar(true); // Show navbar on scroll up
-      }
+    // Ensure the navbar stays visible when the user is at the top
+    if (currentScrollY === 0) {
+      setShowNavbar(true);
+    } else if (currentScrollY > lastScrollY) {
+      setShowNavbar(false); // Hide navbar on scroll down
+    } else {
+      setShowNavbar(true); // Show navbar on scroll up
+    }
 
-      setLastScrollY(currentScrollY);
-    };
+    setLastScrollY(currentScrollY);
+  };
 
     window.addEventListener('scroll', handleScroll);
 
