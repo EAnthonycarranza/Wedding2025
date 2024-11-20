@@ -21,7 +21,6 @@ const largeTextStyles = {
   fontSize: '25px',
   textAlign: 'center',
   marginBottom: '20px',
-  color: 'rgb(156 0 68)',
 };
 
 const titleStyles = {
@@ -32,7 +31,7 @@ const titleStyles = {
 };
 
 const buttonStyles = {
-  backgroundColor: 'rgb(156 0 68)',
+  backgroundColor: 'rgb(0 0 0)',
   color: '#fff',
   border: 'none',
   padding: '10px 20px',
@@ -93,7 +92,6 @@ const Welcomepg = ({ setIsAuthenticated, setFamilyName }) => {
       <form onSubmit={handleSubmit} style={formStyles}>
         <LoginPage style={{ height: 580, ...customLoginStyles }}>
           <Logo visible={false} />
-          <Title style={titleStyles}>Welcome!</Title>
           <Welcome style={largeTextStyles}>Enter your given passcode</Welcome>
           <Email visible={false} />
           <Password
