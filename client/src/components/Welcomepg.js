@@ -92,6 +92,7 @@ const Welcomepg = ({ setIsAuthenticated, setFamilyName }) => {
       <form onSubmit={handleSubmit} style={formStyles}>
         <LoginPage style={{ height: 580, ...customLoginStyles }}>
           <Logo visible={false} />
+          <Title style={{fontFamily: "'Sacramento', cursive",  fontSize: '25px'}}> Welcome! </Title>
           <Welcome style={largeTextStyles}>Enter your given passcode</Welcome>
           <Email visible={false} />
           <Password
