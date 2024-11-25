@@ -22,7 +22,6 @@ const RSVPPage = () => {
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
-  // Move fetchRSVPData outside of useEffect
   const fetchRSVPData = async () => {
     const token = localStorage.getItem("token");
     try {
@@ -36,6 +35,8 @@ const RSVPPage = () => {
       if (response.ok && data.mongoData) {
         setFamilyName(data.mongoData.familyName || "Unknown Family");
         setFamilyMembers(data.mongoData.familyMembers || []);
+      } else {
+        console.error("Failed to fetch RSVP data:", data.message);
       }
     } catch (error) {
       console.error("Error fetching RSVP data:", error);
@@ -50,22 +51,27 @@ const RSVPPage = () => {
 
   const handleRSVPSubmit = async () => {
     const token = localStorage.getItem("token");
-    const response = await fetch("/rsvp", {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify({ familyMembers }),
-    });
+    try {
+      const response = await fetch("/rsvp", {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ familyMembers }),
+      });
 
-    const data = await response.json();
-    if (response.ok) {
-      alert("RSVP updated successfully!");
-      // Re-fetch the updated data
-      fetchRSVPData();
-    } else {
-      alert(`Failed to update RSVP: ${data.message}`);
+      const data = await response.json();
+      if (response.ok) {
+        alert("RSVP updated successfully!");
+        // Optionally update local state with server response if needed
+        // setFamilyMembers(data.updatedRsvp.familyMembers || []);
+      } else {
+        alert(`Failed to update RSVP: ${data.message}`);
+      }
+    } catch (error) {
+      console.error("Error submitting RSVP:", error);
+      alert("An error occurred while submitting your RSVP.");
     }
   };
 
@@ -78,7 +84,11 @@ const RSVPPage = () => {
   const handleAddFamilyMember = () => {
     setFamilyMembers([
       ...familyMembers,
-      { firstName: "", lastName: "", rsvpStatus: "No Status / I don't know" },
+      {
+        firstName: "",
+        lastName: "",
+        rsvpStatus: "No Status / I don't know",
+      },
     ]);
   };
 
@@ -89,22 +99,30 @@ const RSVPPage = () => {
     const updatedMembers = familyMembers.filter((_, i) => i !== index);
     setFamilyMembers(updatedMembers);
 
-    // Ensure consistent API endpoint
-    const response = await fetch("/rsvp", {
-      method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify({ familyMember: memberToRemove }),
-    });
+    try {
+      const response = await fetch("/rsvp", {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ familyMember: memberToRemove }),
+      });
 
-    const data = await response.json();
-    if (!response.ok) {
-      alert(`Failed to delete family member: ${data.message}`);
-    } else {
-      // Optionally re-fetch the data
-      fetchRSVPData();
+      const data = await response.json();
+      if (!response.ok) {
+        alert(`Failed to delete family member: ${data.message}`);
+        // Revert state if deletion failed
+        setFamilyMembers(familyMembers);
+      } else {
+        alert("Family member deleted successfully!");
+        // Optionally update local state with server response if needed
+      }
+    } catch (error) {
+      console.error("Error deleting family member:", error);
+      alert("An error occurred while deleting the family member.");
+      // Revert state if error occurred
+      setFamilyMembers(familyMembers);
     }
   };
 
@@ -157,7 +175,11 @@ const RSVPPage = () => {
                     variant="outlined"
                     value={member.firstName || ""}
                     onChange={(e) =>
-                      handleFamilyMemberChange(index, "firstName", e.target.value)
+                      handleFamilyMemberChange(
+                        index,
+                        "firstName",
+                        e.target.value
+                      )
                     }
                     sx={{
                       borderRadius: "10px",
@@ -171,7 +193,11 @@ const RSVPPage = () => {
                     variant="outlined"
                     value={member.lastName || ""}
                     onChange={(e) =>
-                      handleFamilyMemberChange(index, "lastName", e.target.value)
+                      handleFamilyMemberChange(
+                        index,
+                        "lastName",
+                        e.target.value
+                      )
                     }
                     sx={{ borderRadius: "10px" }}
                   />
@@ -181,7 +207,11 @@ const RSVPPage = () => {
                     <Select
                       value={member.rsvpStatus || "No Status / I don't know"}
                       onChange={(e) =>
-                        handleFamilyMemberChange(index, "rsvpStatus", e.target.value)
+                        handleFamilyMemberChange(
+                          index,
+                          "rsvpStatus",
+                          e.target.value
+                        )
                       }
                       variant="outlined"
                     >
@@ -211,7 +241,12 @@ const RSVPPage = () => {
         </Grid>
 
         <Box
-          sx={{ display: "flex", justifyContent: "center", mt: 3, flexWrap: "wrap" }}
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            mt: 3,
+            flexWrap: "wrap",
+          }}
         >
           <Button
             variant="outlined"
