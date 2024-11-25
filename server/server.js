@@ -126,11 +126,6 @@ app.get("/check-rsvp", verifyJWT, async (req, res) => {
   }
 });
 
-// Handle React routing: return all requests to React app
-app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "../client/build", "index.html"));
-});
-
 // CORS Configuration
 app.use(
   cors({
@@ -437,6 +432,11 @@ app.get('/get-cloud-images', async (req, res) => {
     }
 });
 
+// Handle React routing: return all requests to React app
+// *** Move this route to the end ***
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "../client/build", "index.html"));
+});
 
 const PORT = process.env.PORT || 3001; // Use Heroku's dynamic port or fallback to 3001 locally
 app.listen(PORT, () => {
