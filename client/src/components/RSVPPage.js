@@ -10,6 +10,10 @@ import {
   Typography,
   IconButton,
   Paper,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
@@ -20,6 +24,8 @@ const RSVPPage = () => {
   const [familyMembers, setFamilyMembers] = useState([]);
   const [familyName, setFamilyName] = useState("");
   const [loading, setLoading] = useState(true);
+  const [modalOpen, setModalOpen] = useState(false);
+  const [modalMessage, setModalMessage] = useState("");
   const navigate = useNavigate();
 
   const fetchRSVPData = async () => {
@@ -63,15 +69,13 @@ const RSVPPage = () => {
 
       const data = await response.json();
       if (response.ok) {
-        alert("RSVP updated successfully!");
-        // Optionally update local state with server response if needed
-        // setFamilyMembers(data.updatedRsvp.familyMembers || []);
+        openModal("RSVP updated successfully!");
       } else {
-        alert(`Failed to update RSVP: ${data.message}`);
+        openModal(`Failed to update RSVP: ${data.message}`);
       }
     } catch (error) {
       console.error("Error submitting RSVP:", error);
-      alert("An error occurred while submitting your RSVP.");
+      openModal("An error occurred while submitting your RSVP.");
     }
   };
 
@@ -111,19 +115,29 @@ const RSVPPage = () => {
 
       const data = await response.json();
       if (!response.ok) {
-        alert(`Failed to delete family member: ${data.message}`);
+        openModal(`Failed to delete family member: ${data.message}`);
         // Revert state if deletion failed
         setFamilyMembers(familyMembers);
       } else {
-        alert("Family member deleted successfully!");
+        openModal("Family member deleted successfully!");
         // Optionally update local state with server response if needed
       }
     } catch (error) {
       console.error("Error deleting family member:", error);
-      alert("An error occurred while deleting the family member.");
+      openModal("An error occurred while deleting the family member.");
       // Revert state if error occurred
       setFamilyMembers(familyMembers);
     }
+  };
+
+  const openModal = (message) => {
+    setModalMessage(message);
+    setModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setModalOpen(false);
+    setModalMessage("");
   };
 
   if (loading) {
@@ -276,6 +290,19 @@ const RSVPPage = () => {
           </Button>
         </Box>
       </Paper>
+
+      {/* Modal */}
+      <Dialog open={modalOpen} onClose={closeModal}>
+        <DialogTitle>Notification</DialogTitle>
+        <DialogContent>
+          <Typography>{modalMessage}</Typography>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={closeModal} color="primary">
+            Close
+          </Button>
+        </DialogActions>
+      </Dialog>
     </Box>
   );
 };
