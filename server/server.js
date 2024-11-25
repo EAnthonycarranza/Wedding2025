@@ -12,6 +12,18 @@ const app = express();
 app.use(express.json());
 const path = require("path");
 
+// CORS Configuration
+app.use(
+  cors({
+    origin: "https://hidden-citadel-88874-96e904553ae6.herokuapp.com", // Your frontend domain
+    credentials: true,
+  })
+);
+
+// Serve static files from the React app
+app.use(express.static(path.join(__dirname, "../client/build")));
+
+
 const JWT_SECRET = process.env.JWT_SECRET || "your_secret_key";
 const MONGO_URI = process.env.MONGO_URI || "mongodb://localhost:27017/weddingDB";
 const SHEET_ID = process.env.GOOGLE_SPREADSHEET_ID; // Google Sheets ID from .env
@@ -72,9 +84,6 @@ const passwordList = {
   "J9@2g5$1": "Long Family",
 };
 
-// Serve static files from the React app
-app.use(express.static(path.join(__dirname, "../client/build")));
-
 // Middleware to verify JWT
 const verifyJWT = (req, res, next) => {
   const authHeader = req.headers["authorization"];
@@ -125,14 +134,6 @@ app.get("/check-rsvp", verifyJWT, async (req, res) => {
     res.status(500).json({ message: "Error checking RSVP" });
   }
 });
-
-// CORS Configuration
-app.use(
-  cors({
-    origin: "https://hidden-citadel-88874-96e904553ae6.herokuapp.com", // Your Heroku frontend domain
-    credentials: true,
-  })
-);
 
 // User authentication with JWT issuance
 app.post("/authenticate", (req, res) => {
