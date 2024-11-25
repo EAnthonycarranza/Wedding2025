@@ -22,28 +22,29 @@ const RSVPPage = () => {
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const fetchRSVPData = async () => {
-      const token = localStorage.getItem("token");
-      try {
-        const response = await fetch("/rsvp", {
-          method: "GET",
-          headers: { Authorization: `Bearer ${token}` },
-        });
+  // Move fetchRSVPData outside of useEffect
+  const fetchRSVPData = async () => {
+    const token = localStorage.getItem("token");
+    try {
+      const response = await fetch("/rsvp", {
+        method: "GET",
+        headers: { Authorization: `Bearer ${token}` },
+      });
 
-        const data = await response.json();
+      const data = await response.json();
 
-        if (response.ok && data.mongoData) {
-          setFamilyName(data.mongoData.familyName || "Unknown Family");
-          setFamilyMembers(data.mongoData.familyMembers || []);
-        }
-      } catch (error) {
-        console.error("Error fetching RSVP data:", error);
-      } finally {
-        setLoading(false);
+      if (response.ok && data.mongoData) {
+        setFamilyName(data.mongoData.familyName || "Unknown Family");
+        setFamilyMembers(data.mongoData.familyMembers || []);
       }
-    };
+    } catch (error) {
+      console.error("Error fetching RSVP data:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
+  useEffect(() => {
     fetchRSVPData();
   }, []);
 
@@ -61,6 +62,8 @@ const RSVPPage = () => {
     const data = await response.json();
     if (response.ok) {
       alert("RSVP updated successfully!");
+      // Re-fetch the updated data
+      fetchRSVPData();
     } else {
       alert(`Failed to update RSVP: ${data.message}`);
     }
@@ -86,7 +89,8 @@ const RSVPPage = () => {
     const updatedMembers = familyMembers.filter((_, i) => i !== index);
     setFamilyMembers(updatedMembers);
 
-    const response = await fetch("http://localhost:3001/rsvp", {
+    // Ensure consistent API endpoint
+    const response = await fetch("/rsvp", {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
@@ -98,6 +102,9 @@ const RSVPPage = () => {
     const data = await response.json();
     if (!response.ok) {
       alert(`Failed to delete family member: ${data.message}`);
+    } else {
+      // Optionally re-fetch the data
+      fetchRSVPData();
     }
   };
 
@@ -108,8 +115,8 @@ const RSVPPage = () => {
   return (
     <Box
       sx={{
-        p: { xs: 2, sm: 4 }, // Padding adjusts for smaller screens
-        maxWidth: "95%", // Responsive max width
+        p: { xs: 2, sm: 4 },
+        maxWidth: "95%",
         margin: "auto",
         mt: 5,
       }}
@@ -119,12 +126,12 @@ const RSVPPage = () => {
           variant="h4"
           gutterBottom
           sx={{
-            mb: { xs: 2, sm: 4 }, // Adjust margin bottom for smaller screens
+            mb: { xs: 2, sm: 4 },
             textAlign: "center",
             color: "#9C0044",
             fontWeight: "bold",
             fontFamily: "'Sacramento', cursive",
-            fontSize: { xs: "1.8rem", sm: "2.5rem" }, // Responsive font size
+            fontSize: { xs: "1.8rem", sm: "2.5rem" },
           }}
         >
           RSVP {familyName}
@@ -197,11 +204,15 @@ const RSVPPage = () => {
               </Grid>
             ))
           ) : (
-            <Typography>No RSVP data available. Please submit your RSVP.</Typography>
+            <Typography>
+              No RSVP data available. Please submit your RSVP.
+            </Typography>
           )}
         </Grid>
 
-        <Box sx={{ display: "flex", justifyContent: "center", mt: 3, flexWrap: "wrap" }}>
+        <Box
+          sx={{ display: "flex", justifyContent: "center", mt: 3, flexWrap: "wrap" }}
+        >
           <Button
             variant="outlined"
             color="primary"
@@ -209,8 +220,8 @@ const RSVPPage = () => {
             startIcon={<AddCircleIcon />}
             sx={{
               borderRadius: "20px",
-              mr: { xs: 0, sm: 2 }, // Adjust margin for smaller screens
-              mb: { xs: 2, sm: 0 }, // Add margin bottom for stacking on mobile
+              mr: { xs: 0, sm: 2 },
+              mb: { xs: 2, sm: 0 },
             }}
           >
             Add Family Member
