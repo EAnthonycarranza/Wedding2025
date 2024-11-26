@@ -16,27 +16,36 @@ const CoupleInfo = () => {
           className="couple-wrap animate-box"
           style={{
             display: "flex",
-            justifyContent: "space-between",
-            gap: "40px", // Adjusts space between groom, heart, and bride
+            flexWrap: "wrap",
+            justifyContent: "space-around",
+            alignItems: "center",
+            gap: "40px", // Space between elements
           }}
         >
           <div
             className="desc-groom"
             style={{
-              flex: 1,
+              flex: "1 1 300px", // Flexibility for responsiveness
               textAlign: "right",
-              paddingRight: "40px",
+              padding: "0 20px",
             }}
           >
             <h2
               style={{
                 fontFamily: "Sacramento",
                 color: "#9c0044",
+                fontSize: "2.5rem",
+                marginBottom: "10px",
               }}
             >
               Eduardo Antonio
             </h2>
-            <p>
+            <p
+              style={{
+                fontSize: "1.1rem",
+                lineHeight: "1.6",
+              }}
+            >
               Anthony is a kind-hearted man of faith from San Antonio, dedicated
               to his family and music. He's excited to begin this journey with
               Christina.
@@ -45,9 +54,9 @@ const CoupleInfo = () => {
           <div
             className="heart"
             style={{
-              flex: 0,
+              flex: "0 1 auto", // Ensures icon stays centered
               textAlign: "center",
-              margin: "0 20px",
+              fontSize: "3rem",
               color: "red",
             }}
           >
@@ -56,20 +65,27 @@ const CoupleInfo = () => {
           <div
             className="desc-bride"
             style={{
-              flex: 1,
+              flex: "1 1 300px", // Flexibility for responsiveness
               textAlign: "left",
-              paddingLeft: "40px",
+              padding: "0 20px",
             }}
           >
             <h2
               style={{
                 fontFamily: "Sacramento",
                 color: "#9c0044",
+                fontSize: "2.5rem",
+                marginBottom: "10px",
               }}
             >
               Christina Kyara
             </h2>
-            <p>
+            <p
+              style={{
+                fontSize: "1.1rem",
+                lineHeight: "1.6",
+              }}
+            >
               Christina, from San Antonio, is a joyful spirit with a love for
               worship and family. She’s thrilled to marry Anthony.
             </p>
