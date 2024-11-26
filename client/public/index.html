@@ -13,6 +13,12 @@
     <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
     <title>Christina + Anthony</title>
 
+    <!-- Content Security Policy -->
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self'; img-src 'self' data: https://storage.googleapis.com; script-src 'self'; style-src 'self' https://fonts.googleapis.com 'unsafe-inline'; font-src 'self' https://fonts.gstatic.com;"
+    />
+
     <!-- Google Fonts -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Work+Sans:400,300,600,400italic,700">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Sacramento">
@@ -44,7 +50,5 @@
 
     <!-- Additional JavaScript files (if needed) -->
     <script src="%PUBLIC_URL%/js/custom-scripts.js"></script>
-
-
   </body>
 </html>
