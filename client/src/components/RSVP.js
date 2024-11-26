@@ -53,7 +53,6 @@ const RSVP = () => {
                 fontSize: '2.5rem', // Adjust the size as needed
                 color: '#fff', // Ensure the font color contrasts well with the background
                 whiteSpace: 'nowrap', // Prevent wrapping to multiple lines
-                overflow: 'hidden', // Handle overflow gracefully if necessary
               }}
             >
               Are You Attending?
