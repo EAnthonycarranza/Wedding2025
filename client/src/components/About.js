@@ -8,7 +8,6 @@ import Timeline from "./Timeline";
 const About = () => {
   // Function to handle "Save the Date" functionality
   const handleSaveTheDate = () => {
-    // Define the content for the calendar invite with proper formatting
     const icsContent = [
       "BEGIN:VCALENDAR",
       "VERSION:2.0",
@@ -28,18 +27,17 @@ const About = () => {
       "END:VALARM",
       "END:VEVENT",
       "END:VCALENDAR",
-    ].join("\r\n"); // Use CRLF line endings as required by the iCalendar standard
+    ].join("\r\n");
 
-    // Create a Blob and trigger the download
     const blob = new Blob([icsContent], { type: "text/calendar;charset=utf-8" });
     const url = window.URL.createObjectURL(blob);
     const link = document.createElement("a");
     link.href = url;
-    link.download = "christina-anthony-wedding.ics"; // Set the filename
+    link.download = "christina-anthony-wedding.ics";
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
-    window.URL.revokeObjectURL(url); // Cleanup
+    window.URL.revokeObjectURL(url);
   };
 
   return (
@@ -50,14 +48,37 @@ const About = () => {
         className="fh5co-cover"
         role="banner"
         style={{
+          position: "relative",
           backgroundImage: `url(${bgImage})`,
           backgroundSize: "cover",
           backgroundPosition: "center",
+          height: "100vh",
         }}
         data-stellar-background-ratio="0.5"
       >
-        <div className="overlay"></div>
-        <div className="container">
+        {/* Semi-transparent Overlay */}
+        <div
+          className="overlay"
+          style={{
+            position: "absolute",
+            top: 0,
+            left: 0,
+            width: "100%",
+            height: "100%",
+            backgroundColor: "rgba(0, 0, 0, 0.5)", // Semi-transparent overlay
+            zIndex: 1,
+          }}
+        ></div>
+
+        {/* Text Container */}
+        <div
+          className="container"
+          style={{
+            position: "relative",
+            zIndex: 2, // Ensure text is above the overlay
+            color: "#fff",
+          }}
+        >
           <div className="row">
             <div className="col-md-8 col-md-offset-2 text-center">
               <div className="display-t">
@@ -70,7 +91,6 @@ const About = () => {
                     style={{
                       fontFamily: "'Sacramento', cursive",
                       fontSize: "2.5rem",
-                      color: "#fff",
                     }}
                   >
                     We Are Getting Married
@@ -82,24 +102,24 @@ const About = () => {
                       onClick={handleSaveTheDate}
                       className="btn btn-default btn-sm"
                       style={{
-                        color: "#9c0044", // Text color
+                        color: "#9c0044",
                         padding: "10px 20px",
                         fontSize: "16px",
                         border: "none",
-                        backgroundColor: "rgba(156, 0, 68, 0.5)", // Translucent initial color
+                        backgroundColor: "rgba(156, 0, 68, 0.5)",
                         cursor: "pointer",
                         borderRadius: "5px",
-                        transition: "all 0.3s ease", // Smooth transitions
+                        transition: "all 0.3s ease",
                       }}
                       onMouseOver={(e) => {
                         e.target.style.backgroundColor =
-                          "rgba(176, 0, 85, 0.7)"; // Darker hover effect
-                        e.target.style.transform = "scale(1.05)"; // Slight scaling effect
+                          "rgba(176, 0, 85, 0.7)";
+                        e.target.style.transform = "scale(1.05)";
                       }}
                       onMouseOut={(e) => {
                         e.target.style.backgroundColor =
-                          "rgba(156, 0, 68, 0.5)"; // Revert to original translucent color
-                        e.target.style.transform = "scale(1)"; // Revert to original size
+                          "rgba(156, 0, 68, 0.5)";
+                        e.target.style.transform = "scale(1)";
                       }}
                       aria-label="Save the date for Christina & Anthony's wedding"
                     >
