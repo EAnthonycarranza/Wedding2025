@@ -54,7 +54,6 @@ const RSVP = () => {
                 color: '#fff', // Ensure the font color contrasts well with the background
                 whiteSpace: 'nowrap', // Prevent wrapping to multiple lines
                 overflow: 'hidden', // Handle overflow gracefully if necessary
-                textOverflow: 'ellipsis', // Add ellipsis if the text overflows the container
               }}
             >
               Are You Attending?
