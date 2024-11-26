@@ -1,13 +1,41 @@
 // src/components/Events.js
 import React from "react";
-import bgImage from "../img/img_bg_3.jpg"; // Import your background image
 import { FaMapMarkerAlt } from "react-icons/fa"; // Import map marker icon
 
 const Events = () => {
   return (
-    <div id="fh5co-event" className="fh5co-bg" style={{ backgroundImage: `url(${bgImage})` }}>
-      <div className="overlay"></div>
-      <div className="container">
+    <div
+      id="fh5co-event"
+      className="fh5co-bg"
+      style={{
+        backgroundImage: `url(https://storage.googleapis.com/galleryimageswedding/img_bg_3.jpg)`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        position: "relative",
+      }}
+    >
+      {/* Semi-transparent Overlay */}
+      <div
+        className="overlay"
+        style={{
+          position: "absolute",
+          top: 0,
+          left: 0,
+          width: "100%",
+          height: "100%",
+          backgroundColor: "rgba(0, 0, 0, 0.5)", // Semi-transparent overlay
+          zIndex: 1,
+        }}
+      ></div>
+
+      {/* Content */}
+      <div
+        className="container"
+        style={{
+          position: "relative",
+          zIndex: 2, // Ensure content is above the overlay
+        }}
+      >
         <div className="row">
           <div className="col-md-8 offset-md-2 text-center fh5co-heading animate-box">
             <span>Our Special Events</span>
