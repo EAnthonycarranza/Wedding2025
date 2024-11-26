@@ -1,9 +1,5 @@
 // src/components/Timeline.js
 import React from "react";
-import coupleImage1 from "../img/couple-1.jpg";
-import coupleImage2 from "../img/couple-2.jpg";
-import coupleImage3 from "../img/couple-3.jpg";
-import coupleImage4 from "../img/couple-4.jpg";
 
 const Timeline = () => {
   return (
@@ -21,7 +17,10 @@ const Timeline = () => {
             <ul className="timeline animate-box">
               {/* First timeline event */}
               <li className="animate-box">
-                <div className="timeline-badge" style={{ backgroundImage: `url(${coupleImage1})` }}></div>
+                <div
+                  className="timeline-badge"
+                  style={{ backgroundImage: `url(https://storage.googleapis.com/galleryimageswedding/couple-1.jpg)` }}
+                ></div>
                 <div className="timeline-panel">
                   <div className="timeline-heading">
                     <h3 className="timeline-title">God's Plan</h3>
@@ -43,7 +42,10 @@ const Timeline = () => {
 
               {/* Second timeline event */}
               <li className="animate-box timeline-inverted">
-                <div className="timeline-badge" style={{ backgroundImage: `url(${coupleImage2})` }}></div>
+                <div
+                  className="timeline-badge"
+                  style={{ backgroundImage: `url(https://storage.googleapis.com/galleryimageswedding/couple-2.jpg)` }}
+                ></div>
                 <div className="timeline-panel">
                   <div className="timeline-heading">
                     <h3 className="timeline-title">A New Beginning</h3>
@@ -62,7 +64,10 @@ const Timeline = () => {
 
               {/* Third timeline event */}
               <li className="animate-box">
-                <div className="timeline-badge" style={{ backgroundImage: `url(${coupleImage3})` }}></div>
+                <div
+                  className="timeline-badge"
+                  style={{ backgroundImage: `url(https://storage.googleapis.com/galleryimageswedding/couple-3.jpg)` }}
+                ></div>
                 <div className="timeline-panel">
                   <div className="timeline-heading">
                     <h3 className="timeline-title">A Special Good Friday</h3>
@@ -81,7 +86,10 @@ const Timeline = () => {
 
               {/* Fourth timeline event - The Proposal */}
               <li className="animate-box timeline-inverted">
-                <div className="timeline-badge" style={{ backgroundImage: `url(${coupleImage4})` }}></div>
+                <div
+                  className="timeline-badge"
+                  style={{ backgroundImage: `url(https://storage.googleapis.com/galleryimageswedding/couple-4.jpg)` }}
+                ></div>
                 <div className="timeline-panel">
                   <div className="timeline-heading">
                     <h3 className="timeline-title">The Proposal</h3>
