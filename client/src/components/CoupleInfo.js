@@ -3,39 +3,8 @@ import React from "react";
 
 const CoupleInfo = () => {
   return (
-    <div
-      id="fh5co-couple"
-      className="fh5co-section-gray"
-      style={{
-        position: "relative",
-        backgroundImage: "url('/path/to/your/background-image.jpg')", // Replace with your background image path
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-      }}
-    >
-      {/* Overlay to darken background and enhance text readability */}
-      <div
-        className="overlay"
-        style={{
-          position: "absolute",
-          top: 0,
-          left: 0,
-          width: "100%",
-          height: "100%",
-          backgroundColor: "rgba(0, 0, 0, 0.5)", // Semi-transparent black
-          zIndex: 1, // Behind the text
-        }}
-      ></div>
-
-      {/* Content Container */}
-      <div
-        className="container"
-        style={{
-          position: "relative",
-          zIndex: 2, // Above the overlay
-          color: "#fff", // Ensures text is readable
-        }}
-      >
+    <div id="fh5co-couple" className="fh5co-section-gray">
+      <div className="container">
         <div className="row justify-content-center">
           <div className="col-md-8 col-md-offset-2 text-center fh5co-heading animate-box">
             <h2>Welcome!</h2>
@@ -47,36 +16,27 @@ const CoupleInfo = () => {
           className="couple-wrap animate-box"
           style={{
             display: "flex",
-            flexWrap: "wrap",
-            justifyContent: "space-around",
-            alignItems: "center",
-            gap: "40px", // Space between elements
+            justifyContent: "space-between",
+            gap: "40px", // Adjusts space between groom, heart, and bride
           }}
         >
           <div
             className="desc-groom"
             style={{
-              flex: "1 1 300px", // Flexibility for responsiveness
+              flex: 1,
               textAlign: "right",
-              padding: "0 20px",
+              paddingRight: "40px",
             }}
           >
             <h2
               style={{
                 fontFamily: "Sacramento",
-                color: "#f1c40f", // Bright yellow for contrast
-                fontSize: "2.5rem",
-                marginBottom: "10px",
+                color: "#9c0044",
               }}
             >
               Eduardo Antonio
             </h2>
-            <p
-              style={{
-                fontSize: "1.1rem",
-                lineHeight: "1.6",
-              }}
-            >
+            <p>
               Anthony is a kind-hearted man of faith from San Antonio, dedicated
               to his family and music. He's excited to begin this journey with
               Christina.
@@ -85,9 +45,9 @@ const CoupleInfo = () => {
           <div
             className="heart"
             style={{
-              flex: "0 1 auto", // Ensures icon stays centered
+              flex: 0,
               textAlign: "center",
-              fontSize: "3rem",
+              margin: "0 20px",
               color: "red",
             }}
           >
@@ -96,27 +56,20 @@ const CoupleInfo = () => {
           <div
             className="desc-bride"
             style={{
-              flex: "1 1 300px", // Flexibility for responsiveness
+              flex: 1,
               textAlign: "left",
-              padding: "0 20px",
+              paddingLeft: "40px",
             }}
           >
             <h2
               style={{
                 fontFamily: "Sacramento",
-                color: "#f1c40f", // Bright yellow for contrast
-                fontSize: "2.5rem",
-                marginBottom: "10px",
+                color: "#9c0044",
               }}
             >
               Christina Kyara
             </h2>
-            <p
-              style={{
-                fontSize: "1.1rem",
-                lineHeight: "1.6",
-              }}
-            >
+            <p>
               Christina, from San Antonio, is a joyful spirit with a love for
               worship and family. She’s thrilled to marry Anthony.
             </p>
