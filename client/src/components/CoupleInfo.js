@@ -3,8 +3,39 @@ import React from "react";
 
 const CoupleInfo = () => {
   return (
-    <div id="fh5co-couple" className="fh5co-section-gray">
-      <div className="container">
+    <div
+      id="fh5co-couple"
+      className="fh5co-section-gray"
+      style={{
+        position: "relative",
+        backgroundImage: "url('/path/to/your/background-image.jpg')", // Replace with your background image path
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+      }}
+    >
+      {/* Overlay to darken background and enhance text readability */}
+      <div
+        className="overlay"
+        style={{
+          position: "absolute",
+          top: 0,
+          left: 0,
+          width: "100%",
+          height: "100%",
+          backgroundColor: "rgba(0, 0, 0, 0.5)", // Semi-transparent black
+          zIndex: 1, // Behind the text
+        }}
+      ></div>
+
+      {/* Content Container */}
+      <div
+        className="container"
+        style={{
+          position: "relative",
+          zIndex: 2, // Above the overlay
+          color: "#fff", // Ensures text is readable
+        }}
+      >
         <div className="row justify-content-center">
           <div className="col-md-8 col-md-offset-2 text-center fh5co-heading animate-box">
             <h2>Welcome!</h2>
@@ -33,7 +64,7 @@ const CoupleInfo = () => {
             <h2
               style={{
                 fontFamily: "Sacramento",
-                color: "#9c0044",
+                color: "#f1c40f", // Bright yellow for contrast
                 fontSize: "2.5rem",
                 marginBottom: "10px",
               }}
@@ -73,7 +104,7 @@ const CoupleInfo = () => {
             <h2
               style={{
                 fontFamily: "Sacramento",
-                color: "#9c0044",
+                color: "#f1c40f", // Bright yellow for contrast
                 fontSize: "2.5rem",
                 marginBottom: "10px",
               }}
