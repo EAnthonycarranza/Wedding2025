@@ -11,7 +11,6 @@ const RSVP = () => {
         backgroundSize: 'cover',
         backgroundPosition: '50%',
         position: 'relative',
-        height: '100vh',
         width: '100%',
       }}
     >
@@ -48,11 +47,15 @@ const RSVP = () => {
         {/* Heading */}
         <div className="row animate-box">
           <div className="col-md-8 offset-md-2">
-            <h2>Are You Attending?</h2>
-            <p>
-              Please click the button below to let us know that you're attending.
-              Thanks.
-            </p>
+            <h2
+              style={{
+                fontFamily: "'Sacramento', cursive",
+                fontSize: '3rem', // Adjust the size as needed
+                color: '#fff', // Ensure the font color contrasts well with the background
+              }}
+            >
+              Are You Attending?
+            </h2>
           </div>
         </div>
 
