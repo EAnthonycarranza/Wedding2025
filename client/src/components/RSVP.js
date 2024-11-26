@@ -50,8 +50,11 @@ const RSVP = () => {
             <h2
               style={{
                 fontFamily: "'Sacramento', cursive",
-                fontSize: '3rem', // Adjust the size as needed
+                fontSize: '2.5rem', // Adjust the size as needed
                 color: '#fff', // Ensure the font color contrasts well with the background
+                whiteSpace: 'nowrap', // Prevent wrapping to multiple lines
+                overflow: 'hidden', // Handle overflow gracefully if necessary
+                textOverflow: 'ellipsis', // Add ellipsis if the text overflows the container
               }}
             >
               Are You Attending?
