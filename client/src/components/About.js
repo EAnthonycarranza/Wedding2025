@@ -1,13 +1,13 @@
 // src/components/About.js
 import React from "react";
 import "../styles/style.css";
-import bgImage from "../img/img_bg_1.jpg"; // Import the background image for the header
 import CoupleInfo from "./CoupleInfo";
 import Timeline from "./Timeline";
 
 const About = () => {
   // Function to handle "Save the Date" functionality
   const handleSaveTheDate = () => {
+    // Define the content for the calendar invite with proper formatting
     const icsContent = [
       "BEGIN:VCALENDAR",
       "VERSION:2.0",
@@ -27,17 +27,18 @@ const About = () => {
       "END:VALARM",
       "END:VEVENT",
       "END:VCALENDAR",
-    ].join("\r\n");
+    ].join("\r\n"); // Use CRLF line endings as required by the iCalendar standard
 
+    // Create a Blob and trigger the download
     const blob = new Blob([icsContent], { type: "text/calendar;charset=utf-8" });
     const url = window.URL.createObjectURL(blob);
     const link = document.createElement("a");
     link.href = url;
-    link.download = "christina-anthony-wedding.ics";
+    link.download = "christina-anthony-wedding.ics"; // Set the filename
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
-    window.URL.revokeObjectURL(url);
+    window.URL.revokeObjectURL(url); // Cleanup
   };
 
   return (
@@ -48,37 +49,14 @@ const About = () => {
         className="fh5co-cover"
         role="banner"
         style={{
-          position: "relative",
-          backgroundImage: `url(${bgImage})`,
+          backgroundImage: `url(https://storage.googleapis.com/galleryimageswedding/img_bg_1.jpg)`,
           backgroundSize: "cover",
           backgroundPosition: "center",
-          height: "100vh",
         }}
         data-stellar-background-ratio="0.5"
       >
-        {/* Semi-transparent Overlay */}
-        <div
-          className="overlay"
-          style={{
-            position: "absolute",
-            top: 0,
-            left: 0,
-            width: "100%",
-            height: "100%",
-            backgroundColor: "rgba(0, 0, 0, 0.5)", // Semi-transparent overlay
-            zIndex: 1,
-          }}
-        ></div>
-
-        {/* Text Container */}
-        <div
-          className="container"
-          style={{
-            position: "relative",
-            zIndex: 2, // Ensure text is above the overlay
-            color: "#fff",
-          }}
-        >
+        <div className="overlay"></div>
+        <div className="container">
           <div className="row">
             <div className="col-md-8 col-md-offset-2 text-center">
               <div className="display-t">
@@ -91,6 +69,7 @@ const About = () => {
                     style={{
                       fontFamily: "'Sacramento', cursive",
                       fontSize: "2.5rem",
+                      color: "#fff",
                     }}
                   >
                     We Are Getting Married
@@ -102,24 +81,24 @@ const About = () => {
                       onClick={handleSaveTheDate}
                       className="btn btn-default btn-sm"
                       style={{
-                        color: "#9c0044",
+                        color: "#9c0044", // Text color
                         padding: "10px 20px",
                         fontSize: "16px",
                         border: "none",
-                        backgroundColor: "rgba(156, 0, 68, 0.5)",
+                        backgroundColor: "rgba(156, 0, 68, 0.5)", // Translucent initial color
                         cursor: "pointer",
                         borderRadius: "5px",
-                        transition: "all 0.3s ease",
+                        transition: "all 0.3s ease", // Smooth transitions
                       }}
                       onMouseOver={(e) => {
                         e.target.style.backgroundColor =
-                          "rgba(176, 0, 85, 0.7)";
-                        e.target.style.transform = "scale(1.05)";
+                          "rgba(176, 0, 85, 0.7)"; // Darker hover effect
+                        e.target.style.transform = "scale(1.05)"; // Slight scaling effect
                       }}
                       onMouseOut={(e) => {
                         e.target.style.backgroundColor =
-                          "rgba(156, 0, 68, 0.5)";
-                        e.target.style.transform = "scale(1)";
+                          "rgba(156, 0, 68, 0.5)"; // Revert to original translucent color
+                        e.target.style.transform = "scale(1)"; // Revert to original size
                       }}
                       aria-label="Save the date for Christina & Anthony's wedding"
                     >
