@@ -1,6 +1,5 @@
 import React from 'react';
 import { Link } from 'react-router-dom'; // Import Link from react-router-dom
-import bgImage from '../img/img_bg_4.jpg'; // Import the background image
 
 const RSVP = () => {
   return (
@@ -8,11 +7,12 @@ const RSVP = () => {
       id="fh5co-started"
       className="fh5co-bg"
       style={{
-        backgroundImage: `url(${bgImage})`,
+        backgroundImage: `url(https://storage.googleapis.com/galleryimageswedding/img_bg_4.jpg)`,
         backgroundSize: 'cover',
-        backgroundPosition: 'center',
+        backgroundPosition: '50%',
         position: 'relative',
-        height: '100vh', // Full viewport height
+        height: '100vh',
+        width: '100%',
       }}
     >
       {/* Semi-transparent Overlay */}
@@ -42,6 +42,7 @@ const RSVP = () => {
           height: '100%',
           color: '#fff', // Text color
           textAlign: 'center',
+          fontFamily: "'Sacramento', cursive", // Sacramento font applied
         }}
       >
         {/* Heading */}
