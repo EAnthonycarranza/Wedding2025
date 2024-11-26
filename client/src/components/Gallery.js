@@ -2,30 +2,21 @@ import React, { useState } from "react";
 import JSZip from "jszip";
 import { saveAs } from "file-saver";
 import LightboxGallery from "./LightboxGallery";
-import galleryImage1 from "../img/gallery-1.jpg";
-import galleryImage2 from "../img/gallery-2.jpg";
-import galleryImage3 from "../img/gallery-3.jpg";
-import galleryImage4 from "../img/gallery-4.jpg";
-import galleryImage5 from "../img/gallery-5.jpg";
-import galleryImage6 from "../img/gallery-6.jpg";
-import galleryImage7 from "../img/gallery-7.jpg";
-import galleryImage8 from "../img/gallery-8.jpg";
-
 
 const Gallery = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(0);
 
-  // Gallery images
+  // Gallery image URLs
   const galleryItems = [
-    galleryImage1,
-    galleryImage2,
-    galleryImage3,
-    galleryImage4,
-    galleryImage5,
-    galleryImage6,
-    galleryImage7,
-    galleryImage8,
+    "https://storage.googleapis.com/galleryimageswedding/gallery-1.jpg",
+    "https://storage.googleapis.com/galleryimageswedding/gallery-2.jpg",
+    "https://storage.googleapis.com/galleryimageswedding/gallery-3.jpg",
+    "https://storage.googleapis.com/galleryimageswedding/gallery-4.jpg",
+    "https://storage.googleapis.com/galleryimageswedding/gallery-5.jpg",
+    "https://storage.googleapis.com/galleryimageswedding/gallery-6.jpg",
+    "https://storage.googleapis.com/galleryimageswedding/gallery-7.jpg",
+    "https://storage.googleapis.com/galleryimageswedding/gallery-8.jpg",
   ];
 
   // Handle clicking an image
