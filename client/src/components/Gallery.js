@@ -25,26 +25,33 @@ const Gallery = () => {
     setIsOpen(true);
   };
 
-  // Function to download all images as a ZIP
-  const downloadAllPhotos = async () => {
+const downloadAllPhotos = async () => {
+  try {
     const zip = new JSZip();
     const folder = zip.folder("wedding-gallery");
 
-    // Add each image to the ZIP folder
     for (let i = 0; i < galleryItems.length; i++) {
       const url = galleryItems[i];
       const filename = `image-${i + 1}.jpg`;
 
-      // Fetch the image data as a blob
+      console.log(`Fetching ${url}...`);
       const response = await fetch(url);
+
+      if (!response.ok) {
+        console.error(`Failed to fetch ${url}: ${response.statusText}`);
+        continue;
+      }
+
       const blob = await response.blob();
       folder.file(filename, blob);
     }
 
-    // Generate the ZIP file and trigger the download
     const zipBlob = await zip.generateAsync({ type: "blob" });
     saveAs(zipBlob, "wedding-gallery.zip");
-  };
+  } catch (error) {
+    console.error("Error downloading photos:", error.message);
+  }
+};
 
   return (
     <div id="gallery" className="gallery-container">
