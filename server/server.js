@@ -20,7 +20,7 @@ app.use(
     contentSecurityPolicy: {
       directives: {
         defaultSrc: ["'self'"],
-        connectSrc: ["'self'", "https://storage.googleapis.com"], // Allow fetch requests to Google Cloud Storage
+        connectSrc: ["'self'", "https://storage.googleapis.com"], // Allow fetch requests
         imgSrc: ["'self'", "https://storage.googleapis.com", "data:"],
         scriptSrc: ["'self'"],
         styleSrc: ["'self'", "https://fonts.googleapis.com", "'unsafe-inline'"],
