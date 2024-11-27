@@ -17,16 +17,7 @@ app.use(fileUpload()); // For handling file uploads
 
 app.use(
   helmet({
-    contentSecurityPolicy: {
-      directives: {
-        defaultSrc: ["'self'", "https://storage.googleapis.com"],
-        connectSrc: ["'self'", "https://storage.googleapis.com"],
-        imgSrc: ["'self'", "https://storage.googleapis.com", "data:"],
-        scriptSrc: ["'self'"],
-        styleSrc: ["'self'", "https://fonts.googleapis.com", "'unsafe-inline'"],
-        fontSrc: ["'self'", "https://fonts.gstatic.com"],
-      },
-    },
+    contentSecurityPolicy: false, // Disable CSP for testing
   })
 );
 
