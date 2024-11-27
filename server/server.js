@@ -17,9 +17,28 @@ app.use(fileUpload()); // For handling file uploads
 
 app.use(
   helmet({
-    contentSecurityPolicy: false, // Disable CSP for testing
+    contentSecurityPolicy: {
+      directives: {
+        defaultSrc: ["'self'"],
+        connectSrc: ["'self'", "https://storage.googleapis.com"], // Allow fetch requests to Google Cloud Storage
+        imgSrc: ["'self'", "https://storage.googleapis.com", "data:"],
+        scriptSrc: ["'self'"],
+        styleSrc: ["'self'", "https://fonts.googleapis.com", "'unsafe-inline'"],
+        fontSrc: ["'self'", "https://fonts.gstatic.com"],
+      },
+    },
   })
 );
+
+console.log('Current CSP Configuration:', {
+  defaultSrc: ["'self'"],
+  connectSrc: ["'self'", "https://storage.googleapis.com"],
+  imgSrc: ["'self'", "https://storage.googleapis.com", "data:"],
+  scriptSrc: ["'self'"],
+  styleSrc: ["'self'", "https://fonts.googleapis.com", "'unsafe-inline'"],
+  fontSrc: ["'self'", "https://fonts.gstatic.com"],
+});
+
 
 // CORS Configuration
 app.use(
