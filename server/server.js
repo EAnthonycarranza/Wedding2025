@@ -15,20 +15,30 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(fileUpload()); // For handling file uploads
 
-// Remove any pre-existing CSP headers
-app.use((req, res, next) => {
-  res.removeHeader("Content-Security-Policy");
-  next();
+app.use(
+  helmet({
+    contentSecurityPolicy: {
+      directives: {
+        defaultSrc: ["'self'"],
+        connectSrc: ["'self'", "https://storage.googleapis.com"], // Allow fetch requests
+        imgSrc: ["'self'", "https://storage.googleapis.com", "data:"],
+        scriptSrc: ["'self'"],
+        styleSrc: ["'self'", "https://fonts.googleapis.com", "'unsafe-inline'"],
+        fontSrc: ["'self'", "https://fonts.gstatic.com"],
+      },
+    },
+  })
+);
+
+console.log('Current CSP Configuration:', {
+  defaultSrc: ["'self'"],
+  connectSrc: ["'self'", "https://storage.googleapis.com"],
+  imgSrc: ["'self'", "https://storage.googleapis.com", "data:"],
+  scriptSrc: ["'self'"],
+  styleSrc: ["'self'", "https://fonts.googleapis.com", "'unsafe-inline'"],
+  fontSrc: ["'self'", "https://fonts.gstatic.com"],
 });
 
-// Set a custom relaxed CSP header
-app.use((req, res, next) => {
-  res.setHeader(
-    "Content-Security-Policy",
-    "default-src 'self'; connect-src 'self' https://storage.googleapis.com; img-src 'self' https://storage.googleapis.com data:;"
-  );
-  next();
-});
 
 // CORS Configuration
 app.use(
@@ -88,6 +98,9 @@ async function connectMongoDB() {
 
 connectMongoDB();
 
+// Load families data with tokens from JSON file
+const families = require("./families.json");
+
 // Middleware to verify JWT
 const verifyJWT = (req, res, next) => {
   const authHeader = req.headers["authorization"];
@@ -106,7 +119,57 @@ const verifyJWT = (req, res, next) => {
   });
 };
 
-// RSVP Routes
+// Rate Limiting Middleware for Authentication
+const authLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 100, // limit each IP to 100 requests per windowMs
+  message:
+    "Too many authentication attempts from this IP, please try again after 15 minutes",
+});
+
+app.use("/authenticate", authLimiter);
+
+// User authentication with JWT issuance
+app.post("/authenticate", (req, res) => {
+  const { password, token } = req.body;
+  let familyEntry;
+
+  if (password) {
+    // Authenticate using password
+    familyEntry = families.find((family) => family.password === password);
+  } else if (token) {
+    // Authenticate using token
+    familyEntry = families.find((family) => family.token === token);
+  } else {
+    return res
+      .status(400)
+      .json({ success: false, message: "No credentials provided" });
+  }
+
+  if (familyEntry) {
+    const { familyName } = familyEntry;
+    // Generate JWT token
+    const jwtToken = jwt.sign({ familyName }, JWT_SECRET, {
+      expiresIn: "1h",
+    });
+    res.status(200).json({ success: true, token: jwtToken, familyName });
+  } else {
+    res.status(401).json({ success: false, message: "Invalid credentials" });
+  }
+});
+
+// Check authentication route
+app.get("/check-auth", verifyJWT, (req, res) => {
+  try {
+    res
+      .status(200)
+      .json({ isAuthenticated: true, familyName: req.familyName });
+  } catch (error) {
+    res
+      .status(500)
+      .json({ success: false, message: "Error checking authentication" });
+  }
+});
 
 // 1. Get RSVP Data for a Family (from MongoDB only)
 app.get("/rsvp", verifyJWT, async (req, res) => {
@@ -171,9 +234,10 @@ app.put("/rsvp", verifyJWT, async (req, res) => {
     const rowIndex = existingRows.findIndex((row) => row[0] === familyName);
 
     if (rowIndex >= 0) {
+      const lastFamilyRowIndex = rowIndex + familyMembers.length - 1;
       await sheets.spreadsheets.values.clear({
         spreadsheetId: SHEET_ID,
-        range: `RSVP LIST!A${rowIndex + 1}:E${rowIndex + familyMembers.length}`,
+        range: `RSVP LIST!A${rowIndex + 1}:D${lastFamilyRowIndex + 1}`,
       });
 
       await sheets.spreadsheets.values.update({
@@ -224,6 +288,30 @@ app.delete("/rsvp", verifyJWT, async (req, res) => {
       );
 
       console.log(`RSVP updated in MongoDB for family: ${familyName}`);
+
+      const sheetResponse = await sheets.spreadsheets.values.get({
+        spreadsheetId: SHEET_ID,
+        range: "RSVP LIST!A:E",
+      });
+
+      const existingRows = sheetResponse.data.values || [];
+      const rowIndex = existingRows.findIndex(
+        (row) =>
+          row[1] === familyMember.firstName &&
+          row[2] === familyMember.lastName
+      );
+
+      if (rowIndex >= 0) {
+        await sheets.spreadsheets.values.clear({
+          spreadsheetId: SHEET_ID,
+          range: `RSVP LIST!A${rowIndex + 1}:E${rowIndex + 1}`,
+        });
+      }
+
+      console.log(
+        `Family member ${familyMember.firstName} ${familyMember.lastName} removed from Google Sheets`
+      );
+
       res.status(200).json({ message: "Family member deleted successfully!" });
     } else {
       res.status(404).json({ message: "RSVP not found for the family" });
@@ -251,6 +339,44 @@ app.post("/submit-rsvp", verifyJWT, async (req, res) => {
     );
 
     console.log(`RSVP submitted in MongoDB for family: ${familyName}`);
+
+    const rows = familyMembers.map((member) => [
+      familyName,
+      member.firstName,
+      member.lastName,
+      member.rsvpStatus || "No Status",
+    ]);
+
+    const sheetResponse = await sheets.spreadsheets.values.get({
+      spreadsheetId: SHEET_ID,
+      range: "RSVP LIST!A:E",
+    });
+
+    const existingRows = sheetResponse.data.values || [];
+    const rowIndex = existingRows.findIndex((row) => row[0] === familyName);
+
+    if (rowIndex >= 0) {
+      await sheets.spreadsheets.values.clear({
+        spreadsheetId: SHEET_ID,
+        range: `RSVP LIST!A${rowIndex + 1}:E${rowIndex + familyMembers.length}`,
+      });
+
+      await sheets.spreadsheets.values.update({
+        spreadsheetId: SHEET_ID,
+        range: `RSVP LIST!A${rowIndex + 1}`,
+        valueInputOption: "USER_ENTERED",
+        resource: { values: rows },
+      });
+    } else {
+      await sheets.spreadsheets.values.append({
+        spreadsheetId: SHEET_ID,
+        range: "RSVP LIST!A:E",
+        valueInputOption: "USER_ENTERED",
+        resource: { values: rows },
+      });
+    }
+
+    console.log(`RSVP submitted in Google Sheets for family: ${familyName}`);
     res.status(200).json({ message: "RSVP submitted successfully!" });
   } catch (error) {
     console.error("Error submitting RSVP:", error);
@@ -258,12 +384,104 @@ app.post("/submit-rsvp", verifyJWT, async (req, res) => {
   }
 });
 
-// Handle React routing
+// Upload endpoint that handles file uploads to Google Cloud Storage
+app.post("/upload", async (req, res) => {
+  try {
+    if (!req.files || !req.files.files) {
+      console.log("No files found in the request.");
+      return res.status(400).json({ message: "No files uploaded" });
+    }
+
+    // Normalize to an array if only one file is uploaded
+    const files = Array.isArray(req.files.files)
+      ? req.files.files
+      : [req.files.files];
+
+    const fileLinks = []; // To store public file links
+
+    for (const file of files) {
+      console.log(
+        `Processing file: ${file.name}, type: ${file.mimetype}, size: ${file.size}`
+      );
+
+      const blob = bucket.file(file.name);
+      const blobStream = blob.createWriteStream({
+        resumable: false,
+        metadata: {
+          contentType: file.mimetype,
+        },
+      });
+
+      await new Promise((resolve, reject) => {
+        blobStream.on("error", (err) => {
+          console.error(`Blob stream error for file: ${file.name}`, err);
+          reject(
+            res
+              .status(500)
+              .json({
+                message: `Error uploading file to Google Cloud Storage: ${file.name}`,
+                err,
+              })
+          );
+        });
+
+        blobStream.on("finish", async () => {
+          try {
+            await blob.makePublic(); // Make the file public after upload
+            const fileLink = `https://storage.googleapis.com/${GCLOUD_BUCKET_NAME}/${file.name}`;
+            fileLinks.push(fileLink);
+            console.log(`Public URL for ${file.name}: ${fileLink}`);
+            resolve();
+          } catch (err) {
+            console.error(`Error making file ${file.name} public`, err);
+            reject(
+              res
+                .status(500)
+                .json({ message: `Error making file public: ${file.name}`, err })
+            );
+          }
+        });
+
+        blobStream.end(file.data); // End the stream after writing file data
+      });
+    }
+
+    console.log("All files uploaded and public URLs generated:", fileLinks);
+    return res
+      .status(200)
+      .json({ message: "Files uploaded successfully", fileLinks });
+  } catch (error) {
+    console.error("Error uploading files to Google Cloud Storage:", error);
+    return res.status(500).json({ message: "Failed to upload files", error });
+  }
+});
+
+// Fetch images from Google Cloud Storage
+app.get("/get-cloud-images", async (req, res) => {
+  try {
+    const [files] = await bucket.getFiles();
+    const images = files.map(
+      (file) => `https://storage.googleapis.com/${GCLOUD_BUCKET_NAME}/${file.name}`
+    );
+
+    // Send the list of image URLs as a JSON response
+    res.json({ images });
+  } catch (error) {
+    console.error("Error fetching cloud images:", error);
+    res
+      .status(500)
+      .json({ message: "Error fetching images from Cloud Storage" });
+  }
+});
+
+// Handle React routing: return all requests to React app
+// *** This route should be at the end ***
 app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname, "../client/build", "index.html"));
 });
 
-const PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT || 3001; // Use Heroku's dynamic port or fallback to 3001 locally
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
+  console.log("Using Google Spreadsheet ID:", SHEET_ID);
 });
