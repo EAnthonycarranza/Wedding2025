@@ -76,12 +76,12 @@ useEffect(() => {
     setLastScrollY(currentScrollY);
   };
 
-    window.addEventListener('scroll', handleScroll);
+  window.addEventListener('scroll', handleScroll);
 
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-    };
-  }, [lastScrollY]);
+  return () => {
+    window.removeEventListener('scroll', handleScroll);
+  };
+}, [lastScrollY]);
 
   return (
     <Box sx={{ flexGrow: 1 }}>
@@ -189,6 +189,27 @@ useEffect(() => {
   }}
 >
   RSVP
+</Typography>
+
+<Typography
+  variant="h6"
+  component="div"
+  onClick={() => handleMenuItemClick('/registry')}
+  sx={{
+    cursor: 'pointer',
+    marginRight: '20px',
+    padding: '10px 20px',
+    fontFamily: "'Sacramento', cursive",
+    fontSize: '26px',
+    fontWeight: '500',
+    transition: 'background-color 0.3s ease, color 0.3s ease',
+    borderRadius: '15px',
+    '&:hover': {
+      backgroundColor: '#9c004433',
+    },
+  }}
+>
+  Registry
 </Typography>
             </Box>
           )}
@@ -336,6 +357,23 @@ useEffect(() => {
               >
                 RSVP
               </MenuItem>
+              <MenuItem
+  onClick={() => handleMenuItemClick('/registry')}
+  sx={{
+    fontFamily: "'Sacramento', cursive",
+    marginRight: '40px',
+    padding: '10px 20px',
+    borderRadius: '10px',
+    textAlign: 'center',
+    transition: 'background-color 0.3s ease, color 0.3s ease',
+    '&:hover': {
+      backgroundColor: 'rgba(156, 0, 68, 0.1)',
+      color: 'rgb(156 0 68)',
+    },
+  }}
+>
+  Registry
+</MenuItem>
             </Menu>
           )}
         </Toolbar>
