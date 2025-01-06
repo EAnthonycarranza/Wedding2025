@@ -20,9 +20,11 @@ app.use(
     contentSecurityPolicy: {
       directives: {
         defaultSrc: ["'self'"],
-        connectSrc: ["'self'", "https://storage.googleapis.com"], // Allow fetch requests
+        connectSrc: ["'self'", "https://storage.googleapis.com"],
         imgSrc: ["'self'", "https://storage.googleapis.com", "data:"],
-        scriptSrc: ["'self'"],
+        // IMPORTANT: Add 'nonce-ABC123' to scriptSrc. 
+        // Make sure it matches the nonce in your HTML script tag.
+        scriptSrc: ["'self'", "'nonce-ABC123'"],
         styleSrc: ["'self'", "https://fonts.googleapis.com", "'unsafe-inline'"],
         fontSrc: ["'self'", "https://fonts.gstatic.com"],
       },
