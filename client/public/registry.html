@@ -5,9 +5,79 @@
   <meta charset="UTF-8" />
   <title>Our Registry</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- Adjust the CSP below as you see fit (particularly script-src). 
+       The nonce value here is an example (nonce-ABCD1234). 
+       You can generate a random nonce on each request in a real application. -->
+  <meta http-equiv="Content-Security-Policy" 
+        content="default-src 'self'; 
+                 script-src 'self' 'nonce-ABCD1234' https://www.myregistry.com; 
+                 style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; 
+                 font-src https://fonts.gstatic.com; 
+                 connect-src 'self'; 
+                 frame-src https://www.myregistry.com; 
+                 child-src https://www.myregistry.com;">
 
-  <!-- Your styles, Google Fonts, etc. -->
+  <link href="https://fonts.googleapis.com/css2?family=Sacramento&display=swap" rel="stylesheet" />
 
+  <style>
+    body {
+      font-family: 'Sacramento', cursive;
+      margin: 0;
+      background-color: #f7f7f7;
+    }
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 20px;
+      background-color: #33333378;
+      color: white;
+      position: fixed;
+      top: 0;
+      width: 100%;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      z-index: 1000;
+      transition: transform 0.3s ease-in-out; /* Smooth show/hide animation */
+    }
+    .navbar.hidden {
+      transform: translateY(-100%); /* Moves navbar out of view */
+    }
+    .navbar a {
+      text-decoration: none;
+      color: white;
+      font-size: 1.2rem;
+      font-family: 'Sacramento', cursive;
+      margin-right: 20px;
+      padding: 5px 15px;
+      border-radius: 15px;
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+    .navbar a:hover {
+      background-color: rgba(156, 0, 68, 0.7);
+      color: #fff;
+    }
+    .navbar h1 {
+      color: white;
+      font-size: 1.8rem;
+      margin: 0;
+      font-family: 'Sacramento', cursive;
+      margin-right: 50px; /* Slightly moves "Our Registry" to the left */
+    }
+    .content {
+      margin-top: 80px;
+      text-align: center;
+      padding: 20px;
+    }
+    iframe {
+      width: 80%;
+      height: 600px;
+      border: none;
+      border-radius: 10px;
+      box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+      display: block;
+      margin: 0 auto;
+    }
+  </style>
 </head>
 <body>
   <div class="navbar" id="navbar">
@@ -16,7 +86,6 @@
   </div>
 
   <div class="content">
-    <!-- External script from MyRegistry is fine because it's not inline -->
     <script
       id="script_myregistry_giftlist_iframe"
       type="text/javascript"
@@ -24,8 +93,8 @@
     ></script>
   </div>
 
-  <!-- IMPORTANT: Add nonce="ABC123" to match your server’s scriptSrc -->
-  <script nonce="ABC123">
+  <!-- Note the nonce attribute on this inline script -->
+  <script nonce="ABCD1234">
     let lastScrollY = window.pageYOffset;
     const navbar = document.getElementById('navbar');
 
