@@ -1,3 +1,5 @@
+// File: App.js
+
 import React, { useState, useEffect } from "react";
 import {
   BrowserRouter as Router,
@@ -57,7 +59,7 @@ function App() {
         setIsAuthenticated(true);
         setFamilyName(familyName);
 
-        // Redirect to /home on successful login
+        // Redirect to /home immediately after successful login
         navigate("/home", { replace: true });
 
         // Fetch RSVP data after successful authentication
@@ -87,9 +89,6 @@ function App() {
           const data = await response.json();
           setIsAuthenticated(true);
           setFamilyName(data.familyName);
-
-          // Redirect to /home after successful login
-          navigate("/home", { replace: true });
 
           // Fetch RSVP data
           await fetchRSVPData(tokenFromStorage);
@@ -129,7 +128,16 @@ function App() {
       }
     };
 
-    checkAuth();
+    const urlParams = new URLSearchParams(window.location.search);
+    const tokenFromUrl = urlParams.get("token");
+
+    if (tokenFromUrl) {
+      // Authenticate using token from URL
+      authenticateWithToken(tokenFromUrl);
+    } else {
+      // Check authentication using stored token
+      checkAuth();
+    }
   }, [navigate]);
 
   const handleLogout = () => {
@@ -209,7 +217,7 @@ function App() {
         </CSSTransition>
       </TransitionGroup>
 
-      {/* Show RSVP modal if the user is on /home and doesn't have RSVP */}
+      {/* Show RSVP modal if the user doesn't have RSVP */}
       {showRSVPModal && (
         <RSVPModal
           onClose={closeRSVPModal}
@@ -225,6 +233,5 @@ function App() {
 }
 
 export default App;
-
 
 
