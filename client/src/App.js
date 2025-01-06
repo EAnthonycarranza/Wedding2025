@@ -1,5 +1,3 @@
-// File: App.js
-
 import React, { useState, useEffect } from "react";
 import {
   BrowserRouter as Router,
@@ -59,6 +57,9 @@ function App() {
         setIsAuthenticated(true);
         setFamilyName(familyName);
 
+        // Redirect to /home on successful login
+        navigate("/home", { replace: true });
+
         // Fetch RSVP data after successful authentication
         await fetchRSVPData(jwtToken);
       } catch (error) {
@@ -86,6 +87,9 @@ function App() {
           const data = await response.json();
           setIsAuthenticated(true);
           setFamilyName(data.familyName);
+
+          // Redirect to /home after successful login
+          navigate("/home", { replace: true });
 
           // Fetch RSVP data
           await fetchRSVPData(tokenFromStorage);
@@ -119,7 +123,6 @@ function App() {
         } else {
           setHasRSVP(false); // No RSVP data
           setShowRSVPModal(true); // Show modal
-          navigate("/home", { replace: true }); // Redirect to /home if no RSVP
         }
       } catch (error) {
         console.error("Error fetching RSVP data:", error);
@@ -222,5 +225,6 @@ function App() {
 }
 
 export default App;
+
 
 
