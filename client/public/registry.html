@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Our Registry</title>
+  <link href="https://fonts.googleapis.com/css2?family=Sacramento&display=swap" rel="stylesheet" />
+  <style>
+    body {
+      font-family: 'Sacramento', cursive;
+      margin: 0;
+      background-color: #f7f7f7;
+    }
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 20px;
+      background-color: #33333378;
+      color: white;
+      position: fixed;
+      top: 0;
+      width: 100%;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      z-index: 1000;
+      transition: transform 0.3s ease-in-out; /* Smooth show/hide animation */
+    }
+    .navbar.hidden {
+      transform: translateY(-100%); /* Moves navbar out of view */
+    }
+    .navbar a {
+      text-decoration: none;
+      color: white;
+      font-size: 1.2rem;
+      font-family: 'Sacramento', cursive;
+      margin-right: 20px;
+      padding: 5px 15px;
+      border-radius: 15px;
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+    .navbar a:hover {
+      background-color: rgba(156, 0, 68, 0.7);
+      color: #fff;
+    }
+    .navbar h1 {
+      color: white;
+      font-size: 1.8rem;
+      margin: 0;
+      font-family: 'Sacramento', cursive;
+      margin-right: 50px; /* Slightly moves "Our Registry" to the left */
+    }
+    .content {
+      margin-top: 80px;
+      text-align: center;
+      padding: 20px;
+    }
+    iframe {
+      width: 80%;
+      height: 600px;
+      border: none;
+      border-radius: 10px;
+      box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+      display: block;
+      margin: 0 auto;
+    }
+  </style>
+</head>
+<body>
+  <div class="navbar" id="navbar">
+    <a href="/home">Home</a>
+    <h1 style="margin-right: 50px;">Our Registry</h1>
+  </div>
+  <div class="content">
+    <script
+      id="script_myregistry_giftlist_iframe"
+      type="text/javascript"
+      src="https://www.myregistry.com//Visitors/GiftList/iFrames/EmbedRegistry.ashx?r=xV3xRH38XBzx0tUb7qfblw2&v=2"
+    ></script>
+  </div>
+
+  <script>
+    // Script for navbar hide/show on scroll
+    let lastScrollY = window.pageYOffset;
+    const navbar = document.getElementById('navbar');
+
+    window.addEventListener('scroll', () => {
+      const currentScrollY = window.pageYOffset;
+
+      if (currentScrollY > lastScrollY) {
+        // Scrolling down, hide navbar
+        navbar.classList.add('hidden');
+      } else {
+        // Scrolling up, show navbar
+        navbar.classList.remove('hidden');
+      }
+
+      lastScrollY = currentScrollY;
+    });
+  </script>
+</body>
+</html>
