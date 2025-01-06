@@ -1,5 +1,13 @@
+// File: App.js
+
 import React, { useState, useEffect } from "react";
-import { BrowserRouter as Router, Route, Routes, useLocation, useNavigate } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Route,
+  Routes,
+  useLocation,
+  useNavigate,
+} from "react-router-dom";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
 import {
   Box,
@@ -14,7 +22,7 @@ import {
   Grid,
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
-import axios from "axios"; // Import axios
+import axios from "axios";
 import About from "./components/About";
 import Home from "./components/Home";
 import Services from "./components/Services";
@@ -25,6 +33,7 @@ import NavBar from "./components/Navbar";
 import Footer from "./components/Footer";
 import RSVP from "./components/RSVP";
 import Registry from "./components/Registry";
+import RSVPModal from "./components/RSVPModal"; // <-- Import your RSVPModal
 import "./App.css";
 
 function App() {
@@ -37,13 +46,15 @@ function App() {
   const [submittedRSVP, setSubmittedRSVP] = useState(null);
   const [isLighthouse, setIsLighthouse] = useState(false);
 
-  const location = useLocation(); // Get current location
-  const navigate = useNavigate(); // Added navigate
+  const location = useLocation();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const authenticateWithToken = async (tokenFromUrl) => {
       try {
-        const response = await axios.post("/authenticate", { token: tokenFromUrl });
+        const response = await axios.post("/authenticate", {
+          token: tokenFromUrl,
+        });
         const jwtToken = response.data.token;
         localStorage.setItem("token", jwtToken);
         const familyName = response.data.familyName;
@@ -79,17 +90,18 @@ function App() {
             },
           });
 
-          // Handle non-JSON responses or unexpected errors
           if (!response.ok) {
             const contentType = response.headers.get("content-type");
             if (contentType && contentType.includes("text/html")) {
               throw new Error("Unexpected HTML response. Possible server routing issue.");
             } else {
-              throw new Error(`Authentication check failed with status: ${response.status}`);
+              throw new Error(
+                `Authentication check failed with status: ${response.status}`
+              );
             }
           }
 
-          const data = await response.json(); // Parse the JSON response
+          const data = await response.json();
           setIsAuthenticated(true);
           setFamilyName(data.familyName);
 
@@ -108,7 +120,8 @@ function App() {
 
     const fetchRSVPData = async (token) => {
       try {
-        const rsvpResponse = await fetch("/check-rsvp", {
+        // Instead of /check-rsvp, we’ll call the main /rsvp endpoint
+        const rsvpResponse = await fetch("/rsvp", {
           method: "GET",
           headers: {
             Authorization: `Bearer ${token}`,
@@ -125,7 +138,10 @@ function App() {
         }
 
         const rsvpData = await rsvpResponse.json();
-        if (!rsvpData.hasSubmittedRSVP) {
+
+        // If the server says "No RSVP found" => rsvpData.mongoData === null
+        // Show the modal ONLY when we're at /home
+        if (!rsvpData.mongoData && location.pathname === "/home") {
           setShowRSVPModal(true);
         }
       } catch (error) {
@@ -134,7 +150,7 @@ function App() {
     };
 
     checkAuth();
-  }, []);
+  }, [location.pathname, navigate]);
 
   const handleLogout = () => {
     localStorage.removeItem("token");
@@ -146,6 +162,7 @@ function App() {
     setShowRSVPModal(false);
   };
 
+  // The code below is for the manual RSVP modal if you want to pre-submit
   const handleRSVPSubmit = async () => {
     const token = localStorage.getItem("token");
 
@@ -208,7 +225,9 @@ function App() {
                 <Route
                   path="/gallery"
                   element={
-                    <Gallery toggleLighthouseView={(status) => setIsLighthouse(status)} />
+                    <Gallery
+                      toggleLighthouseView={(status) => setIsLighthouse(status)}
+                    />
                   }
                 />
                 <Route path="/rsvp" element={<RSVPPage />} />
@@ -228,7 +247,11 @@ function App() {
         </CSSTransition>
       </TransitionGroup>
 
-      {showRSVPModal && (
+      {/* 
+        Show the modal if 'No RSVP found for the family' was returned 
+        and the user is currently on /home 
+      */}
+      {showRSVPModal && location.pathname === "/home" && (
         <Modal
           open={true}
           onClose={closeRSVPModal}
@@ -261,8 +284,8 @@ function App() {
               RSVP for {familyName}
             </Typography>
             <Typography variant="body2" sx={{ mb: 3 }}>
-              Please fill out the RSVP list by January 1, 2025. You have the option to
-              change your RSVP status anytime.
+              Please fill out the RSVP list by January 1, 2025. You can update
+              your RSVP any time.
             </Typography>
             {familyMembers.map((member, index) => (
               <Grid container spacing={2} key={index} sx={{ mb: 2 }}>
@@ -273,7 +296,11 @@ function App() {
                     variant="outlined"
                     value={member.firstName}
                     onChange={(e) =>
-                      handleFamilyMemberChange(index, "firstName", e.target.value)
+                      handleFamilyMemberChange(
+                        index,
+                        "firstName",
+                        e.target.value
+                      )
                     }
                   />
                 </Grid>
@@ -293,7 +320,11 @@ function App() {
                     <Select
                       value={member.rsvpStatus}
                       onChange={(e) =>
-                        handleFamilyMemberChange(index, "rsvpStatus", e.target.value)
+                        handleFamilyMemberChange(
+                          index,
+                          "rsvpStatus",
+                          e.target.value
+                        )
                       }
                     >
                       <MenuItem value="Going">Going</MenuItem>
@@ -332,7 +363,7 @@ function App() {
         </Modal>
       )}
 
-      {/* Only render the RSVP component if the current route is NOT /rsvp */}
+      {/* Optionally show the small RSVP button at the bottom, etc. */}
       {isAuthenticated && location.pathname !== "/rsvp" && <RSVP />}
       {isAuthenticated && <Footer />}
     </div>
@@ -340,3 +371,4 @@ function App() {
 }
 
 export default App;
+
