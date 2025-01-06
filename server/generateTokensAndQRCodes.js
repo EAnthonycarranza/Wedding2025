@@ -23,9 +23,10 @@ const generateTokensAndQRCodes = async () => {
     family.token = crypto.randomBytes(16).toString("hex");
 
     // Create the URL with the token as a query parameter
-    const url = `https://hidden-citadel-88874-96e904553ae6.herokuapp.com/?token=${encodeURIComponent(
-      family.token
-    )}`;
+    const urls = [
+      `https://hidden-citadel-88874-96e904553ae6.herokuapp.com/?token=${encodeURIComponent(family.token)}`,
+      `https://www.christinaandanthony2025.com/?token=${encodeURIComponent(family.token)}`,
+    ];
     const qrCodePath = `./qrcodes/${family.familyName.replace(
       /\s+/g,
       "_"
