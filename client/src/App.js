@@ -31,9 +31,7 @@ import Welcome from "./components/Welcomepg";
 import RSVPPage from "./components/RSVPPage";
 import NavBar from "./components/Navbar";
 import Footer from "./components/Footer";
-import RSVP from "./components/RSVP";
 import Registry from "./components/Registry";
-import RSVPModal from "./components/RSVPModal"; // Import your RSVPModal
 import "./App.css";
 
 function App() {
@@ -177,6 +175,24 @@ function App() {
     }
   };
 
+  const handleFamilyMemberChange = (index, field, value) => {
+    const updatedMembers = [...familyMembers];
+    updatedMembers[index][field] = value;
+    setFamilyMembers(updatedMembers);
+  };
+
+  const handleAddFamilyMember = () => {
+    setFamilyMembers([
+      ...familyMembers,
+      { firstName: "", lastName: "", rsvpStatus: "No Status / I don't know" },
+    ]);
+  };
+
+  const handleRemoveFamilyMember = (index) => {
+    const updatedMembers = familyMembers.filter((_, i) => i !== index);
+    setFamilyMembers(updatedMembers);
+  };
+
   return (
     <div className="App">
       {isAuthenticated && (
@@ -196,10 +212,7 @@ function App() {
                 <Route path="/about" element={<About />} />
                 <Route path="/services" element={<Services />} />
                 <Route path="/registry" element={<Registry />} />
-                <Route
-                  path="/gallery"
-                  element={<Gallery />}
-                />
+                <Route path="/gallery" element={<Gallery />} />
                 <Route path="/rsvp" element={<RSVPPage />} />
               </>
             ) : (
@@ -219,12 +232,107 @@ function App() {
 
       {/* Show RSVP modal if the user doesn't have RSVP */}
       {showRSVPModal && (
-        <RSVPModal
+        <Modal
+          open={true}
           onClose={closeRSVPModal}
-          familyMembers={familyMembers}
-          setFamilyMembers={setFamilyMembers}
-          handleRSVPSubmit={handleRSVPSubmit}
-        />
+          aria-labelledby="rsvp-modal-title"
+        >
+          <Box
+            sx={{
+              width: 500,
+              p: 4,
+              bgcolor: "white",
+              margin: "auto",
+              top: "50%",
+              left: "50%",
+              transform: "translate(-50%, -50%)",
+              position: "absolute",
+              borderRadius: "10px",
+              boxShadow: 24,
+            }}
+          >
+            <Typography
+              id="rsvp-modal-title"
+              variant="h5"
+              sx={{
+                textAlign: "center",
+                mb: 2,
+                fontFamily: "'Sacramento', cursive",
+                fontSize: "1.8rem",
+              }}
+            >
+              RSVP for {familyName}
+            </Typography>
+            <Typography variant="body2" sx={{ mb: 3 }}>
+              Please fill out the RSVP list by January 1, 2025. You can update
+              your RSVP any time.
+            </Typography>
+            {familyMembers.map((member, index) => (
+              <Grid container spacing={2} key={index} sx={{ mb: 2 }}>
+                <Grid item xs={4}>
+                  <TextField
+                    fullWidth
+                    label="First Name"
+                    variant="outlined"
+                    value={member.firstName}
+                    onChange={(e) =>
+                      handleFamilyMemberChange(index, "firstName", e.target.value)
+                    }
+                  />
+                </Grid>
+                <Grid item xs={4}>
+                  <TextField
+                    fullWidth
+                    label="Last Name"
+                    variant="outlined"
+                    value={member.lastName}
+                    onChange={(e) =>
+                      handleFamilyMemberChange(index, "lastName", e.target.value)
+                    }
+                  />
+                </Grid>
+                <Grid item xs={3}>
+                  <FormControl fullWidth>
+                    <Select
+                      value={member.rsvpStatus}
+                      onChange={(e) =>
+                        handleFamilyMemberChange(index, "rsvpStatus", e.target.value)
+                      }
+                    >
+                      <MenuItem value="Going">Going</MenuItem>
+                      <MenuItem value="Not Going">Not Going</MenuItem>
+                      <MenuItem value="No Status / I don't know">
+                        No Status / I don't know
+                      </MenuItem>
+                    </Select>
+                  </FormControl>
+                </Grid>
+                <Grid item xs={1}>
+                  {index > 0 && (
+                    <IconButton
+                      aria-label="delete"
+                      onClick={() => handleRemoveFamilyMember(index)}
+                    >
+                      <DeleteIcon />
+                    </IconButton>
+                  )}
+                </Grid>
+              </Grid>
+            ))}
+            <Button sx={{ mb: 2 }} onClick={handleAddFamilyMember}>
+              Add Family Member
+            </Button>
+            <Button
+              variant="contained"
+              color="primary"
+              fullWidth
+              sx={{ mt: 3, py: 1.5, backgroundColor: "rgb(156 0 68)" }}
+              onClick={handleRSVPSubmit}
+            >
+              Submit RSVP
+            </Button>
+          </Box>
+        </Modal>
       )}
 
       {isAuthenticated && <Footer />}
@@ -233,5 +341,4 @@ function App() {
 }
 
 export default App;
-
 
