@@ -22,9 +22,13 @@ app.use(
         defaultSrc: ["'self'"],
         connectSrc: ["'self'", "https://storage.googleapis.com"],
         imgSrc: ["'self'", "https://storage.googleapis.com", "data:"],
-        // IMPORTANT: Add 'nonce-ABC123' to scriptSrc. 
-        // Make sure it matches the nonce in your HTML script tag.
-        scriptSrc: ["'self'", "'nonce-ABC123'"],
+        // IMPORTANT: Add 'https://www.myregistry.com' so external scripts from MyRegistry are allowed
+        // Also allow inline scripts with 'unsafe-inline' OR use a nonce instead
+        scriptSrc: [
+          "'self'",
+          "https://www.myregistry.com",
+          "'unsafe-inline'" 
+        ],
         styleSrc: ["'self'", "https://fonts.googleapis.com", "'unsafe-inline'"],
         fontSrc: ["'self'", "https://fonts.gstatic.com"],
       },
