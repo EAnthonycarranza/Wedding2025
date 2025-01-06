@@ -33,7 +33,7 @@ import NavBar from "./components/Navbar";
 import Footer from "./components/Footer";
 import RSVP from "./components/RSVP";
 import Registry from "./components/Registry";
-import RSVPModal from "./components/RSVPModal"; // <-- Import your RSVPModal
+import RSVPModal from "./components/RSVPModal"; // Import your RSVPModal
 import "./App.css";
 
 function App() {
@@ -43,9 +43,7 @@ function App() {
   const [familyMembers, setFamilyMembers] = useState([
     { firstName: "", lastName: "", rsvpStatus: "No Status / I don't know" },
   ]);
-  const [submittedRSVP, setSubmittedRSVP] = useState(null);
-  const [isLighthouse, setIsLighthouse] = useState(false);
-
+  const [hasRSVP, setHasRSVP] = useState(false); // Track if the user has RSVP data
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -61,10 +59,7 @@ function App() {
         setIsAuthenticated(true);
         setFamilyName(familyName);
 
-        // Remove token from URL and navigate to /home
-        navigate("/home", { replace: true });
-
-        // Proceed with fetching RSVP data
+        // Fetch RSVP data after successful authentication
         await fetchRSVPData(jwtToken);
       } catch (error) {
         console.error("Authentication failed:", error);
@@ -73,15 +68,9 @@ function App() {
     };
 
     const checkAuth = async () => {
-      const urlParams = new URLSearchParams(window.location.search);
-      const tokenFromUrl = urlParams.get("token");
       const tokenFromStorage = localStorage.getItem("token");
 
-      if (tokenFromUrl) {
-        // If token is present in URL, authenticate with it
-        await authenticateWithToken(tokenFromUrl);
-      } else if (tokenFromStorage) {
-        // If token is in localStorage, proceed as before
+      if (tokenFromStorage) {
         try {
           const response = await fetch("/check-auth", {
             method: "GET",
@@ -91,21 +80,12 @@ function App() {
           });
 
           if (!response.ok) {
-            const contentType = response.headers.get("content-type");
-            if (contentType && contentType.includes("text/html")) {
-              throw new Error("Unexpected HTML response. Possible server routing issue.");
-            } else {
-              throw new Error(
-                `Authentication check failed with status: ${response.status}`
-              );
-            }
+            throw new Error("Authentication check failed");
           }
 
           const data = await response.json();
           setIsAuthenticated(true);
           setFamilyName(data.familyName);
-
-          navigate("/home");
 
           // Fetch RSVP data
           await fetchRSVPData(tokenFromStorage);
@@ -120,7 +100,6 @@ function App() {
 
     const fetchRSVPData = async (token) => {
       try {
-        // Instead of /check-rsvp, we’ll call the main /rsvp endpoint
         const rsvpResponse = await fetch("/rsvp", {
           method: "GET",
           headers: {
@@ -129,20 +108,18 @@ function App() {
         });
 
         if (!rsvpResponse.ok) {
-          const contentType = rsvpResponse.headers.get("content-type");
-          if (contentType && contentType.includes("text/html")) {
-            throw new Error("Unexpected HTML response from RSVP check.");
-          } else {
-            throw new Error(`RSVP check failed with status: ${rsvpResponse.status}`);
-          }
+          throw new Error("Failed to fetch RSVP data");
         }
 
         const rsvpData = await rsvpResponse.json();
 
-        // If the server says "No RSVP found" => rsvpData.mongoData === null
-        // Show the modal ONLY when we're at /home
-        if (!rsvpData.mongoData && location.pathname === "/home") {
-          setShowRSVPModal(true);
+        if (rsvpData.mongoData) {
+          setHasRSVP(true); // User has RSVP data
+          setShowRSVPModal(false); // No need to show modal
+        } else {
+          setHasRSVP(false); // No RSVP data
+          setShowRSVPModal(true); // Show modal
+          navigate("/home", { replace: true }); // Redirect to /home if no RSVP
         }
       } catch (error) {
         console.error("Error fetching RSVP data:", error);
@@ -150,7 +127,7 @@ function App() {
     };
 
     checkAuth();
-  }, [location.pathname, navigate]);
+  }, [navigate]);
 
   const handleLogout = () => {
     localStorage.removeItem("token");
@@ -162,45 +139,31 @@ function App() {
     setShowRSVPModal(false);
   };
 
-  // The code below is for the manual RSVP modal if you want to pre-submit
   const handleRSVPSubmit = async () => {
     const token = localStorage.getItem("token");
 
-    const response = await fetch("/submit-rsvp", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify({ familyMembers }),
-    });
+    try {
+      const response = await fetch("/submit-rsvp", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ familyMembers }),
+      });
 
-    const data = await response.json();
-    if (response.ok) {
-      setSubmittedRSVP(familyMembers);
-      alert("RSVP submitted successfully!");
-      closeRSVPModal();
-    } else {
-      alert(`Failed to submit RSVP: ${data.message}`);
+      if (response.ok) {
+        setHasRSVP(true); // Mark as having RSVP
+        setShowRSVPModal(false); // Close modal
+        alert("RSVP submitted successfully!");
+      } else {
+        const data = await response.json();
+        alert(`Failed to submit RSVP: ${data.message}`);
+      }
+    } catch (error) {
+      console.error("Error submitting RSVP:", error);
+      alert("An error occurred while submitting your RSVP.");
     }
-  };
-
-  const handleFamilyMemberChange = (index, field, value) => {
-    const updatedMembers = [...familyMembers];
-    updatedMembers[index][field] = value;
-    setFamilyMembers(updatedMembers);
-  };
-
-  const handleAddFamilyMember = () => {
-    setFamilyMembers([
-      ...familyMembers,
-      { firstName: "", lastName: "", rsvpStatus: "No Status / I don't know" },
-    ]);
-  };
-
-  const handleRemoveFamilyMember = (index) => {
-    const updatedMembers = familyMembers.filter((_, i) => i !== index);
-    setFamilyMembers(updatedMembers);
   };
 
   return (
@@ -224,11 +187,7 @@ function App() {
                 <Route path="/registry" element={<Registry />} />
                 <Route
                   path="/gallery"
-                  element={
-                    <Gallery
-                      toggleLighthouseView={(status) => setIsLighthouse(status)}
-                    />
-                  }
+                  element={<Gallery />}
                 />
                 <Route path="/rsvp" element={<RSVPPage />} />
               </>
@@ -247,128 +206,21 @@ function App() {
         </CSSTransition>
       </TransitionGroup>
 
-      {/* 
-        Show the modal if 'No RSVP found for the family' was returned 
-        and the user is currently on /home 
-      */}
-      {showRSVPModal && location.pathname === "/home" && (
-        <Modal
-          open={true}
+      {/* Show RSVP modal if the user is on /home and doesn't have RSVP */}
+      {showRSVPModal && (
+        <RSVPModal
           onClose={closeRSVPModal}
-          aria-labelledby="rsvp-modal-title"
-        >
-          <Box
-            sx={{
-              width: 500,
-              p: 4,
-              bgcolor: "white",
-              margin: "auto",
-              top: "50%",
-              left: "50%",
-              transform: "translate(-50%, -50%)",
-              position: "absolute",
-              borderRadius: "10px",
-              boxShadow: 24,
-            }}
-          >
-            <Typography
-              id="rsvp-modal-title"
-              variant="h5"
-              sx={{
-                textAlign: "center",
-                mb: 2,
-                fontFamily: "'Sacramento', cursive",
-                fontSize: "1.8rem",
-              }}
-            >
-              RSVP for {familyName}
-            </Typography>
-            <Typography variant="body2" sx={{ mb: 3 }}>
-              Please fill out the RSVP list by January 1, 2025. You can update
-              your RSVP any time.
-            </Typography>
-            {familyMembers.map((member, index) => (
-              <Grid container spacing={2} key={index} sx={{ mb: 2 }}>
-                <Grid item xs={4}>
-                  <TextField
-                    fullWidth
-                    label="First Name"
-                    variant="outlined"
-                    value={member.firstName}
-                    onChange={(e) =>
-                      handleFamilyMemberChange(
-                        index,
-                        "firstName",
-                        e.target.value
-                      )
-                    }
-                  />
-                </Grid>
-                <Grid item xs={4}>
-                  <TextField
-                    fullWidth
-                    label="Last Name"
-                    variant="outlined"
-                    value={member.lastName}
-                    onChange={(e) =>
-                      handleFamilyMemberChange(index, "lastName", e.target.value)
-                    }
-                  />
-                </Grid>
-                <Grid item xs={3}>
-                  <FormControl fullWidth>
-                    <Select
-                      value={member.rsvpStatus}
-                      onChange={(e) =>
-                        handleFamilyMemberChange(
-                          index,
-                          "rsvpStatus",
-                          e.target.value
-                        )
-                      }
-                    >
-                      <MenuItem value="Going">Going</MenuItem>
-                      <MenuItem value="Not Going">Not Going</MenuItem>
-                      <MenuItem value="No Status / I don't know">
-                        No Status / I don't know
-                      </MenuItem>
-                    </Select>
-                  </FormControl>
-                </Grid>
-                <Grid item xs={1}>
-                  {index > 0 && (
-                    <IconButton
-                      aria-label="delete"
-                      onClick={() => handleRemoveFamilyMember(index)}
-                    >
-                      <DeleteIcon />
-                    </IconButton>
-                  )}
-                </Grid>
-              </Grid>
-            ))}
-            <Button sx={{ mb: 2 }} onClick={handleAddFamilyMember}>
-              Add Family Member
-            </Button>
-            <Button
-              variant="contained"
-              color="primary"
-              fullWidth
-              sx={{ mt: 3, py: 1.5, backgroundColor: "rgb(156 0 68)" }}
-              onClick={handleRSVPSubmit}
-            >
-              Submit RSVP
-            </Button>
-          </Box>
-        </Modal>
+          familyMembers={familyMembers}
+          setFamilyMembers={setFamilyMembers}
+          handleRSVPSubmit={handleRSVPSubmit}
+        />
       )}
 
-      {/* Optionally show the small RSVP button at the bottom, etc. */}
-      {isAuthenticated && location.pathname !== "/rsvp" && <RSVP />}
       {isAuthenticated && <Footer />}
     </div>
   );
 }
 
 export default App;
+
 
