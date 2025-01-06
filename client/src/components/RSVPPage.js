@@ -1,3 +1,5 @@
+// File: RSVPPage.js
+
 import React, { useState, useEffect } from "react";
 import {
   Box,
@@ -100,6 +102,17 @@ const RSVPPage = () => {
     const token = localStorage.getItem("token");
     const memberToRemove = familyMembers[index];
 
+    // If both firstName and lastName are empty, just remove the row locally.
+    if (
+      (!memberToRemove.firstName || memberToRemove.firstName.trim() === "") &&
+      (!memberToRemove.lastName || memberToRemove.lastName.trim() === "")
+    ) {
+      const updatedMembers = familyMembers.filter((_, i) => i !== index);
+      setFamilyMembers(updatedMembers);
+      return;
+    }
+
+    // Otherwise, attempt DELETE on the server.
     const updatedMembers = familyMembers.filter((_, i) => i !== index);
     setFamilyMembers(updatedMembers);
 
@@ -120,7 +133,6 @@ const RSVPPage = () => {
         setFamilyMembers(familyMembers);
       } else {
         openModal("Family member deleted successfully!");
-        // Optionally update local state with server response if needed
       }
     } catch (error) {
       console.error("Error deleting family member:", error);
@@ -291,7 +303,6 @@ const RSVPPage = () => {
         </Box>
       </Paper>
 
-      {/* Modal */}
       <Dialog open={modalOpen} onClose={closeModal}>
         <DialogTitle>Notification</DialogTitle>
         <DialogContent>
