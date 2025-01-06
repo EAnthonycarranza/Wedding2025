@@ -24,6 +24,7 @@ import RSVPPage from "./components/RSVPPage";
 import NavBar from "./components/Navbar";
 import Footer from "./components/Footer";
 import RSVP from "./components/RSVP";
+import Registry from "./components/Registry";
 import "./App.css";
 
 function App() {
@@ -203,6 +204,7 @@ function App() {
                 <Route path="/home" element={<Home />} />
                 <Route path="/about" element={<About />} />
                 <Route path="/services" element={<Services />} />
+                <Route path="/registry" element={<Registry />} />
                 <Route
                   path="/gallery"
                   element={
