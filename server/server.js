@@ -24,44 +24,36 @@ app.use(
   helmet({
     contentSecurityPolicy: {
       directives: {
-        defaultSrc: [
-          "'self'"
-        ],
+        defaultSrc: ["'self'"],
         connectSrc: [
           "'self'",
           "https://storage.googleapis.com",
-          "https://www.myregistry.com"
+          "https://www.myregistry.com",
         ],
         imgSrc: [
           "'self'",
           "https://storage.googleapis.com",
           "data:",
-          "https://www.myregistry.com"
+          "https://www.myregistry.com",
         ],
         scriptSrc: [
           "'self'",
           "https://www.myregistry.com",
-          "'unsafe-inline'"
+          "'unsafe-inline'",
+          "https://stackpath.bootstrapcdn.com", // Allow Bootstrap scripts
         ],
-        // IMPORTANT: Add https://www.myregistry.com to allow their CSS
         styleSrc: [
           "'self'",
           "https://fonts.googleapis.com",
+          "'unsafe-inline'",
           "https://www.myregistry.com",
-          "'unsafe-inline'"
+          "https://stackpath.bootstrapcdn.com", // Allow Bootstrap styles
         ],
         fontSrc: [
           "'self'",
-          "https://fonts.gstatic.com"
+          "https://fonts.gstatic.com",
         ],
-        // Add frameSrc so that MyRegistry iframes can load
-        frameSrc: [
-          "'self'",
-          "https://www.myregistry.com"
-        ]
-        // If needed, you could also add:
-        // childSrc: ["'self'", "https://www.myregistry.com"],
-        // but frameSrc is typically enough for older browsers.
+        frameSrc: ["'self'", "https://www.myregistry.com"],
       },
     },
   })
