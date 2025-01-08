@@ -23,6 +23,20 @@ app.use(
   })
 );
 
+// Set Content-Security-Policy headers manually
+app.use((req, res, next) => {
+  res.setHeader(
+    "Content-Security-Policy",
+    "default-src 'self'; " +
+    "connect-src 'self' https://storage.googleapis.com https://maps.googleapis.com https://maps.gstatic.com https://*.tile.openstreetmap.org https://*.tile.openstreetmap.fr; " +
+    "img-src 'self' data: https://*.tile.openstreetmap.org https://*.tile.openstreetmap.fr; " +
+    "script-src 'self' 'unsafe-inline' https://maps.googleapis.com; " +
+    "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://maps.gstatic.com; " +
+    "font-src 'self' https://fonts.gstatic.com;"
+  );
+  next();
+});
+
 // Serve static files from the React app
 app.use(express.static(path.join(__dirname, "../client/build")));
 
