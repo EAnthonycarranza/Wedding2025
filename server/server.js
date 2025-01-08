@@ -28,6 +28,7 @@ app.use(
           "https://www.myregistry.com",
           "https://maps.googleapis.com", // Allow connections to Google Maps API
           "https://maps.gstatic.com",   // Allow connections to Maps resources
+          "https://*.tile.openstreetmap.fr", // Allow OpenStreetMap tiles
         ],
         imgSrc: [
           "'self'",
@@ -35,6 +36,7 @@ app.use(
           "data:",
           "https://www.myregistry.com",
           "https://maps.gstatic.com",   // Allow images from Google Maps
+          "https://*.tile.openstreetmap.fr", // Allow OpenStreetMap tile images
         ],
         scriptSrc: [
           "'self'",
