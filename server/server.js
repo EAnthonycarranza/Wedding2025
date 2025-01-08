@@ -17,9 +17,6 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(fileUpload());
 
-// Make sure your MyRegistry domain is allowed in *all* relevant directives
-// because it uses scripts, CSS, iframes, etc. Also, consider adding it to
-// connectSrc if it internally fetches data over XHR. 
 app.use(
   helmet({
     contentSecurityPolicy: {
@@ -29,18 +26,22 @@ app.use(
           "'self'",
           "https://storage.googleapis.com",
           "https://www.myregistry.com",
+          "https://maps.googleapis.com", // Allow connections to Google Maps API
+          "https://maps.gstatic.com",   // Allow connections to Maps resources
         ],
         imgSrc: [
           "'self'",
           "https://storage.googleapis.com",
           "data:",
           "https://www.myregistry.com",
+          "https://maps.gstatic.com",   // Allow images from Google Maps
         ],
         scriptSrc: [
           "'self'",
           "https://www.myregistry.com",
           "'unsafe-inline'",
           "https://stackpath.bootstrapcdn.com", // Allow Bootstrap scripts
+          "https://maps.googleapis.com",        // Allow Google Maps API scripts
         ],
         styleSrc: [
           "'self'",
@@ -48,6 +49,7 @@ app.use(
           "'unsafe-inline'",
           "https://www.myregistry.com",
           "https://stackpath.bootstrapcdn.com", // Allow Bootstrap styles
+          "https://maps.gstatic.com",           // Allow styles for Google Maps
         ],
         fontSrc: [
           "'self'",
@@ -59,26 +61,43 @@ app.use(
   })
 );
 
-console.log("Current CSP Configuration:", {
+console.log("Updated CSP Configuration:", {
   defaultSrc: ["'self'"],
-  connectSrc: ["'self'", "https://storage.googleapis.com", "https://www.myregistry.com"],
-  imgSrc: ["'self'", "https://storage.googleapis.com", "data:", "https://www.myregistry.com"],
-  scriptSrc: ["'self'", "https://www.myregistry.com", "'unsafe-inline'"],
-  styleSrc: ["'self'", "https://fonts.googleapis.com", "'unsafe-inline'", "https://www.myregistry.com"],
+  connectSrc: [
+    "'self'",
+    "https://storage.googleapis.com",
+    "https://www.myregistry.com",
+    "https://maps.googleapis.com",
+    "https://maps.gstatic.com",
+  ],
+  imgSrc: [
+    "'self'",
+    "https://storage.googleapis.com",
+    "data:",
+    "https://www.myregistry.com",
+    "https://maps.gstatic.com",
+  ],
+  scriptSrc: [
+    "'self'",
+    "https://www.myregistry.com",
+    "'unsafe-inline'",
+    "https://stackpath.bootstrapcdn.com",
+    "https://maps.googleapis.com",
+  ],
+  styleSrc: [
+    "'self'",
+    "https://fonts.googleapis.com",
+    "'unsafe-inline'",
+    "https://www.myregistry.com",
+    "https://stackpath.bootstrapcdn.com",
+    "https://maps.gstatic.com",
+  ],
   fontSrc: ["'self'", "https://fonts.gstatic.com"],
   frameSrc: ["'self'", "https://www.myregistry.com"],
 });
 
-// CORS Configuration
-app.use(
-  cors({
-    origin: "https://hidden-citadel-88874-96e904553ae6.herokuapp.com",
-    credentials: true,
-  })
-);
-
 // Serve static files from the React app
-app.use(express.static(path.join(__dirname, "../client/build")));
+app.use(express.static(path.join(__dirname, "../client/public")));
 
 const JWT_SECRET = process.env.JWT_SECRET || "your_secret_key";
 const MONGO_URI = process.env.MONGO_URI || "mongodb://localhost:27017/weddingDB";
@@ -451,7 +470,7 @@ app.get("/get-cloud-images", async (req, res) => {
 
 // Handle React routing (must be last)
 app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "../client/build", "index.html"));
+  res.sendFile(path.join(__dirname, "../client/public", "index.html"));
 });
 
 const PORT = process.env.PORT || 3001;
