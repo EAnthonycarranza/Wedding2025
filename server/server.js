@@ -23,14 +23,13 @@ app.use(
   })
 );
 
-// Set Content-Security-Policy headers manually
 app.use((req, res, next) => {
   res.setHeader(
     "Content-Security-Policy",
     [
       "default-src 'self';",
       "connect-src 'self' https://storage.googleapis.com https://maps.googleapis.com https://maps.gstatic.com https://*.tile.openstreetmap.org https://*.tile.openstreetmap.fr https://accounts.google.com;",
-      "img-src * data: blob:;",
+      "img-src 'self' data: blob: https://storage.googleapis.com https://maps.gstatic.com https://*.tile.openstreetmap.org https://*.tile.openstreetmap.fr;",
       "script-src 'self' 'unsafe-inline' https://maps.googleapis.com https://accounts.google.com;",
       "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://maps.gstatic.com;",
       "font-src 'self' https://fonts.gstatic.com;",
