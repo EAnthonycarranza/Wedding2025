@@ -29,7 +29,7 @@ app.use((req, res, next) => {
     "Content-Security-Policy",
     "default-src 'self'; " +
     "connect-src 'self' https://storage.googleapis.com https://maps.googleapis.com https://maps.gstatic.com https://*.tile.openstreetmap.org https://*.tile.openstreetmap.fr; " +
-    "img-src 'self' data: https://*.tile.openstreetmap.org https://*.tile.openstreetmap.fr; " +
+    "img-src 'self' data: https://storage.googleapis.com https://maps.gstatic.com https://*.tile.openstreetmap.org https://*.tile.openstreetmap.fr; " +
     "script-src 'self' 'unsafe-inline' https://maps.googleapis.com; " +
     "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://maps.gstatic.com; " +
     "font-src 'self' https://fonts.gstatic.com;"
