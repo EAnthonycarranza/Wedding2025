@@ -97,7 +97,7 @@ console.log("Updated CSP Configuration:", {
 });
 
 // Serve static files from the React app
-app.use(express.static(path.join(__dirname, "../client/public")));
+app.use(express.static(path.join(__dirname, "../client/build")));
 
 const JWT_SECRET = process.env.JWT_SECRET || "your_secret_key";
 const MONGO_URI = process.env.MONGO_URI || "mongodb://localhost:27017/weddingDB";
@@ -470,7 +470,7 @@ app.get("/get-cloud-images", async (req, res) => {
 
 // Handle React routing (must be last)
 app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "../client/public", "index.html"));
+  res.sendFile(path.join(__dirname, "../client/build", "index.html"));
 });
 
 const PORT = process.env.PORT || 3001;
