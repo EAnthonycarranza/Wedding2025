@@ -9,7 +9,6 @@ const { google } = require("googleapis");
 const { Storage } = require("@google-cloud/storage");
 const fileUpload = require("express-fileupload");
 const path = require("path");
-const helmet = require("helmet"); 
 const rateLimit = require("express-rate-limit");
 
 const app = express();
@@ -18,92 +17,11 @@ app.use(express.urlencoded({ extended: true }));
 app.use(fileUpload());
 
 app.use(
-  helmet({
-    contentSecurityPolicy: {
-      directives: {
-        defaultSrc: ["'self'"],
-        connectSrc: [
-          "'self'",
-          "https://storage.googleapis.com",
-          "https://www.myregistry.com",
-          "https://maps.googleapis.com", // Allow connections to Google Maps API
-          "https://maps.gstatic.com",   // Allow connections to Maps resources
-          "https://*.tile.openstreetmap.fr", // Allow OpenStreetMap tiles
-        ],
-        imgSrc: [
-          "'self'",
-          "https://storage.googleapis.com",
-          "data:",
-          "https://www.myregistry.com",
-          "https://maps.gstatic.com",   // Allow images from Google Maps
-          "https://*.tile.openstreetmap.fr", // Allow OpenStreetMap tile images
-        ],
-        scriptSrc: [
-          "'self'",
-          "https://www.myregistry.com",
-          "'unsafe-inline'",
-          "https://stackpath.bootstrapcdn.com", // Allow Bootstrap scripts
-          "https://maps.googleapis.com",        // Allow Google Maps API scripts
-        ],
-        styleSrc: [
-          "'self'",
-          "https://fonts.googleapis.com",
-          "'unsafe-inline'",
-          "https://www.myregistry.com",
-          "https://stackpath.bootstrapcdn.com", // Allow Bootstrap styles
-          "https://maps.gstatic.com",           // Allow styles for Google Maps
-        ],
-        fontSrc: [
-          "'self'",
-          "https://fonts.gstatic.com",
-        ],
-        frameSrc: ["'self'", "https://www.myregistry.com"],
-      },
-    },
-  })
-);
-
-app.use(
   cors({
     origin: "*", // Allow all origins for testing
     credentials: true,
   })
 );
-
-console.log("Updated CSP Configuration:", {
-  defaultSrc: ["'self'"],
-  connectSrc: [
-    "'self'",
-    "https://storage.googleapis.com",
-    "https://www.myregistry.com",
-    "https://maps.googleapis.com",
-    "https://maps.gstatic.com",
-  ],
-  imgSrc: [
-    "'self'",
-    "https://storage.googleapis.com",
-    "data:",
-    "https://www.myregistry.com",
-    "https://maps.gstatic.com",
-  ],
-  scriptSrc: [
-    "'self'",
-    "https://www.myregistry.com",
-    "'unsafe-inline'",
-    "https://stackpath.bootstrapcdn.com",
-    "https://maps.googleapis.com",
-  ],
-  styleSrc: [
-    "'self'",
-    "https://fonts.googleapis.com",
-    "'unsafe-inline'",
-    "https://www.myregistry.com",
-    "https://stackpath.bootstrapcdn.com",
-    "https://maps.gstatic.com",
-  ],
-  fontSrc: ["'self'", "https://fonts.gstatic.com"],
-  frameSrc: ["'self'", "https://www.myregistry.com"],
-});
 
 // Serve static files from the React app
 app.use(express.static(path.join(__dirname, "../client/build")));
