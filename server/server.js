@@ -27,12 +27,14 @@ app.use(
 app.use((req, res, next) => {
   res.setHeader(
     "Content-Security-Policy",
-    "default-src 'self'; " +
-    "connect-src 'self' https://storage.googleapis.com https://maps.googleapis.com https://maps.gstatic.com https://*.tile.openstreetmap.org https://*.tile.openstreetmap.fr; " +
-    "img-src 'self' data: https://storage.googleapis.com https://maps.gstatic.com https://*.tile.openstreetmap.org https://*.tile.openstreetmap.fr; " +
-    "script-src 'self' 'unsafe-inline' https://maps.googleapis.com; " +
-    "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://maps.gstatic.com; " +
-    "font-src 'self' https://fonts.gstatic.com;"
+    [
+      "default-src 'self';",
+      "connect-src 'self' https://storage.googleapis.com https://maps.googleapis.com https://maps.gstatic.com https://*.tile.openstreetmap.org https://*.tile.openstreetmap.fr https://accounts.google.com;",
+      "img-src 'self' data: https://storage.googleapis.com https://maps.gstatic.com https://*.tile.openstreetmap.org https://*.tile.openstreetmap.fr;",
+      "script-src 'self' 'unsafe-inline' https://maps.googleapis.com https://accounts.google.com;",
+      "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://maps.gstatic.com;",
+      "font-src 'self' https://fonts.gstatic.com;",
+    ].join(" ")
   );
   next();
 });
