@@ -30,7 +30,7 @@ app.use((req, res, next) => {
     [
       "default-src 'self';",
       "connect-src 'self' https://storage.googleapis.com https://maps.googleapis.com https://maps.gstatic.com https://*.tile.openstreetmap.org https://*.tile.openstreetmap.fr https://accounts.google.com;",
-      "img-src 'self' data: https://storage.googleapis.com https://maps.gstatic.com https://*.tile.openstreetmap.org https://*.tile.openstreetmap.fr;",
+      "img-src * data: blob:;",
       "script-src 'self' 'unsafe-inline' https://maps.googleapis.com https://accounts.google.com;",
       "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://maps.gstatic.com;",
       "font-src 'self' https://fonts.gstatic.com;",
