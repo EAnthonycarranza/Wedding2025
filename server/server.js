@@ -39,28 +39,37 @@ app.use(
         ],
         scriptSrc: [
           "'self'",
-          "'nonce-randomNonceValue'", // Replace with dynamically generated nonce
-          "'strict-dynamic'", // Allow only scripts dynamically loaded by trusted sources
+          `'nonce-randomNonceValue'`,
+          "https://hidden-citadel-88874-96e904553ae6.herokuapp.com",
+          "https://www.myregistry.com",
+          "https://stackpath.bootstrapcdn.com",
+          "https://maps.googleapis.com",
+        ],
+        scriptSrcElem: [
+          "'self'",
+          `'nonce-randomNonceValue'`,
+          "https://hidden-citadel-88874-96e904553ae6.herokuapp.com",
           "https://www.myregistry.com",
           "https://stackpath.bootstrapcdn.com",
           "https://maps.googleapis.com",
         ],
         styleSrc: [
           "'self'",
-          "'unsafe-inline'", // Use cautiously; inline styles weaken security
           "https://fonts.googleapis.com",
-          "https://www.myregistry.com",
           "https://stackpath.bootstrapcdn.com",
-          "https://maps.gstatic.com",
+          "'unsafe-inline'",
         ],
-        fontSrc: [
+        styleSrcElem: [
           "'self'",
-          "https://fonts.gstatic.com",
+          "https://fonts.googleapis.com",
+          "https://stackpath.bootstrapcdn.com",
+          "'unsafe-inline'",
         ],
+        fontSrc: ["'self'", "https://fonts.gstatic.com"],
         frameSrc: ["'self'", "https://www.myregistry.com"],
-        objectSrc: ["'none'"], // Block plugins (e.g., <object>, <embed>, <applet>)
-        baseUri: ["'self'"], // Prevent attackers from injecting <base> tags
-        requireTrustedTypesFor: ["'script'"], // Enforce Trusted Types for DOM XSS protection
+        objectSrc: ["'none'"],
+        baseUri: ["'self'"],
+        requireTrustedTypesFor: ["'script'"],
       },
     },
   })
