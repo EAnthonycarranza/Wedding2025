@@ -20,44 +20,45 @@ app.use(fileUpload());
 app.use(
   helmet({
     contentSecurityPolicy: {
+      useDefaults: true,
       directives: {
         defaultSrc: ["'self'"],
         connectSrc: [
           "'self'",
           "https://storage.googleapis.com",
-          "https://www.myregistry.com",
-          "https://maps.googleapis.com", // Allow connections to Google Maps API
-          "https://maps.gstatic.com",   // Allow connections to Maps resources
-        ],
-        imgSrc: [
-          "'self'",
-          "https://storage.googleapis.com",
-          "data:",
-          "https://www.myregistry.com",
-          "https://maps.gstatic.com",   // Allow images from Google Maps
+          "https://maps.googleapis.com",
+          "https://maps.gstatic.com",
+          "https://www.myregistry.com"
         ],
         scriptSrc: [
           "'self'",
           "https://www.myregistry.com",
+          "https://maps.googleapis.com",
           "'unsafe-inline'",
-          "https://stackpath.bootstrapcdn.com", // Allow Bootstrap scripts
-          "https://maps.googleapis.com",        // Allow Google Maps API scripts
+          "'unsafe-eval'" // Only if absolutely necessary
+        ],
+        scriptSrcElem: [
+          "'self'",
+          "https://www.myregistry.com",
+          "https://maps.googleapis.com",
+          "'unsafe-inline'"
         ],
         styleSrc: [
           "'self'",
           "https://fonts.googleapis.com",
           "'unsafe-inline'",
-          "https://www.myregistry.com",
-          "https://stackpath.bootstrapcdn.com", // Allow Bootstrap styles
-          "https://maps.gstatic.com",           // Allow styles for Google Maps
-        ],
-        fontSrc: [
-          "'self'",
-          "https://fonts.gstatic.com",
+          "https://www.myregistry.com"
         ],
         frameSrc: ["'self'", "https://www.myregistry.com"],
-      },
-    },
+        imgSrc: [
+          "'self'",
+          "https://www.myregistry.com",
+          "data:",
+          "blob:"
+        ],
+        fontSrc: ["'self'", "https://fonts.gstatic.com"]
+      }
+    }
   })
 );
 
