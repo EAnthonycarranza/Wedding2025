@@ -20,45 +20,41 @@ app.use(fileUpload());
 app.use(
   helmet({
     contentSecurityPolicy: {
-      useDefaults: true,
       directives: {
         defaultSrc: ["'self'"],
-        connectSrc: [
-          "'self'",
-          "https://storage.googleapis.com",
-          "https://maps.googleapis.com",
-          "https://maps.gstatic.com",
-          "https://www.myregistry.com"
-        ],
         scriptSrc: [
           "'self'",
-          "https://www.myregistry.com",
+          "'unsafe-inline'", // Necessary if the script uses inline code
           "https://maps.googleapis.com",
-          "'unsafe-inline'",
-          "'unsafe-eval'" // Only if absolutely necessary
+          "https://accounts.google.com",
+          "https://www.myregistry.com", // Add this to allow the script
         ],
         scriptSrcElem: [
           "'self'",
-          "https://www.myregistry.com",
+          "'unsafe-inline'",
           "https://maps.googleapis.com",
-          "'unsafe-inline'"
+          "https://accounts.google.com",
+          "https://www.myregistry.com",
         ],
         styleSrc: [
           "'self'",
-          "https://fonts.googleapis.com",
           "'unsafe-inline'",
-          "https://www.myregistry.com"
+          "https://fonts.googleapis.com",
         ],
-        frameSrc: ["'self'", "https://www.myregistry.com"],
+        fontSrc: ["'self'", "https://fonts.gstatic.com"],
+        frameSrc: ["'self'", "https://www.myregistry.com"], // If the script embeds frames
         imgSrc: [
           "'self'",
-          "https://www.myregistry.com",
           "data:",
-          "blob:"
+          "https://www.myregistry.com",
         ],
-        fontSrc: ["'self'", "https://fonts.gstatic.com"]
-      }
-    }
+        connectSrc: [
+          "'self'",
+          "https://maps.googleapis.com",
+          "https://www.myregistry.com",
+        ],
+      },
+    },
   })
 );
 
