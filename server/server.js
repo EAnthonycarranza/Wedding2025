@@ -18,6 +18,10 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(fileUpload());
 
+// --------------------------------------------------------------------------
+// THIS is where you add "https://www.myregistry.com" to styleSrc
+// and also frameSrc (for iframes) and scriptSrc if needed, etc.
+// --------------------------------------------------------------------------
 app.use(
   helmet({
     contentSecurityPolicy: {
@@ -26,85 +30,58 @@ app.use(
         connectSrc: [
           "'self'",
           "https://storage.googleapis.com",
-          "https://www.myregistry.com",
-          "https://maps.googleapis.com", // Allow connections to Google Maps API
-          "https://maps.gstatic.com",   // Allow connections to Maps resources
+          "https://www.myregistry.com"
         ],
         imgSrc: [
           "'self'",
           "https://storage.googleapis.com",
           "data:",
-          "https://www.myregistry.com",
-          "https://maps.gstatic.com",   // Allow images from Google Maps
+          "https://www.myregistry.com"
         ],
         scriptSrc: [
           "'self'",
           "https://www.myregistry.com",
-          "'unsafe-inline'",
-          "https://stackpath.bootstrapcdn.com", // Allow Bootstrap scripts
-          "https://maps.googleapis.com",        // Allow Google Maps API scripts
+          "'unsafe-inline'"
         ],
+        // NOTE: styleSrc includes "https://www.myregistry.com"
         styleSrc: [
           "'self'",
           "https://fonts.googleapis.com",
-          "'unsafe-inline'",
           "https://www.myregistry.com",
-          "https://stackpath.bootstrapcdn.com", // Allow Bootstrap styles
-          "https://maps.gstatic.com",           // Allow styles for Google Maps
+          "'unsafe-inline'"
         ],
         fontSrc: [
           "'self'",
-          "https://fonts.gstatic.com",
+          "https://fonts.gstatic.com"
         ],
-        frameSrc: ["'self'", "https://www.myregistry.com"],
+        // IMPORTANT for iframes from MyRegistry
+        frameSrc: [
+          "'self'",
+          "https://www.myregistry.com"
+        ]
       },
     },
   })
 );
 
+console.log("Current CSP Configuration:", {
+  defaultSrc: ["'self'"],
+  connectSrc: ["'self'", "https://storage.googleapis.com", "https://www.myregistry.com"],
+  imgSrc: ["'self'", "https://storage.googleapis.com", "data:", "https://www.myregistry.com"],
+  scriptSrc: ["'self'", "https://www.myregistry.com", "'unsafe-inline'"],
+  // Here is where you should see "https://www.myregistry.com" in styleSrc
+  styleSrc: ["'self'", "https://fonts.googleapis.com", "'unsafe-inline'", "https://www.myregistry.com"],
+  fontSrc: ["'self'", "https://fonts.gstatic.com"],
+  frameSrc: ["'self'", "https://www.myregistry.com"]
+});
+
+// CORS Configuration
 app.use(
   cors({
-    origin: "*", // Allow all origins for testing
+    origin: "https://hidden-citadel-88874-96e904553ae6.herokuapp.com",
     credentials: true,
   })
 );
-
-console.log("Updated CSP Configuration:", {
-  defaultSrc: ["'self'"],
-  connectSrc: [
-    "'self'",
-    "https://storage.googleapis.com",
-    "https://www.myregistry.com",
-    "https://maps.googleapis.com",
-    "https://maps.gstatic.com",
-  ],
-  imgSrc: [
-    "'self'",
-    "https://storage.googleapis.com",
-    "data:",
-    "https://www.myregistry.com",
-    "https://maps.gstatic.com",
-  ],
-  scriptSrc: [
-    "'self'",
-    "https://www.myregistry.com",
-    "'unsafe-inline'",
-    "https://stackpath.bootstrapcdn.com",
-    "https://maps.googleapis.com",
-  ],
-  styleSrc: [
-    "'self'",
-    "https://fonts.googleapis.com",
-    "'unsafe-inline'",
-    "https://www.myregistry.com",
-    "https://stackpath.bootstrapcdn.com",
-    "https://maps.gstatic.com",
-  ],
-  fontSrc: ["'self'", "https://fonts.gstatic.com"],
-  frameSrc: ["'self'", "https://www.myregistry.com"],
-});
-
-// Endpoint to fetch touristy places in San Antonio
 
 // Endpoint to fetch touristy places in San Antonio
 app.get("/api/places", async (req, res) => {
