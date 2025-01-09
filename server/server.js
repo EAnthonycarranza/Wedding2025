@@ -17,11 +17,151 @@ app.use(express.urlencoded({ extended: true }));
 app.use(fileUpload());
 
 app.use(
+  helmet({
+    contentSecurityPolicy: {
+      directives: {
+        defaultSrc: ["'self'"],
+        connectSrc: [
+          "'self'",
+          "https://storage.googleapis.com",
+          "https://www.myregistry.com",
+          "https://maps.googleapis.com", // Allow connections to Google Maps API
+          "https://maps.gstatic.com",   // Allow connections to Maps resources
+        ],
+        imgSrc: [
+          "'self'",
+          "https://storage.googleapis.com",
+          "data:",
+          "https://www.myregistry.com",
+          "https://maps.gstatic.com",   // Allow images from Google Maps
+        ],
+        scriptSrc: [
+          "'self'",
+          "https://www.myregistry.com",
+          "'unsafe-inline'",
+          "https://stackpath.bootstrapcdn.com", // Allow Bootstrap scripts
+          "https://maps.googleapis.com",        // Allow Google Maps API scripts
+        ],
+        styleSrc: [
+          "'self'",
+          "https://fonts.googleapis.com",
+          "'unsafe-inline'",
+          "https://www.myregistry.com",
+          "https://stackpath.bootstrapcdn.com", // Allow Bootstrap styles
+          "https://maps.gstatic.com",           // Allow styles for Google Maps
+        ],
+        fontSrc: [
+          "'self'",
+          "https://fonts.gstatic.com",
+        ],
+        frameSrc: ["'self'", "https://www.myregistry.com"],
+      },
+    },
+  })
+);
+
+app.use(
   cors({
     origin: "*", // Allow all origins for testing
     credentials: true,
   })
 );
+
+console.log("Updated CSP Configuration:", {
+  defaultSrc: ["'self'"],
+  connectSrc: [
+    "'self'",
+    "https://storage.googleapis.com",
+    "https://www.myregistry.com",
+    "https://maps.googleapis.com",
+    "https://maps.gstatic.com",
+  ],
+  imgSrc: [
+    "'self'",
+    "https://storage.googleapis.com",
+    "data:",
+    "https://www.myregistry.com",
+    "https://maps.gstatic.com",
+  ],
+  scriptSrc: [
+    "'self'",
+    "https://www.myregistry.com",
+    "'unsafe-inline'",
+    "https://stackpath.bootstrapcdn.com",
+    "https://maps.googleapis.com",
+  ],
+  styleSrc: [
+    "'self'",
+    "https://fonts.googleapis.com",
+    "'unsafe-inline'",
+    "https://www.myregistry.com",
+    "https://stackpath.bootstrapcdn.com",
+    "https://maps.gstatic.com",
+  ],
+  fontSrc: ["'self'", "https://fonts.gstatic.com"],
+  frameSrc: ["'self'", "https://www.myregistry.com"],
+});
+
+// Endpoint to fetch touristy places in San Antonio
+
+// Endpoint to fetch touristy places in San Antonio
+app.get("/api/places", async (req, res) => {
+  const { lat, lng } = req.query; // Accept lat/lng from frontend query
+  const radius = 5000; // Search radius in meters (5km)
+
+  // Default fallback to San Antonio center if lat/lng are not provided
+  const defaultLat = 29.4241; // San Antonio latitude
+  const defaultLng = -98.4936; // San Antonio longitude
+
+  const latitude = parseFloat(lat) || defaultLat;
+  const longitude = parseFloat(lng) || defaultLng;
+
+  try {
+    // Validate latitude and longitude
+    if (isNaN(latitude) || isNaN(longitude)) {
+      return res
+        .status(400)
+        .json({ error: "Invalid or missing latitude/longitude" });
+    }
+
+    // Query Overpass API for touristy places
+    const response = await axios.get("https://overpass-api.de/api/interpreter", {
+      params: {
+        data: `
+          [out:json];
+          (
+            node["tourism"="attraction"](around:${radius}, ${latitude}, ${longitude});
+            node["tourism"="museum"](around:${radius}, ${latitude}, ${longitude});
+            node["tourism"="zoo"](around:${radius}, ${latitude}, ${longitude});
+            node["historic"](around:${radius}, ${latitude}, ${longitude});
+            node["leisure"](around:${radius}, ${latitude}, ${longitude});
+          );
+          out body;
+        `,
+      },
+    });
+
+    // Map the response to a simplified list of places
+    const places = response.data.elements.map((place) => ({
+      id: place.id,
+      name: place.tags.name || "Unknown Place",
+      type:
+        place.tags.tourism ||
+        place.tags.historic ||
+        place.tags.leisure ||
+        "Unknown",
+      lat: place.lat,
+      lon: place.lon,
+    }));
+
+    res.json(places);
+  } catch (error) {
+    console.error("Error fetching places:", error.message);
+    res
+      .status(500)
+      .json({ error: "Failed to fetch places. Please try again later." });
+  }
+});
 
 app.use((req, res, next) => {
   res.setHeader(
