@@ -8,9 +8,10 @@ const { MongoClient } = require("mongodb");
 const { google } = require("googleapis");
 const { Storage } = require("@google-cloud/storage");
 const fileUpload = require("express-fileupload");
-const helmet = require("helmet"); 
 const path = require("path");
+const helmet = require("helmet"); 
 const rateLimit = require("express-rate-limit");
+const axios = require("axios");
 
 const app = express();
 app.use(express.json());
@@ -22,37 +23,44 @@ app.use(
     contentSecurityPolicy: {
       directives: {
         defaultSrc: ["'self'"],
-        scriptSrc: [
+        connectSrc: [
           "'self'",
-          "'unsafe-inline'", // Necessary if the script uses inline code
-          "https://maps.googleapis.com",
-          "https://accounts.google.com",
-          "https://www.myregistry.com", // Add this to allow the script
-        ],
-        scriptSrcElem: [
-          "'self'",
-          "'unsafe-inline'",
-          "https://maps.googleapis.com",
-          "https://accounts.google.com",
+          "https://storage.googleapis.com",
           "https://www.myregistry.com",
+          "https://maps.googleapis.com",
+          "https://maps.gstatic.com",
         ],
-        styleSrc: [
-          "'self'",
-          "'unsafe-inline'",
-          "https://fonts.googleapis.com",
-        ],
-        fontSrc: ["'self'", "https://fonts.gstatic.com"],
-        frameSrc: ["'self'", "https://www.myregistry.com"], // If the script embeds frames
         imgSrc: [
           "'self'",
           "data:",
+          "https://storage.googleapis.com",
           "https://www.myregistry.com",
+          "https://maps.gstatic.com",
         ],
-        connectSrc: [
+        scriptSrc: [
           "'self'",
-          "https://maps.googleapis.com",
+          "'nonce-randomNonceValue'", // Replace with dynamically generated nonce
+          "'strict-dynamic'", // Allow only scripts dynamically loaded by trusted sources
           "https://www.myregistry.com",
+          "https://stackpath.bootstrapcdn.com",
+          "https://maps.googleapis.com",
         ],
+        styleSrc: [
+          "'self'",
+          "'unsafe-inline'", // Use cautiously; inline styles weaken security
+          "https://fonts.googleapis.com",
+          "https://www.myregistry.com",
+          "https://stackpath.bootstrapcdn.com",
+          "https://maps.gstatic.com",
+        ],
+        fontSrc: [
+          "'self'",
+          "https://fonts.gstatic.com",
+        ],
+        frameSrc: ["'self'", "https://www.myregistry.com"],
+        objectSrc: ["'none'"], // Block plugins (e.g., <object>, <embed>, <applet>)
+        baseUri: ["'self'"], // Prevent attackers from injecting <base> tags
+        requireTrustedTypesFor: ["'script'"], // Enforce Trusted Types for DOM XSS protection
       },
     },
   })
@@ -159,21 +167,6 @@ app.get("/api/places", async (req, res) => {
       .status(500)
       .json({ error: "Failed to fetch places. Please try again later." });
   }
-});
-
-app.use((req, res, next) => {
-  res.setHeader(
-    "Content-Security-Policy",
-    [
-      "default-src 'self';",
-      "connect-src 'self' https://storage.googleapis.com https://maps.googleapis.com https://maps.gstatic.com https://*.tile.openstreetmap.org https://*.tile.openstreetmap.fr https://accounts.google.com;",
-      "img-src 'self' data: blob: https://storage.googleapis.com https://maps.gstatic.com https://*.tile.openstreetmap.org https://*.tile.openstreetmap.fr;",
-      "script-src 'self' 'unsafe-inline' https://maps.googleapis.com https://accounts.google.com;",
-      "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://maps.gstatic.com;",
-      "font-src 'self' https://fonts.gstatic.com;",
-    ].join(" ")
-  );
-  next();
 });
 
 // Serve static files from the React app
