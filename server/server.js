@@ -27,49 +27,36 @@ app.use(
           "'self'",
           "https://storage.googleapis.com",
           "https://www.myregistry.com",
-          "https://maps.googleapis.com",
-          "https://maps.gstatic.com",
+          "https://maps.googleapis.com", // Allow connections to Google Maps API
+          "https://maps.gstatic.com",   // Allow connections to Maps resources
         ],
         imgSrc: [
           "'self'",
-          "data:",
           "https://storage.googleapis.com",
+          "data:",
           "https://www.myregistry.com",
-          "https://maps.gstatic.com",
+          "https://maps.gstatic.com",   // Allow images from Google Maps
         ],
         scriptSrc: [
           "'self'",
-          `'nonce-randomNonceValue'`,
-          "https://hidden-citadel-88874-96e904553ae6.herokuapp.com",
           "https://www.myregistry.com",
-          "https://stackpath.bootstrapcdn.com",
-          "https://maps.googleapis.com",
-        ],
-        scriptSrcElem: [
-          "'self'",
-          `'nonce-randomNonceValue'`,
-          "https://hidden-citadel-88874-96e904553ae6.herokuapp.com",
-          "https://www.myregistry.com",
-          "https://stackpath.bootstrapcdn.com",
-          "https://maps.googleapis.com",
+          "'unsafe-inline'",
+          "https://stackpath.bootstrapcdn.com", // Allow Bootstrap scripts
+          "https://maps.googleapis.com",        // Allow Google Maps API scripts
         ],
         styleSrc: [
           "'self'",
           "https://fonts.googleapis.com",
-          "https://stackpath.bootstrapcdn.com",
           "'unsafe-inline'",
+          "https://www.myregistry.com",
+          "https://stackpath.bootstrapcdn.com", // Allow Bootstrap styles
+          "https://maps.gstatic.com",           // Allow styles for Google Maps
         ],
-        styleSrcElem: [
+        fontSrc: [
           "'self'",
-          "https://fonts.googleapis.com",
-          "https://stackpath.bootstrapcdn.com",
-          "'unsafe-inline'",
+          "https://fonts.gstatic.com",
         ],
-        fontSrc: ["'self'", "https://fonts.gstatic.com"],
         frameSrc: ["'self'", "https://www.myregistry.com"],
-        objectSrc: ["'none'"],
-        baseUri: ["'self'"],
-        requireTrustedTypesFor: ["'script'"],
       },
     },
   })
