@@ -32,6 +32,7 @@ import RSVPPage from "./components/RSVPPage";
 import NavBar from "./components/Navbar";
 import Footer from "./components/Footer";
 import Registry from "./components/Registry";
+import Tourist from "./components/Tourist";
 import "./App.css";
 
 function App() {
@@ -41,7 +42,8 @@ function App() {
   const [familyMembers, setFamilyMembers] = useState([
     { firstName: "", lastName: "", rsvpStatus: "No Status / I don't know" },
   ]);
-  const [hasRSVP, setHasRSVP] = useState(false); // Track if the user has RSVP data
+  const [hasRSVP, setHasRSVP] = useState(false);
+  const [tokenExpired, setTokenExpired] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -57,14 +59,12 @@ function App() {
         setIsAuthenticated(true);
         setFamilyName(familyName);
 
-        // Redirect to /home immediately after successful login
         navigate("/home", { replace: true });
 
-        // Fetch RSVP data after successful authentication
         await fetchRSVPData(jwtToken);
       } catch (error) {
-        console.error("Authentication failed:", error);
         setIsAuthenticated(false);
+        setTokenExpired(true);
       }
     };
 
@@ -88,11 +88,10 @@ function App() {
           setIsAuthenticated(true);
           setFamilyName(data.familyName);
 
-          // Fetch RSVP data
           await fetchRSVPData(tokenFromStorage);
         } catch (error) {
-          console.error("Error during authentication or RSVP check:", error.message);
           setIsAuthenticated(false);
+          setTokenExpired(true);
         }
       } else {
         setIsAuthenticated(false);
@@ -115,11 +114,11 @@ function App() {
         const rsvpData = await rsvpResponse.json();
 
         if (rsvpData.mongoData) {
-          setHasRSVP(true); // User has RSVP data
-          setShowRSVPModal(false); // No need to show modal
+          setHasRSVP(true);
+          setShowRSVPModal(false);
         } else {
-          setHasRSVP(false); // No RSVP data
-          setShowRSVPModal(true); // Show modal
+          setHasRSVP(false);
+          setShowRSVPModal(true);
         }
       } catch (error) {
         console.error("Error fetching RSVP data:", error);
@@ -130,10 +129,8 @@ function App() {
     const tokenFromUrl = urlParams.get("token");
 
     if (tokenFromUrl) {
-      // Authenticate using token from URL
       authenticateWithToken(tokenFromUrl);
     } else {
-      // Check authentication using stored token
       checkAuth();
     }
   }, [navigate]);
@@ -162,15 +159,14 @@ function App() {
       });
 
       if (response.ok) {
-        setHasRSVP(true); // Mark as having RSVP
-        setShowRSVPModal(false); // Close modal
+        setHasRSVP(true);
+        setShowRSVPModal(false);
         alert("RSVP submitted successfully!");
       } else {
         const data = await response.json();
         alert(`Failed to submit RSVP: ${data.message}`);
       }
     } catch (error) {
-      console.error("Error submitting RSVP:", error);
       alert("An error occurred while submitting your RSVP.");
     }
   };
@@ -214,6 +210,7 @@ function App() {
                 <Route path="/registry" element={<Registry />} />
                 <Route path="/gallery" element={<Gallery />} />
                 <Route path="/rsvp" element={<RSVPPage />} />
+                <Route path="/tour" element={<Tourist />} />
               </>
             ) : (
               <Route
@@ -230,7 +227,7 @@ function App() {
         </CSSTransition>
       </TransitionGroup>
 
-      {/* Show RSVP modal if the user doesn't have RSVP */}
+      {/* Show RSVP modal if no RSVP data */}
       {showRSVPModal && (
         <Modal
           open={true}
@@ -335,10 +332,58 @@ function App() {
         </Modal>
       )}
 
+      {/* Show token expired modal only if token is expired AND user is not on "/" */}
+      {tokenExpired && location.pathname !== "/" && (
+        <Modal
+          open={true}
+          onClose={() => {
+            setTokenExpired(false);
+            navigate("/");
+          }}
+          aria-labelledby="token-expired-modal-title"
+        >
+          <Box
+            sx={{
+              width: 400,
+              p: 4,
+              bgcolor: "white",
+              margin: "auto",
+              top: "50%",
+              left: "50%",
+              transform: "translate(-50%, -50%)",
+              position: "absolute",
+              borderRadius: "10px",
+              boxShadow: 24,
+            }}
+          >
+            <Typography
+              id="token-expired-modal-title"
+              variant="h6"
+              sx={{ textAlign: "center", mb: 2 }}
+            >
+              Your session has expired.
+            </Typography>
+            <Typography variant="body1" sx={{ mb: 3, textAlign: "center" }}>
+              Please sign in again.
+            </Typography>
+            <Button
+              variant="contained"
+              fullWidth
+              sx={{ backgroundColor: "rgb(156 0 68)" }}
+              onClick={() => {
+                setTokenExpired(false);
+                navigate("/");
+              }}
+            >
+              Go to Login
+            </Button>
+          </Box>
+        </Modal>
+      )}
+
       {isAuthenticated && <Footer />}
     </div>
   );
 }
 
 export default App;
-

@@ -9,6 +9,91 @@
   font-style: normal;
 }
 
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes bounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
+}
+
+.bounce {
+  animation: bounce 1.5s infinite ease-in-out;
+}
+
+.bounce[data-index="1"] {
+  animation-delay: 0s;
+}
+.bounce[data-index="2"] {
+  animation-delay: 0.1s;
+}
+.bounce[data-index="3"] {
+  animation-delay: 0.2s;
+}
+.bounce[data-index="4"] {
+  animation-delay: 0.3s;
+}
+.bounce[data-index="5"] {
+  animation-delay: 0.4s;
+}
+.bounce[data-index="6"] {
+  animation-delay: 0.5s;
+}
+.bounce[data-index="7"] {
+  animation-delay: 0.6s;
+}
+.slick-dots {
+  bottom: -30px !important; /* Moves the dots 30px below the carousel */
+}
+
+.slick-dots li button:before {
+  font-size: 12px; /* Adjust the size of the dots */
+  color: #888; /* Change the color of inactive dots */
+}
+
+.slick-dots li.slick-active button:before {
+  color: #000; /* Change the color of active dot */
+}
+
+.ril__outer {
+  z-index: 1500 !important;
+}
+
+.ril__outerWrapper {
+  z-index: 1500 !important;
+}
+:root {
+  --linaria-theme_palette-bg-primary-core: #1976d2; /* Example Primary Color */
+  --linaria-theme_palette-bg-primary-core-hover: #115293; /* Example Hover Color */
+}
+
+.css-13y9u7c {
+
+  display: flex;
+  justify-content: center;
+}
+
 /* =======================================================
 *
 * 	Template Style 
