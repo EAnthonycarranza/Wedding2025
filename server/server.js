@@ -72,6 +72,11 @@ app.use(helmet({
       ],
       mediaSrc: ["'self'"],
       objectSrc: ["'none'"],
+      frameSrc: [
+        "'self'",
+        "https://www.myregistry.com"   // ← allow MyRegistry iFrame
+      ],
+
       frameAncestors: ["'self'", "https://www.myregistry.com"]
     }
   }
