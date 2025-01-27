@@ -7,11 +7,79 @@ import Fullscreen from "yet-another-react-lightbox/plugins/fullscreen";
 import Slideshow from "yet-another-react-lightbox/plugins/slideshow";
 import Counter from "yet-another-react-lightbox/plugins/counter";
 import Share from "yet-another-react-lightbox/plugins/share";
+import { saveAs } from "file-saver";
+
 import "yet-another-react-lightbox/styles.css";
 import "yet-another-react-lightbox/plugins/thumbnails.css";
 
-const LightboxGallery = ({ isOpen, currentIndex, images, onClose, setCurrentIndex }) => {
-  // Memoize slides to avoid unnecessary recalculations
+// 1) A tiny custom plugin to add a "Save to Photos" button in the top toolbar.
+function SaveToPhotosPlugin({ getSlides, currentIndex }) {
+  // This function attempts to use the Web Share API with a File object:
+  const handleSaveToPhotos = async () => {
+    try {
+      const slides = getSlides();
+      const { src } = slides[currentIndex];
+
+      // Attempt to fetch the image as a blob
+      const response = await fetch(src);
+      if (!response.ok) {
+        throw new Error(`Failed to fetch image: ${src}`);
+      }
+      const blob = await response.blob();
+      const file = new File([blob], "gallery-image.jpg", { type: blob.type });
+
+      // Check if the browser can share a file
+      if (navigator.canShare && navigator.canShare({ files: [file] })) {
+        await navigator.share({
+          files: [file],
+          title: "Wedding Photo",
+          text: "Check out this wedding photo!",
+        });
+      } else {
+        // If not supported, fallback to normal download
+        fallbackDownload(blob);
+      }
+    } catch (error) {
+      console.error("Save to Photos error:", error);
+    }
+  };
+
+  // Fallback: normal download with a fixed filename
+  const fallbackDownload = (blob) => {
+    saveAs(blob, "gallery-image.jpg");
+  };
+
+  return {
+    // YARL calls this to render a custom toolbar button
+    render: {
+      button: ({ slideIndex }) => {
+        // Only show the button on the currently displayed slide
+        if (slideIndex !== currentIndex) return null;
+
+        return {
+          key: "saveToPhotos",
+          label: "Save to Photos",
+          onClick: handleSaveToPhotos,
+          // An optional icon SVG
+          icon: (
+            <svg viewBox="0 0 24 24" fill="currentColor" style={{ width: 20, height: 20 }}>
+              <path d="M5 4v16h14V4H5zm2 2h10v8H7V6zm0 10h10v2H7v-2z" />
+            </svg>
+          ),
+        };
+      },
+    },
+  };
+}
+
+const LightboxGallery = ({
+  isOpen,
+  currentIndex,
+  images,
+  onClose,
+  setCurrentIndex,
+}) => {
+  // Build slides from your images array
   const slides = useMemo(
     () =>
       images.map((image) => ({
@@ -20,11 +88,27 @@ const LightboxGallery = ({ isOpen, currentIndex, images, onClose, setCurrentInde
     [images]
   );
 
-  // Handle view changes safely
+  // Keep the current index in sync
   const handleViewChange = (viewEvent) => {
-    const newIndex = typeof viewEvent === "number" ? viewEvent : viewEvent?.index; // Extract index
+    const newIndex =
+      typeof viewEvent === "number" ? viewEvent : viewEvent?.index;
     if (newIndex !== currentIndex) {
       setCurrentIndex(newIndex);
+    }
+  };
+
+  // A custom function for the built-in Download plugin to force a specific filename
+  const customDownloadFn = async (slide, number) => {
+    try {
+      const response = await fetch(slide.src);
+      if (!response.ok) {
+        throw new Error(`Failed to fetch image: ${slide.src}`);
+      }
+      const blob = await response.blob();
+      // Force the filename here, e.g. gallery-1.jpg, gallery-2.jpg, etc.
+      saveAs(blob, `gallery-${number + 1}.jpg`);
+    } catch (error) {
+      console.error("Error downloading image:", error);
     }
   };
 
@@ -35,26 +119,31 @@ const LightboxGallery = ({ isOpen, currentIndex, images, onClose, setCurrentInde
       slides={slides}
       index={currentIndex}
       on={{
-        view: handleViewChange, // Handle view changes
+        view: handleViewChange,
       }}
       plugins={[
-        Counter,     // Counter at the top-center
-        Thumbnails,  // Thumbnails at the bottom
-        Zoom,        // Zoom functionality
-        Fullscreen,  // Fullscreen toggle
-        Download,    // Download button
-        Share,       // Share button
-        Slideshow,   // Slideshow autoplay
+        Counter,
+        Thumbnails,
+        Zoom,
+        Fullscreen,
+        Download,
+        Share,
+        Slideshow,
+        // 2) Add our custom "Save to Photos" plugin
+        SaveToPhotosPlugin,
       ]}
-      zoom={{ maxZoomPixelRatio: 3 }} // Configure zoom behavior
-      download={{ filename: `image-${currentIndex + 1}.jpg` }} // Configure download functionality
-      thumbnails={{ width: 100, height: 80, borderRadius: 5 }} // Configure thumbnail behavior
-      fullscreen={{ auto: false }} // Configure fullscreen behavior
-      slideshow={{ autoplay: false, delay: 3000 }} // Configure slideshow settings
-      counter={{ position: "top-center" }} // Configure counter position
+      zoom={{ maxZoomPixelRatio: 3 }}
+      // The key part: pass our custom downloadFn to override the default
+      download={{
+        downloadFn: customDownloadFn,
+      }}
+      thumbnails={{ width: 100, height: 80, borderRadius: 5 }}
+      fullscreen={{ auto: false }}
+      slideshow={{ autoplay: false, delay: 3000 }}
+      counter={{ position: "top-center" }}
       share={{
-        url: window.location.href, // Use current page URL
-        socialMedia: ["facebook", "twitter", "email"], // Share options
+        url: window.location.href,
+        socialMedia: ["facebook", "twitter", "email"],
       }}
       styles={{
         container: { backgroundColor: "rgba(0, 0, 0, 0.95)" },
