@@ -44,7 +44,13 @@ app.use(
           "https://freesvg.org",
           "https://*.tile.openstreetmap.org", // Allow OpenStreetMap tiles
         ],
-        scriptSrc: ["'self'", "'unsafe-inline'", "https://stackpath.bootstrapcdn.com", "https://maps.googleapis.com"],
+                scriptSrc: [
+          "'self'",
+          "'unsafe-inline'",
+          "https://stackpath.bootstrapcdn.com",
+          "https://maps.googleapis.com",
+          "https://www.myregistry.com"  // <-- This must be present
+        ],
         styleSrc: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com"],
         fontSrc: ["'self'", "https://fonts.gstatic.com"],
         frameSrc: ["'self'", "https://www.myregistry.com"],
@@ -54,57 +60,11 @@ app.use(
   })
 );
 
-console.log("Current CSP Configuration:", {
-  defaultSrc: ["'self'"],
-  connectSrc: ["'self'", "https://storage.googleapis.com", "https://www.myregistry.com"],
-  imgSrc: ["'self'", "https://storage.googleapis.com", "data:", "https://www.myregistry.com"],
-  scriptSrc: ["'self'", "https://www.myregistry.com", "'unsafe-inline'"],
-  // Here is where you should see "https://www.myregistry.com" in styleSrc
-  styleSrc: ["'self'", "https://fonts.googleapis.com", "'unsafe-inline'", "https://www.myregistry.com"],
-  fontSrc: ["'self'", "https://fonts.gstatic.com"],
-  frameSrc: ["'self'", "https://www.myregistry.com"]
-});
-
 app.use(
   cors({
     origin: "*", // Allow all origins for testing
   })
 );
-
-console.log("Updated CSP Configuration:", {
-  defaultSrc: ["'self'"],
-  connectSrc: [
-    "'self'",
-    "https://storage.googleapis.com",
-    "https://www.myregistry.com",
-    "https://maps.googleapis.com",
-    "https://maps.gstatic.com",
-  ],
-  imgSrc: [
-    "'self'",
-    "https://storage.googleapis.com",
-    "data:",
-    "https://www.myregistry.com",
-    "https://maps.gstatic.com",
-  ],
-  scriptSrc: [
-    "'self'",
-    "https://www.myregistry.com",
-    "'unsafe-inline'",
-    "https://stackpath.bootstrapcdn.com",
-    "https://maps.googleapis.com",
-  ],
-  styleSrc: [
-    "'self'",
-    "https://fonts.googleapis.com",
-    "'unsafe-inline'",
-    "https://www.myregistry.com",
-    "https://stackpath.bootstrapcdn.com",
-    "https://maps.gstatic.com",
-  ],
-  fontSrc: ["'self'", "https://fonts.gstatic.com"],
-  frameSrc: ["'self'", "https://www.myregistry.com"],
-});
 
 // Serve static files from the React app
 app.use(express.static(path.join(__dirname, "../client/build")));
