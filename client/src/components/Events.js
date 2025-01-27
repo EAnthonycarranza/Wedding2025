@@ -53,13 +53,13 @@ const Events = () => {
                     <div className="d-flex justify-content-center">
                       <div className="event-col me-3">
                         <i className="icon-clock"></i>
-                        <span>4:00 PM</span>
-                        <span>6:00 PM</span>
+                        <span>1:00 PM</span>
+                        <span>2:00 PM</span>
                       </div>
                       <div className="event-col">
                         <i className="icon-calendar"></i>
-                        <span>Monday 28</span>
-                        <span>November, 2025</span>
+                        <span>Saturday 28</span>
+                        <span>June, 2025</span>
                       </div>
                     </div>
                     <p className="mt-3">
@@ -80,17 +80,17 @@ const Events = () => {
                 {/* Wedding Party */}
                 <div className="col-md-6 col-sm-6 text-center">
                   <div className="event-wrap animate-box border p-3">
-                    <h3>Wedding Party</h3>
+                    <h3>The Receiption</h3>
                     <div className="d-flex justify-content-center">
                       <div className="event-col me-3">
                         <i className="icon-clock"></i>
-                        <span>7:00 PM</span>
-                        <span>12:00 AM</span>
+                        <span>4:00 PM</span>
+                        <span>11:00 PM</span>
                       </div>
                       <div className="event-col">
                         <i className="icon-calendar"></i>
-                        <span>Monday 28</span>
-                        <span>November, 2025</span>
+                        <span>Saturday 28</span>
+                        <span>June, 2025</span>
                       </div>
                     </div>
                     <p className="mt-3">
