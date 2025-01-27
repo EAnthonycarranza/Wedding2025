@@ -173,6 +173,27 @@ useEffect(() => {
 <Typography
   variant="h6"
   component="div"
+  onClick={() => handleMenuItemClick('/tour')}
+  sx={{
+    cursor: 'pointer',
+    marginRight: '20px',
+    padding: '10px 20px',
+    fontFamily: "'Sacramento', cursive",
+    fontSize: '26px',
+    fontWeight: '500',
+    transition: 'background-color 0.3s ease, color 0.3s ease',
+    borderRadius: '15px',
+    '&:hover': {
+      backgroundColor: '#9c004433',
+    },
+  }}
+>
+  Travel
+</Typography>
+
+<Typography
+  variant="h6"
+  component="div"
   onClick={() => handleMenuItemClick('/rsvp')}
   sx={{
     cursor: 'pointer',
