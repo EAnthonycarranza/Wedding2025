@@ -1,0 +1,875 @@
+[
+    {
+        "id": 1,
+        "name": "San Antonio River Walk",
+        "type": "adventure",
+        "lat": 29.425122091771115,
+        "lon": -98.49108268056486,
+        "description": "The San Antonio River Walk, also known as Paseo del Río, is a vibrant network of walkways along the banks of the San Antonio River in downtown San Antonio, Texas. Lined with lush greenery, charming bridges, and colorful umbrellas, it is a hub of activity featuring restaurants, shops, and cultural landmarks. The River Walk offers a unique blend of natural beauty and urban charm, making it a popular destination for both locals and tourists. Visitors can enjoy leisurely strolls, boat tours, and seasonal events, experiencing the heart of San Antonio's history, culture, and hospitality.",
+        "image": "https://storage.googleapis.com/galleryimageswedding/River_Walk_Holiday_Lights_3c249343-7de2-46a4-b518-95891614b142.jpg"
+    },
+    {
+        "id": 2,
+        "name": "The Alamo",
+        "type": "history",
+        "lat": 29.428179424455276,
+        "lon": -98.48663189509746,
+        "description": "The Alamo, in San Antonio, Texas, is a historic site and symbol of Texan independence. Built in 1718 as a Spanish mission, it later became a military outpost. It is best known for the 1836 Texas Revolution battle, where defenders like Davy Crockett and William B. Travis fought against General Santa Anna's army. Though they lost, their sacrifice inspired Texas's fight for freedom. Today, The Alamo is a museum and UNESCO World Heritage Site, attracting visitors to explore its rich history.",
+        "image": "https://storage.googleapis.com/galleryimageswedding/Alamo_pano.jpg"
+    },
+    {
+        "id": 3,
+        "name": "Hopscotch Immersive Art Experience",
+        "type": "art",
+        "lat": 29.428220559124174,
+        "lon": -98.48995100887058,
+        "description": "Hopscotch Immersive Art Experience, located in San Antonio, Texas, is an interactive art gallery that blends creativity and technology. Featuring installations from local and international artists, it offers a playful and immersive environment where visitors can engage with art through touch, sound, and light. Each exhibit is designed to inspire curiosity and creativity, making it a unique destination for all ages. With a rotating selection of installations and an on-site bar, Hopscotch combines art, community, and entertainment in a vibrant, one-of-a-kind setting.",
+        "image": "https://storage.googleapis.com/galleryimageswedding/Hopscotch_Gaze_3_q8w1p3.webp"
+    },
+    {
+        "id": 4,
+        "name": "Tower of the Americas",
+        "type": "adventure",
+        "lat": 29.41915666433884,
+        "lon": -98.48354955489582,
+        "description": "The Tower of the Americas, located in San Antonio, Texas, is a 750-foot observation tower and landmark offering stunning panoramic views of the city. Built for the 1968 World’s Fair, it features an observation deck, a revolving restaurant, and a 4D theater experience. Visitors can enjoy breathtaking scenery, dining, and interactive exhibits that showcase Texas history and culture. Situated in Hemisfair Park, the Tower remains a must-see attraction and an iconic symbol of San Antonio’s skyline.",
+        "image": "https://storage.googleapis.com/galleryimageswedding/rawImage-scaled.jpg"
+    },
+    {
+        "id": 5,
+        "name": "Yanaguana Garden at Hemisfair Park",
+        "type": "adventure",
+        "lat": 29.41958078275666, 
+        "lon": -98.4878615544319,
+        "description": "Yanaguana Garden at Hemisfair Park, located in San Antonio, Texas, is a vibrant urban park offering interactive play areas, artistic installations, and lush green spaces. Designed for all ages, it features climbing structures, splash pads, picnic spots, and games like chess and ping pong. The garden also highlights local culture with public art and community events. Its family-friendly atmosphere and connection to the River Walk make it a popular destination for recreation and relaxation in the heart of the city.",
+        "image": "https://storage.googleapis.com/galleryimageswedding/yanaguana-gardens.jpg"
+    },
+    {
+        "id": 6,
+        "name": "San Fernando Cathedral",
+        "type": "art",
+        "lat": 29.424612807458328, 
+        "lon": -98.49414427628126,
+        "description": "San Fernando Cathedral, located in San Antonio, Texas, is one of the oldest cathedrals in the United States, dating back to 1731. A centerpiece of the city’s spiritual and historical heritage, it is renowned for its stunning architecture and vibrant community. The cathedral is also famous for hosting the San Antonio | The Saga, a nightly light show that projects the city’s history onto its façade. Still an active place of worship, San Fernando Cathedral serves as a cultural and historical landmark, drawing visitors from around the world.",
+        "image": "https://storage.googleapis.com/galleryimageswedding/music-lights-and-history.jpg"
+    },
+    {
+        "id": 7,
+        "name": "San Antonio Museum of Art",
+        "type": "art",
+        "lat": 29.437285147716413,
+        "lon": -98.48219021093506,
+        "description": "The San Antonio Museum of Art (SAMA), located along the River Walk in San Antonio, Texas, is a premier cultural destination housing a vast and diverse collection of art spanning 5,000 years. Known for its comprehensive displays of Latin American, Asian, European, and contemporary art, SAMA also boasts one of the largest collections of ancient Mediterranean art in the southern United States. Housed in a beautifully repurposed 19th-century brewery, the museum offers engaging exhibitions, educational programs, and community events, making it a hub for art and culture in the city.",
+        "image": "https://storage.googleapis.com/galleryimageswedding/san-antonio-museum-of.jpg"
+    },
+    {
+        "id": 8,
+        "name": "Majestic Theatre",
+        "type": "art",
+        "lat": 29.42630684268178,
+        "lon": -98.4906039885861,
+        "description": "The Majestic Theatre, located in downtown San Antonio, Texas, is a historic landmark and one of the city's premier venues for live entertainment. Opened in 1929, this opulent theater is renowned for its stunning Spanish Mediterranean-style architecture, complete with intricate details and a starry sky ceiling. It hosts a wide range of performances, including Broadway productions, concerts, comedy shows, and more. As a National Historic Landmark, the Majestic Theatre combines rich history with world-class entertainment, making it a cherished cultural destination.",
+        "image": "https://storage.googleapis.com/galleryimageswedding/2021-04-27.jpg"
+    },
+    {
+        "id": 9,
+        "name": "Historic Market Square",
+        "type": "shopping",
+        "lat": 29.425448614758796,
+        "lon": -98.49991902297789,
+        "description": "Historic Market Square, located in downtown San Antonio, Texas, is the largest Mexican market in the United States. Known for its vibrant atmosphere, it features colorful shops, artisan stalls, and restaurants offering authentic Tex-Mex cuisine. Visitors can browse handcrafted goods, enjoy live music, and experience cultural events throughout the year. Often referred to as \"El Mercado,\" this bustling destination celebrates San Antonio’s rich Mexican heritage and is a must-visit spot for shopping, dining, and immersing in local traditions.",
+        "image": "https://storage.googleapis.com/galleryimageswedding/Historic-Market-Square.webp"
+    },
+    {
+        "id": 10,
+        "name": "La Villita Historic Arts Village",
+        "type": "shopping",
+        "lat": 29.421830805214654,
+        "lon": -98.48914782320395,
+        "description": "La Villita Historic Arts Village, located in the heart of San Antonio, Texas, is a charming cultural and artistic hub. Once one of the city’s first neighborhoods, it now features cobblestone streets lined with galleries, boutiques, and artisan shops. Visitors can explore handcrafted goods, unique art, and local crafts while enjoying the village's historic architecture. La Villita also hosts events, festivals, and live performances, offering a vibrant blend of history and creativity. It's a must-see destination for art lovers and those seeking a glimpse of San Antonio's cultural heritage.",
+        "image": "https://storage.googleapis.com/galleryimageswedding/B693FD45-AC39-DDB1-F3809FCD340B163A.jpg"
+    },
+    {
+        "id": 11,
+        "name": "Japanese Tea Garden",
+        "type": "nature",
+        "lat": 29.46076171710504,
+        "lon": -98.47732719391517,
+        "description": "The Japanese Tea Garden, located in San Antonio, Texas, is a serene and picturesque oasis featuring beautifully landscaped gardens, koi ponds, and a stone pavilion. Originally a quarry, it was transformed in the early 20th century into a tranquil retreat with winding paths, cascading waterfalls, and lush greenery. A symbol of peace and beauty, the garden is free to the public and offers a quiet escape for relaxation, photography, and exploration. Its iconic pagoda-style pavilion and rich history make it a treasured landmark in the city.",
+        "image": "https://storage.googleapis.com/galleryimageswedding/Japanese-Tea-Garden_A715B679-5056-BFCE-A825D252470E3099-a715b5925056bfc_a715bcce-5056-bfce-a8bf9515d8a42160.jpg"
+    },
+    {
+        "id": 12,
+        "name": "Brackenridge Park",
+        "type": "nature",
+        "lat": 29.46694341684805,
+        "lon": -98.47057460022252,
+        "description": "Brackenridge Park, located in San Antonio, Texas, is a sprawling urban park that offers a mix of natural beauty, recreational activities, and historic landmarks. Spanning over 300 acres, it features picnic areas, walking trails, playgrounds, and access to the San Antonio River. The park is home to attractions like the San Antonio Zoo, Japanese Tea Garden, and the Sunken Garden Theater. With its scenic landscapes and diverse amenities, Brackenridge Park is a beloved destination for outdoor fun and family gatherings.",
+        "image": "https://storage.googleapis.com/galleryimageswedding/a9d61e95f2ac9df1d15ea572b42a6564.png"
+    },
+    {
+        "id": 13,
+        "name": "San Antonio Zoo",
+        "type": "animals",
+        "lat": 29.463929311393617,
+        "lon": -98.47250091693601,
+        "description": "The San Antonio Zoo, located in Brackenridge Park, is one of the largest and most visited zoos in Texas. Spanning 50 acres, it is home to over 750 species from around the world, including rare and endangered animals. The zoo offers interactive exhibits, like giraffe feeding and butterfly encounters, as well as attractions like the Zoo Train and playscapes for children. Committed to conservation and education, the San Antonio Zoo provides a fun and engaging experience for visitors of all ages while supporting wildlife preservation efforts globally.",
+        "image": "https://storage.googleapis.com/galleryimageswedding/052d977b-925c-4077-879d-1f5325ff220e-large16x9_SteveFanningDirectUploader2Dec202303_04UTC.jpg"
+    },
+    {
+        "id": 14,
+        "name": "Natural Bridge Caverns",
+        "type": "adventure",
+        "lat": 29.697202142737734,
+        "lon": -98.34188308781307,
+        "description": "Natural Bridge Caverns, located near San Antonio, Texas, is the largest commercial cave system in the state. Named after the natural limestone bridge at its entrance, the caverns feature stunning underground formations like stalactites, stalagmites, and flowstones. Visitors can explore through guided tours, ranging from easy walks to adventurous spelunking experiences. The site also offers above-ground attractions, including a ropes course, gem and fossil mining, and a zip line. A National Natural Landmark, Natural Bridge Caverns provides an exciting and educational adventure for all ages.",
+        "image": "https://storage.googleapis.com/galleryimageswedding/cave-49.jpg"
+    },
+    {
+        "id": 15,
+        "name": "San Antonio Botanical Garden",
+        "type": "nature",
+        "lat": 29.457968812512572,
+        "lon": -98.45737523059081,
+        "description": "The San Antonio Botanical Garden is a 38-acre oasis showcasing diverse plant collections and beautifully designed landscapes. Located near downtown San Antonio, it features themed gardens, including a Texas Native Trail, a Rose Garden, and a Conservatory with exotic plants from around the world. The garden offers interactive exhibits, educational programs, and seasonal events, making it a perfect destination for nature enthusiasts and families. With its serene environment and vibrant flora, the San Antonio Botanical Garden is a place of beauty, learning, and inspiration.",
+        "image": "https://storage.googleapis.com/galleryimageswedding/SABOT-wildflowergarden-horizontal-scaled-e1649991664286.jpg"
+    },
+    {
+        "id": 16,
+        "name": "Phil Hardberger Park",
+        "type": "nature",
+        "lat": 29.553959995056047,
+        "lon": -98.52960888996027,
+        "description": "Phil Hardberger Park, located in San Antonio, Texas, is a 330-acre urban park dedicated to conservation, recreation, and community. Named after a former mayor, the park features extensive walking and biking trails, nature play areas, a dog park, and the iconic Robert L.B. Tobin Land Bridge, which connects the park’s two sections over a busy highway. Known for its native landscapes and wildlife, Phil Hardberger Park offers a peaceful escape for outdoor enthusiasts and families while promoting sustainable land use and environmental education.",
+        "image": "https://storage.googleapis.com/galleryimageswedding/2022-11-13.jpg"
+    },
+    {
+        "id": 17,
+        "name": "Mission Reach Trail",
+        "type": "adventure",
+        "lat": 29.382029053005482,
+        "lon": -98.48967339176156,
+        "description": "The Mission Reach Trail, part of San Antonio's River Walk, is an 8-mile stretch that connects the city's historic Spanish colonial missions. This scenic trail winds along the San Antonio River and offers pathways for walking, biking, and kayaking. Featuring restored ecosystems, native plants, and public art installations, it provides a serene and culturally rich outdoor experience. The trail links iconic landmarks like Mission Concepción, Mission San José, Mission San Juan, and Mission Espada, making it a unique blend of history, nature, and recreation.",
+        "image": "https://storage.googleapis.com/galleryimageswedding/1-aRLptWShadkedp25UQTYDg-1.jpeg"
+    },
+    {
+        "id": 18,
+        "name": "Government Canyon State Natural Area",
+        "type": "nature",
+        "lat": 29.550687864730264,
+        "lon": -98.76378247338901,
+        "description": "Government Canyon State Natural Area, located just outside San Antonio, Texas, is a 12,000-acre preserve offering a haven for outdoor enthusiasts and nature lovers. The area features over 40 miles of hiking and biking trails that wind through diverse landscapes, including rugged canyons, rolling grasslands, and dense woodlands. It's home to rich wildlife, scenic overlooks, and even dinosaur tracks preserved in limestone. As a site focused on conservation, Government Canyon provides a tranquil escape for recreation while protecting the region's natural and cultural heritage.",
+        "image": "https://storage.googleapis.com/galleryimageswedding/Discovery-Trail_WB_0073.jpg"
+    },
+    {
+        "id": 19,
+        "name": "San Pedro Springs Park",
+        "type": "nature",
+        "lat": 29.446943205717155,
+        "lon": -98.50157916092495,
+        "description": "San Pedro Springs Park, located in San Antonio, Texas, is the second-oldest park in the United States and a cherished historic site. Spanning 46 acres, it features shaded walking paths, picnic areas, a library, and a swimming pool fed by natural springs. The park’s history dates back to the early Native American settlement and Spanish colonization, making it a site of cultural significance. With its tranquil atmosphere and historic charm, San Pedro Springs Park offers a peaceful retreat for recreation and relaxation.",
+        "image": "https://storage.googleapis.com/galleryimageswedding/TX_SanAntonio_SanPedroSpringsPark_CharlesABirnbaum_2016_12.jpg"
+    },
+    {
+        "id": 20,
+        "name": "Confluence Park",
+        "type": "nature",
+        "lat": 29.39464861420072,
+        "lon": -98.49680673481794,
+        "description": "Confluence Park, located in San Antonio, Texas, is an innovative and sustainable community space at the meeting point of the San Antonio River and San Pedro Creek. Designed to inspire environmental education, the park features iconic pavilion structures resembling flower petals that collect and channel rainwater. It offers shaded seating, walking paths, and native landscaping, creating a serene setting for outdoor activities and events. As a hub for learning and conservation, Confluence Park promotes ecological awareness while providing a unique and tranquil urban retreat.",
+        "image": "https://storage.googleapis.com/galleryimageswedding/confluence-park-aerial-1_credit_airborne_aerial_photography_0.jpg"
+    },
+    {
+        "id": 21,
+        "name": "Buc-ee's",
+        "type": "shopping",
+        "lat": 29.74229981375249,
+        "lon": -98.08745314155377,
+        "description": "Buc-ee's in New Braunfels, Texas, is a legendary travel stop and the largest convenience store in the world. Spanning over 68,000 square feet, it features an unparalleled selection of snacks, fresh-made food, home goods, apparel, and gifts. Known for its impeccably clean restrooms and iconic Beaver mascot, Buc-ee's is a must-visit destination for road trippers. Highlights include its famous Texas barbecue, freshly baked goods, and a vast array of Buc-ee's-branded merchandise, making it more than just a pit stop—it's an experience.",
+        "image": "https://storage.googleapis.com/galleryimageswedding/download.jpeg"
+    },
+    {
+        "id": 22,
+        "name": "Mission San José",
+        "type": "history",
+        "lat": 29.360261033694613,
+        "lon": -98.48021684593398,
+        "description": "Mission San José, located in San Antonio, Texas, is the largest and best-preserved of the city's Spanish colonial missions. Established in 1720, it is often called the \"Queen of the Missions\" for its stunning architecture, including the intricate Rose Window and expansive stone walls. The mission served as a community hub, offering shelter, food, and religious instruction to indigenous people. Now part of the San Antonio Missions National Historical Park and a UNESCO World Heritage Site, Mission San José offers visitors a glimpse into 18th-century life and the region’s rich history.",
+        "image": "https://storage.googleapis.com/galleryimageswedding/IMG_1958_3.jpeg"
+    },
+    {
+        "id": 23,
+        "name": "Mission Concepci\u00f3n",
+        "type": "history",
+        "lat": 29.391057104365537,
+        "lon":  -98.49114677180219,
+        "description": "Mission Concepción, located in San Antonio, Texas, is the oldest unrestored stone church in the United States, founded in 1731 as part of the Spanish colonial mission system. Renowned for its original frescoes and beautifully preserved architecture, the mission exemplifies Spanish Colonial design. Still an active Catholic parish, Mission Concepción offers a serene setting for worship and reflection. As part of the San Antonio Missions National Historical Park and a UNESCO World Heritage Site, it provides visitors with a glimpse into the region's rich history and cultural heritage.",
+        "image": "https://storage.googleapis.com/galleryimageswedding/San-Antonio-Missions-058.jpg"
+    },
+    {
+        "id": 24,
+        "name": "Mission San Juan Capistrano",
+        "type": "history",
+        "lat": 29.3326100616221,
+        "lon": -98.4553939170998,
+        "description": "Mission San Juan Capistrano, located in San Antonio, Texas, was established in 1731 as part of the Spanish colonial mission system. Known for its serene setting and simple yet elegant design, the mission once thrived as a self-sustaining community with fertile farmland and a sophisticated irrigation system. Today, visitors can explore its historic chapel, ruins, and surrounding gardens. As part of the San Antonio Missions National Historical Park and a UNESCO World Heritage Site, Mission San Juan Capistrano offers a peaceful glimpse into Texas's colonial past and cultural",
+        "image": "https://storage.googleapis.com/galleryimageswedding/San-Antonio-Missions-043.jpg"
+    },
+    {
+        "id": 25,
+        "name": "Mission Espada",
+        "type": "history",
+        "lat": 29.318205440051404,
+        "lon": -98.4512200882654,
+        "description": "Mission Espada, located in San Antonio, Texas, is the southernmost of the city's Spanish colonial missions, established in 1731. Known for its rustic charm and unique arched entryway, it served as a religious and community center for indigenous peoples during the colonial era. The mission is notable for its acequia system, an ancient irrigation canal still in use today. As part of the San Antonio Missions National Historical Park and a UNESCO World Heritage Site, Mission Espada provides a quiet, historical setting to explore Texas’s rich cultural and spiritual heritage.",
+        "image": "https://storage.googleapis.com/galleryimageswedding/20230612_161936000_iOS.jpg"
+    },
+    {
+        "id": 26,
+        "name": "Extreme Escape San Antonio - Stone Oak",
+        "type": "adventure",
+        "lat": 29.60746879086009,
+        "lon": -98.50156451893574,
+        "description": "Extreme Escape San Antonio - Stone Oak is a premier escape room experience offering thrilling, interactive adventures. Located in the Stone Oak area of San Antonio, it features a variety of themed rooms, each with unique storylines, puzzles, and challenges. Guests must work together to solve clues and escape before time runs out, making it perfect for friends, families, or team-building events. With immersive environments and cutting-edge technology, Extreme Escape provides an unforgettable experience for thrill-seekers and puzzle enthusiasts alike.",
+        "image": "https://storage.googleapis.com/galleryimageswedding/Extreme-Escape-5IumTox-s-sm.jpg"
+    },
+    {
+        "id": 27,
+        "name": "The Escape Game San Antonio",
+        "type": "adventure",
+        "lat": 29.611437789395833,
+        "lon": -98.59886704592566,
+        "description": "The Escape Game San Antonio, located at The Shops at Rivercenter, offers an immersive escape room experience with a variety of exciting themes and challenges. Participants work together to solve puzzles, uncover clues, and complete their mission within 60 minutes. Each room features detailed sets and storylines, ranging from heists and prison breaks to outer space adventures. Perfect for friends, families, or team-building events, The Escape Game combines creativity, teamwork, and fun for a memorable experience in the heart of San Antonio.",
+        "image": "https://storage.googleapis.com/galleryimageswedding/0c64c8a6792a80c426733842e3953dd6ce9e83d7-800x800.jpg"
+    },
+    {
+        "id": 28,
+        "name": "Zero Latency VR - San Antonio",
+        "type": "adventure",
+        "lat": 29.60413932975273,
+        "lon": -98.44246453243086,
+        "description": "Zero Latency VR - San Antonio is an immersive virtual reality experience offering cutting-edge, free-roam multiplayer games. Located in San Antonio, Texas, it allows players to step into expansive virtual worlds without being tethered to cables. Teams of up to eight players can collaborate or compete in thrilling scenarios, including zombie survival, space exploration, and futuristic combat. With high-tech equipment and stunning graphics, Zero Latency VR delivers a unique and adrenaline-pumping adventure, perfect for gamers, friends, and team-building events.",
+        "image": "https://storage.googleapis.com/galleryimageswedding/images.jpeg"
+    },
+    {
+        "id": 29,
+        "name": "Axe Escape - Axe Throwing San Antonio",
+        "type": "adventure",
+        "lat": 29.60405617577531,
+        "lon": -98.44246226462401,
+        "description": "Axe Escape - Axe Throwing San Antonio offers a unique and exciting combination of axe throwing and interactive challenges. Located in San Antonio, it provides a fun, safe environment for individuals, groups, and team-building events to test their skills at hitting targets with axes. Expert coaches guide participants through proper techniques, making it accessible for all experience levels. With a blend of thrilling activities and a lively atmosphere, Axe Escape is a perfect destination for a memorable outing with friends, family, or coworkers.",
+        "image": "https://storage.googleapis.com/galleryimageswedding/2024-03-03.jpg"
+    },
+    {
+        "id": 30,
+        "name": "Andretti Indoor Karting & Games",
+        "type": "adventure",
+        "lat": 29.593125917223325,
+        "lon": -98.59410056932005,
+        "description": "Andretti Indoor Karting & Games, located in San Antonio, Texas, is an entertainment hub offering high-speed indoor karting, state-of-the-art arcade games, laser tag, bowling, and virtual reality experiences. The facility features multi-level tracks for exhilarating racing and diverse attractions to cater to all ages. It also includes a full-service restaurant and bar, making it ideal for family outings, corporate events, or group celebrations. With its wide range of activities and vibrant atmosphere, Andretti Indoor Karting & Games provides endless fun and excitement.",
+        "image": "https://storage.googleapis.com/galleryimageswedding/andretti-indoor-karting.jpg"
+    },
+    {
+        "id": 31,
+        "name": "Morgan\u2019s Wonderland",
+        "type": "family",
+        "lat": 29.53931022947299, 
+        "lon": -98.39251857291804,
+        "description": "Morgan’s Wonderland, located in San Antonio, Texas, is the world’s first ultra-accessible theme park, designed to provide fun and inclusivity for individuals of all abilities. Spanning 25 acres, it features rides, playgrounds, and attractions tailored for accessibility, including wheelchair-friendly rides and sensory-friendly spaces. Opened in 2010, the park promotes inclusion and celebrates diversity, welcoming guests of all ages and abilities. Adjacent to the park is Morgan’s Inspiration Island, a fully accessible water park, adding to the unique and joyful experience. Morgan’s Wonderland is a pioneering destination for inclusive fun and community connection.",
+        "image": "https://storage.googleapis.com/galleryimageswedding/rawImage.jpg"
+    },
+    {
+        "id": 32,
+        "name": "The DoSeum",
+        "type": "family",
+        "lat": 29.453394832343005,
+        "lon": -98.47168597884503,
+        "description": "The DoSeum, located in San Antonio, Texas, is a hands-on children’s museum designed to inspire learning through play. With interactive exhibits focused on STEM, arts, and literacy, it offers engaging activities like building robots, solving puzzles, and exploring an outdoor waterworks area. The museum features spaces for toddlers, school-aged children, and families, encouraging creativity and curiosity in a fun, educational environment. As a vibrant learning hub, The DoSeum is a favorite destination for kids and families seeking discovery and entertainment.",
+        "image": "https://storage.googleapis.com/galleryimageswedding/san_antonio_children_s_museum_-_photog_casey_dunn.avif"
+    },
+    {
+        "id": 33,
+        "name": "LEGOLAND Discovery Center",
+        "type": "family",
+        "lat": 29.424143753676397,
+        "lon": -98.48466478499216,
+        "description": "LEGOLAND Discovery Center, located in San Antonio, Texas, is an indoor LEGO-themed attraction designed for families and children. It features interactive exhibits, including a LEGO build-and-play zone, 4D cinema, themed rides, and a miniature replica of San Antonio built entirely from LEGO bricks. Guests can enjoy creative workshops led by Master Builders, test their creations, and immerse themselves in the world of LEGO. Perfect for kids and LEGO enthusiasts, LEGOLAND Discovery Center offers a fun and imaginative experience for all ages.",
+        "image": "https://storage.googleapis.com/galleryimageswedding/miniland-sa-7-5.jpg"
+    },
+    {
+        "id": 34,
+        "name": "SeaWorld San Antonio",
+        "type": "family",
+        "lat": 29.456412986960224, 
+        "lon": -98.69997192900618,
+        "description": "SeaWorld San Antonio is a marine-themed park and aquarium offering thrilling rides, animal encounters, and captivating shows. As one of the largest SeaWorld parks in the U.S., it features roller coasters, water rides, and attractions like the Sesame Street Bay of Play for kids. Visitors can interact with marine life, including dolphins, sea lions, and stingrays, and enjoy educational presentations highlighting conservation efforts. With its blend of entertainment and wildlife experiences, SeaWorld San Antonio provides a fun and memorable adventure for families and animal lovers.",
+        "image": "https://storage.googleapis.com/galleryimageswedding/SeaWorld-Front-Entrance.jpeg"
+    },
+    {
+        "id": 35,
+        "name": "SeaWorld - Aquatica San Antonio",
+        "type": "family",
+        "lat": 29.46076676587561,
+        "lon": -98.6983674036007,
+        "description": "Aquatica San Antonio, located within SeaWorld San Antonio, is a water park offering a tropical escape with thrilling slides, relaxing pools, and animal encounters. The park features attractions for all ages, including high-speed water slides, wave pools, and lazy rivers. Unique experiences, like swimming alongside stingrays or exploring waterfalls, blend aquatic fun with wildlife interaction. With its sandy beaches, lush landscaping, and family-friendly atmosphere, Aquatica San Antonio is the perfect destination for a refreshing and exciting day in the sun.",
+        "image": "https://storage.googleapis.com/galleryimageswedding/FebAPTView.jpg"
+    },
+    {
+        "id": 36,
+        "name": "Six Flags Fiesta Texas",
+        "type": "family",
+        "lat": 29.59949371979532,
+        "lon": -98.60893744777104,
+        "description": "Six Flags Fiesta Texas, located in San Antonio, Texas, is a premier theme park known for its thrilling rides, family attractions, and live entertainment. Set against stunning limestone cliffs, the park features roller coasters, water rides, and kid-friendly areas like Bugs Bunny Boomtown. Highlights include the Iron Rattler, a hybrid coaster, and Thunder Rapids, a high-speed water coaster. Fiesta Texas also offers seasonal events like Fright Fest and Holiday in the Park. With its mix of excitement and fun, it’s a top destination for visitors of all ages.",
+        "image": "https://storage.googleapis.com/galleryimageswedding/Six-Flags-Fiesta-Texas-Banner_CCB99C8A-5056-BFCE-A81EF5BBB0A6AB83-ccb99a785056bfc_ccb99f7e-5056-bfce-a859b44366f09900.jpg"
+    },
+    {
+        "id": 37,
+        "name": "Rita's Italian Ice & Frozen Custard",
+        "type": "family",
+        "lat": 29.670089874469447,
+        "lon": -98.1182464305837,
+        "description": "Rita's Italian Ice & Frozen Custard in New Braunfels, Texas, offers a refreshing taste of a beloved East Coast tradition. Known for its creamy frozen custard and a wide variety of Italian Ice flavors, Rita's is a favorite for cool treats year-round. Popular for its smooth textures and bold flavors, Rita's brings a slice of East Coast charm to Texas, making it a must-visit spot for locals and visitors alike seeking a delicious dessert experience any time of the year.",
+        "image": "https://storage.googleapis.com/galleryimageswedding/2024-10-06.jpg"
+    },
+    {
+        "id": 38,
+        "name": "ZDT\u2019s Amusement Park",
+        "type": "family",
+        "lat": 29.593,
+        "lon": -97.95,
+        "description": "ZDT’s Amusement Park, located in Seguin, Texas, is a family-owned theme park offering a mix of thrilling rides, arcade games, and water attractions. Known for its Switchback roller coaster, the world’s first modern wooden shuttle coaster, the park delivers unique excitement for adrenaline seekers. It also features go-karts, rock climbing, and a splash zone for younger visitors. Open year-round, ZDT’s emphasizes family-friendly fun in a welcoming atmosphere, making it a popular destination for all ages.",
+        "image": "https://storage.googleapis.com/galleryimageswedding/Cover_1200x1200.webp"
+    },
+    {
+        "id": 39,
+        "name": "The Rollercade",
+        "type": "family",
+        "lat": 29.49497255882024,
+        "lon": -98.49693357482575,
+        "description": "The Rollercade, located in San Antonio, Texas, is a classic roller skating rink that has been a beloved local attraction for decades. Known for its retro charm and family-friendly environment, it offers open skate sessions, private parties, and themed events. With a vibrant atmosphere, music, and a spacious skating floor, The Rollercade provides fun for skaters of all ages and skill levels. It’s a perfect spot for creating memories, celebrating special occasions, or simply enjoying a nostalgic day out.",
+        "image": "https://storage.googleapis.com/galleryimageswedding/35-_G2A3003-CR3_DxO_DeepPRIME.avif"
+    },
+    {
+        "id": 40,
+        "name": "Pickrell Park Pool",
+        "type": "family",
+        "lat": 29.55397637215425,
+        "lon": -98.27844917830804,
+        "description": "Pickrell Park Pool, located in Schertz, Texas, is a family-friendly outdoor pool offering a refreshing escape during the summer months. The pool features a shallow splash area for younger children, lap lanes, and recreational swim zones, making it suitable for all ages. With lifeguards on duty and shaded areas for relaxation, it’s a safe and enjoyable spot for swimming, playing, or cooling off. Pickrell Park Pool is a local favorite for families looking to beat the Texas heat and have fun in a community setting.",
+        "image": "https://storage.googleapis.com/galleryimageswedding/15b7b51366375ce15f25a99b79330be6.webp"
+    },
+    {
+        "id": 41,
+        "name": "Animal World & Snake Farm Zoo",
+        "type": "animals",
+        "lat": 29.65597802162234,
+        "lon": -98.18688034584203,
+        "description": "Animal World & Snake Farm Zoo, located in New Braunfels, Texas, is a unique wildlife attraction featuring a diverse collection of animals, including exotic mammals, birds, and reptiles. Originally established as a snake farm in 1967, it has since expanded to include interactive exhibits, educational programs, and up-close encounters with creatures like lemurs, wolves, and alligators. A highlight for visitors is the extensive reptile collection, showcasing venomous snakes from around the world. With its hands-on experiences and focus on conservation, the zoo offers an exciting and educational adventure for all ages.",
+        "image": "https://storage.googleapis.com/galleryimageswedding/IMG_9803-scaled.jpg"
+    },
+    {
+        "id": 42,
+        "name": "Natural Bridge Wildlife Ranch",
+        "type": "animals",
+        "lat": 29.694500478896366,
+        "lon": -98.33567053373562,
+        "description": "Natural Bridge Wildlife Ranch, located in San Antonio, Texas, is a drive-thru safari park where visitors can observe over 500 animals from around the world in a natural, open-range setting. The park features a variety of species, including exotic and endangered animals, which roam freely across the 400-acre ranch. Guests can drive through the park, feed the animals, and stop at various viewing areas. In addition to the safari, the park also offers walking areas, a petting zoo, and a gift shop, making it a fun and educational experience for all ages." ,
+        "image": "https://storage.googleapis.com/galleryimageswedding/screen-shot-2019-05-16-at-1-08-06-pm.png"
+    },
+    {
+        "id": 43,
+        "name": "San Antonio Aquarium",
+        "type": "animals",
+        "lat": 29.487306835139215,
+        "lon": -98.6097584102652,
+        "description": "The San Antonio Aquarium is an interactive family attraction showcasing marine life and exotic animals from around the world. Visitors can enjoy hands-on experiences like feeding stingrays, sharks, and lorikeets, as well as encountering reptiles and other unique creatures. The aquarium features touch tanks, educational programs, and interactive exhibits designed to engage and inspire curiosity about the natural world. With its immersive activities and diverse species, the San Antonio Aquarium offers a fun and educational outing for visitors of all ages.",
+        "image": "https://storage.googleapis.com/galleryimageswedding/maxresdefault%20(2).jpg"
+    },
+    {
+        "id": 44,
+        "name": "SEA LIFE San Antonio",
+        "type": "animals",
+        "lat": 29.424253316031745,
+        "lon": -98.4862361390316,
+        "description": "SEA LIFE San Antonio, located at The Shops at Rivercenter, is an immersive aquarium experience showcasing a variety of marine life. Featuring interactive exhibits like the 360-degree Ocean Tunnel, visitors can get up close with sharks, rays, sea turtles, and colorful fish. The aquarium also includes hands-on rock pools and educational displays about ocean conservation. Perfect for families, SEA LIFE provides a fun and engaging journey through the underwater world, inspiring a deeper connection with marine creatures.",
+        "image": "https://storage.googleapis.com/galleryimageswedding/idme_1920x1280_sl_update.png"
+    },
+    {
+        "id": 45,
+        "name": "Bracken Bat Cave",
+        "type": "animals",
+        "lat": 29.690382051029985,
+        "lon": -98.34988828741305,
+        "description": "Bracken Bat Cave, located near San Antonio, Texas, is home to the world’s largest colony of Mexican free-tailed bats. Each summer, millions of bats emerge from the cave at dusk, creating a spectacular natural phenomenon as they take flight in search of insects. Managed by Bat Conservation International, the cave plays a vital role in ecosystem health and insect control. Guided tours and viewing opportunities offer visitors an up-close experience with this awe-inspiring display of nature, making it a must-see for wildlife enthusiasts and conservation supporters.",
+        "image": "https://storage.googleapis.com/galleryimageswedding/109454-Jonathan-Alonzo-Mexican-Free-tailed-Bat-56.jpg"
+    },
+    {
+        "id": 46,
+        "name": "McNay Art Museum",
+        "type": "art",
+        "lat": 29.4857734675051,
+        "lon": -98.45712262560617,
+        "description": "The McNay Art Museum, located in San Antonio, Texas, is the first modern art museum in the state. Housed in a stunning Spanish Colonial Revival mansion, it features an extensive collection of 20th- and 21st-century works, including pieces by renowned artists like Picasso, O’Keeffe, and Hopper. The museum also showcases European and American art, theater designs, and rotating exhibitions. Surrounded by beautiful gardens and sculptures, the McNay offers a serene and inspiring setting for art lovers and visitors seeking cultural enrichment.",
+        "image": "https://storage.googleapis.com/galleryimageswedding/4-6-21-LMP-hdr-sm-33-1.jpg"
+    },
+    {
+        "id": 47,
+        "name": "Briscoe Western Art Museum",
+        "type": "art",
+        "lat": 29.423315384672883,
+        "lon": -98.48927801396081,
+        "description": "The Briscoe Western Art Museum, located along the River Walk in San Antonio, Texas, celebrates the art, history, and culture of the American West. Housed in a beautifully restored historic building, the museum features galleries showcasing Western paintings, sculptures, artifacts, and Native American art. Highlights include a full-sized stagecoach, cowboy gear, and an interactive diorama of the Battle of the Alamo. With rotating exhibits and educational programs, the Briscoe offers an engaging experience for those interested in the rich heritage of the West.",
+        "image": "https://storage.googleapis.com/galleryimageswedding/0010_Sharon-Garcia-Museum-Lobby_large_BD15CAB1-5056-BFCE-A8197CC73A0F1BAA-bd15ca1f5056bfc_bd15ce6f-5056-bfce-a89645910ec4fd59.jpg"
+    },
+    {
+        "id": 48,
+        "name": "Guadalupe Cultural Arts Center",
+        "type": "art",
+        "lat": 29.420059239554423,
+        "lon": -98.5144351728383,
+        "description": "The Guadalupe Cultural Arts Center, located in San Antonio, Texas, is a vibrant hub dedicated to promoting and preserving Latino, Chicano, and Indigenous arts and culture. It offers a wide range of programming, including visual arts, theater, dance, literature, and film. The center is renowned for hosting events like the annual Tejano Conjunto Festival and Día de los Muertos celebrations. Through workshops, performances, and exhibitions, the Guadalupe Cultural Arts Center fosters creativity and community while celebrating the rich cultural heritage of the region.",
+        "image": "https://storage.googleapis.com/galleryimageswedding/Hill-Country-Guadalupe-Cultural-Arts-Center-Visit-San-Antonio-21.avif"
+    },
+    {
+        "id": 49,
+        "name": "Stars & Stripes Drive-In Theatre",
+        "type": "local_hidden_gem",
+        "lat": 29.725315582325983,
+        "lon": -98.044089459334,
+        "description": "Stars & Stripes Drive-In Theatre in New Braunfels, Texas, offers a nostalgic movie-going experience with a modern twist. Featuring multiple screens and showing double features of current films, it allows visitors to enjoy movies from the comfort of their vehicles or outdoor seating areas. The family-friendly venue also includes a 1950s-inspired snack bar serving classic treats like popcorn, burgers, and milkshakes. Open year-round, Stars & Stripes Drive-In Theatre is a perfect destination for a fun and memorable night under the stars.",
+        "image": "https://storage.googleapis.com/galleryimageswedding/detail_drive-in-main.jpg"
+    },
+    {
+        "id": 50,
+        "name": "San Antonio Art League Museum",
+        "type": "art",
+        "lat": 29.41692931582679,
+        "lon": -98.49096901396102,
+        "description": "The San Antonio Art League Museum, located in the historic King William District, is a cultural gem showcasing the works of regional and Texas-based artists. Established in 1912, it houses a diverse collection of paintings, sculptures, and other visual art forms, with a focus on preserving and promoting Texas art. The museum also features rotating exhibitions, educational programs, and community events. Its charming setting in a historic home adds to its appeal, making it a must-visit for art enthusiasts and history lovers alike.",
+        "image": "https://storage.googleapis.com/galleryimageswedding/Art-League-image_97C96C55-DD53-559D-C812F8A0F9092085-97c967e196cc190_97c98ded-eca5-a548-547293439780d184.jpg"
+    },
+    {
+        "id": 51,
+        "name": "The Pearl District",
+        "type": "shopping_dining",
+        "lat": 29.441958049631697,
+        "lon": -98.47920224400232,
+        "description": "The Pearl District, located just north of downtown San Antonio, Texas, is a vibrant neighborhood known for its mix of history, culture, and modern development. Once home to the Pearl Brewery, the area now features a bustling culinary scene, boutique shops, and a weekly farmers market. Highlights include the iconic Hotel Emma, the Culinary Institute of America campus, and picturesque outdoor spaces along the River Walk extension. With its blend of historic charm and contemporary flair, the Pearl District is a must-visit destination for dining, shopping, and entertainment.",
+        "image": "https://storage.googleapis.com/galleryimageswedding/Pearl_cd91e860-8427-486a-8955-c739b00a0706.jpg"
+    },
+    {
+        "id": 52,
+        "name": "Historic Pearl Farmers Market",
+        "type": "shopping_dining",
+        "lat": 29.44245224566793,
+        "lon": -98.48024505092336,
+        "description": "The Historic Pearl Farmers Market, located in the Pearl District of San Antonio, Texas, is a lively weekend market showcasing local farmers, ranchers, and artisans. Held every Saturday and Sunday, it offers a wide selection of fresh produce, meats, baked goods, and handmade products. Visitors can enjoy live music, delicious food from local vendors, and a vibrant atmosphere. Set in the historic and trendy Pearl District, the market is a favorite gathering spot for the community, celebrating the region’s culinary and creative talent.",
+        "image": "https://storage.googleapis.com/galleryimageswedding/ca12457cb1b469c2f984c77b48cb1e2e-500x375-c-default.jpg"
+    },
+    {
+        "id": 53,
+        "name": "Shops at La Cantera",
+        "type": "shopping_dining",
+        "lat": 29.606589705965092,
+        "lon": -98.62939062764111,
+        "description": "The Shops at La Cantera, located in San Antonio, Texas, is an upscale open-air shopping destination featuring a mix of high-end retailers, popular brands, and local boutiques. With beautifully landscaped walkways, fountains, and a relaxed outdoor ambiance, it offers a premier shopping and dining experience. Visitors can explore stores like Nordstrom, Apple, and Louis Vuitton, as well as a variety of restaurants and cafes. Perfect for a day out, The Shops at La Cantera combines luxury, style, and leisure in one of San Antonio’s most elegant settings.",
+        "image": "https://storage.googleapis.com/galleryimageswedding/HE36IYKFWNHITGVZJOWRDZPNVE.jpg"
+    },
+    {
+        "id": 54,
+        "name": "The Rim Shopping Center",
+        "type": "shopping_dining",
+        "lat": 29.609413514247663,
+        "lon": -98.59879486118457,
+        "description": "The Rim Shopping Center, located in San Antonio, Texas, is a sprawling retail and entertainment destination offering a wide range of shopping, dining, and leisure options. Featuring popular retailers like Target, Bass Pro Shops, and Hobby Lobby, as well as a variety of restaurants and cafes, it caters to diverse tastes and needs. The center also includes entertainment venues like Santikos Palladium theater, making it a perfect spot for a day of fun and relaxation. Conveniently located near major attractions like Six Flags Fiesta Texas, The Rim is a vibrant hub for locals and visitors alike.",
+        "image": "https://storage.googleapis.com/galleryimageswedding/5C08D65D-00CD-44C1-9EEB-BB7BAE4182E0.jpeg"
+    },
+    {
+        "id": 55,
+        "name": "Alamo Quarry Market",
+        "type": "shopping_dining",
+        "lat": 29.501281307216495,
+        "lon": -98.47941194587933,
+        "description": "The Alamo Quarry Market, located in San Antonio, Texas, is a unique shopping, dining, and entertainment destination set in a historic former cement factory. Its iconic smokestacks and industrial design pay homage to its history while housing an array of popular retailers, specialty shops, and diverse restaurants. The open-air center also features a movie theater and fitness options, making it a versatile spot for visitors. Conveniently located near downtown, the Alamo Quarry Market offers a distinctive blend of history, style, and leisure.",
+        "image": "https://storage.googleapis.com/galleryimageswedding/2024-10-11.jpg"
+    },
+    {
+        "id": 56,
+        "name": "Schlitterbahn Waterpark New Braunfels",
+        "type": "day_trip",
+        "lat": 29.72499384832844,
+        "lon": -98.1153197317494,
+        "description": "Schlitterbahn Waterpark in New Braunfels, Texas, is a world-famous waterpark known for its innovative rides and family-friendly fun. Nestled along the Comal River, the park features a mix of natural river-fed attractions and thrilling water slides, including the iconic Master Blaster uphill water coaster. With multiple sections, lazy rivers, wave pools, and kid-friendly areas, Schlitterbahn offers something for all ages. Guests can relax in private cabanas or enjoy riverside picnics, making it a perfect summer destination for both adventure and relaxation.",
+        "image": "https://storage.googleapis.com/galleryimageswedding/I2W7HIGZZBBBBN53H73RPW2FBY.jpg"
+    },
+    {
+        "id": 57,
+        "name": "Landa Park",
+        "type": "day_trip",
+        "lat": 29.70911439797074,
+        "lon": -98.13529099491686,
+        "description": "Landa Park, located in New Braunfels, Texas, is a scenic 51-acre park offering a mix of natural beauty and recreational activities. Nestled along the Comal Springs, the park features walking trails, picnic areas, a miniature train, paddleboats, and a natural swimming pool fed by the springs. Visitors can also enjoy golfing, fishing, or simply relaxing under the shade of towering oak trees. With its blend of outdoor fun and serene landscapes, Landa Park is a cherished destination for families, nature enthusiasts, and anyone seeking a peaceful retreat.",
+        "image": "https://storage.googleapis.com/galleryimageswedding/maxresdefault.jpg"
+    },
+    {
+        "id": 58,
+        "name": "Canyon Lake",
+        "type": "day_trip",
+        "lat": 29.882806562427103,
+        "lon": -98.2614029301034,
+        "description": "Canyon Lake, located in the Texas Hill Country near New Braunfels, is a picturesque reservoir known as the \"Water Recreation Capital of Texas.\" It offers crystal-clear waters perfect for boating, fishing, swimming, and water sports. Surrounding the lake are parks with hiking trails, picnic areas, and campsites, providing opportunities for outdoor enthusiasts to enjoy its natural beauty. Canyon Lake’s scenic landscapes, including limestone bluffs and rolling hills, make it a favorite destination for relaxation, adventure, and breathtaking views.",
+        "image": "https://storage.googleapis.com/galleryimageswedding/GettyImages-962226054-scaled.jpg"
+    },
+    {
+        "id": 59,
+        "name": "Guadalupe River",
+        "type": "day_trip",
+        "lat": 29.532878350987264,
+        "lon": -97.92999933268905,
+        "description": "The Guadalupe River, flowing through central and southern Texas, is a popular destination for outdoor activities such as tubing, kayaking, fishing, and swimming. Known for its crystal-clear waters and scenic surroundings, the river offers picturesque views, especially along the Texas Hill Country. Whether you're looking for a relaxing float or an adventurous paddle, the Guadalupe River provides a variety of recreational opportunities in a tranquil natural setting.",
+        "image": "https://storage.googleapis.com/galleryimageswedding/maxresdefault%20(1).jpg"
+    },
+    {
+        "id": 60,
+        "name": "Fischer Park",
+        "type": "day_trip",
+        "lat": 29.68214920856002,
+        "lon": -98.10876986159465,
+        "description": "Fischer Park, located in New Braunfels, Texas, is a 75-acre park offering a variety of outdoor activities, including hiking, fishing, picnicking, and nature watching. With scenic trails, playgrounds, and a stocked fishing pond, the park provides a peaceful escape for families and nature lovers. It also features a splash pad, sports courts, and community pavilions, making it a perfect spot for recreational fun and relaxation in a beautiful natural setting.",
+        "image": "https://storage.googleapis.com/galleryimageswedding/Document.jpeg"
+    },
+    {
+        "id": 61,
+        "name": "The Greenline SA",
+        "type": "unique_experience",
+        "lat": 29.345238640028928,
+        "lon": -98.45165923983411,
+        "description": "The Greenline SA is a 15-mile-long urban trail in San Antonio, Texas, designed for walking, biking, and outdoor recreation. Running through neighborhoods, parks, and scenic areas, it connects key parts of the city, including the San Antonio Missions National Historical Park and the Pearl District. The trail offers a unique way to explore the city’s natural beauty and historic landmarks while promoting sustainability and healthy lifestyles. With its paved pathways and diverse surroundings, The Greenline SA provides a vibrant and accessible outdoor space for residents and visitors alike.",
+        "image": "https://storage.googleapis.com/galleryimageswedding/running-with-the-moon.jpg"
+    },
+    {
+        "id": 62,
+        "name": "The Rush Fun Park",
+        "type": "adventure",
+        "lat": 29.575966990632097,
+        "lon": -98.5453223269211,
+        "description": "The Rush Fun Park in San Antonio, Texas, is an indoor entertainment center offering a variety of thrilling activities for all ages. Featuring go-karts, laser tag, mini-golf, arcade games, and a trampoline park, it provides a fun-filled environment for families, friends, and groups. The park also includes a full-service restaurant and party rooms, making it a popular spot for birthday parties and special events. With its wide range of attractions and vibrant atmosphere, The Rush Fun Park is a go-to destination for entertainment and excitement.",
+        "image": "https://storage.googleapis.com/galleryimageswedding/The-Rush-Fun-Park_4cf6ff94bf3e469791296c7dcb781548.png"
+    },
+    {
+        "id": 63,
+        "name": "Mission Marquee Plaza",
+        "type": "unique_experience",
+        "lat": 29.36636719615892,
+        "lon": -98.48044526276936,
+        "description": "Mission Marquee Plaza, located in San Antonio, Texas, is a vibrant cultural and event space near the historic San Antonio Missions. The plaza hosts a variety of community events, including outdoor concerts, farmers markets, cultural festivals, and fitness activities. With its spacious open-air layout, picnic areas, and beautiful views of the San Antonio Missions, it’s a perfect venue for gatherings and celebrations. The plaza also serves as a gateway to the surrounding historic and natural sites, offering visitors a place to relax and enjoy local culture." ,
+        "image": "https://storage.googleapis.com/galleryimageswedding/ratio3x2_1920.jpg"
+    },
+    {
+        "id": 64,
+        "name": "The Magicians Agency Theatre",
+        "type": "unique_experience",
+        "lat": 29.425257305680184,
+        "lon": -98.4873334457257,
+        "description": "The Magicians Agency Theatre, located in San Antonio, Texas, offers a one-of-a-kind magic show experience featuring talented illusionists, magicians, and entertainers. The intimate venue showcases a variety of magic performances, from mind-bending illusions to sleight-of-hand tricks, providing an interactive and engaging experience for guests of all ages. With its fun and mysterious atmosphere, The Magicians Agency Theatre is a popular destination for those seeking an entertaining and magical night out in San Antonio." ,
+        "image": "https://storage.googleapis.com/galleryimageswedding/DSC00661-1-1024x683.jpg"
+    },
+    {
+        "id": 65,
+        "name": "Southtown Arts District",
+        "type": "unique_experience",
+        "lat": 29.409675983828805,
+        "lon": -98.48687790339682,
+        "description": "Southtown Arts District, located in the heart of San Antonio, Texas, is a vibrant neighborhood known for its eclectic mix of galleries, studios, restaurants, and unique shops. It serves as a hub for local artists and hosts regular events such as First Friday, where visitors can explore art exhibitions, live music, and street performances. The district blends contemporary art with historical charm, offering a lively atmosphere for residents and tourists alike. Southtown is also home to a variety of dining options, making it a popular destination for food lovers and art enthusiasts." ,
+        "image": "https://storage.googleapis.com/galleryimageswedding/King_William_Neighborhood_Banner_316581e5-d307-4047-82c0-4b15a9b70ca0.jpg"
+    },
+    {
+        "id": 66,
+        "name": "Espada Aqueduct",
+        "type": "local_hidden_gem",
+        "lat": 29.332800973775935,
+        "lon": -98.46137041916067,
+        "description": "The Espada Aqueduct, located in San Antonio, Texas, is a historic structure that once carried water from the San Antonio River to the Spanish colonial missions. Built in the 1700s, it is a part of the San Antonio Missions National Historical Park and is a key feature of the area’s early irrigation system. The aqueduct’s distinctive design and historical significance make it an important part of the region’s cultural heritage. Today, it stands as a testament to early engineering and is a popular site for visitors exploring the history of the San Antonio Missions." ,
+        "image": "https://storage.googleapis.com/galleryimageswedding/1AC2DDDB-F04C-4312-F3936776B9177CD6.jpg"
+    },
+    {
+        "id": 67,
+        "name": "Hemisfair’s Civic Park",
+        "type": "local_hidden_gem",
+        "lat": 29.420503270393972,
+        "lon": -98.486490843837,
+        "description": "Hemisfair’s Civic Park, located in downtown San Antonio, Texas, is a vibrant green space designed for relaxation, recreation, and community events. As part of the Hemisfair Park redevelopment, it features open lawns, shaded areas, and interactive play zones for children. The park hosts a variety of events, including outdoor concerts, festivals, and fitness classes. With its central location and family-friendly amenities, Civic Park provides a modern urban retreat where residents and visitors can gather, enjoy nature, and experience the city’s cultural activities." ,
+        "image": "https://storage.googleapis.com/galleryimageswedding/2023-11-14.jpg"
+    },
+    {
+        "id": 68,
+        "name": "The Buckhorn Saloon & Museum",
+        "type": "local_hidden_gem",
+        "lat": 29.42644774785868,
+        "lon": -98.48889073725563,
+        "description": "The Buckhorn Saloon & Museum, located in San Antonio, Texas, is a historic saloon that has been serving locals and visitors since 1881. The saloon is famous for its extensive collection of wildlife trophies, antique firearms, and Western memorabilia, which are displayed throughout the museum. Visitors can enjoy a cold drink at the bar while exploring the museum’s exhibits, which highlight the region’s rich cultural and hunting history. With its unique combination of history, hospitality, and old-west charm, The Buckhorn Saloon & Museum offers a one-of-a-kind San Antonio experience." ,
+        "image": "https://storage.googleapis.com/galleryimageswedding/20240921_123628.jpg"
+    },
+    {
+        "id": 69,
+        "name": "King William Historic District",
+        "type": "local_hidden_gem",
+        "lat": 29.41601571226514,
+        "lon": -98.49017402866222,
+        "description": "The King William Historic District, located in San Antonio, Texas, is a charming neighborhood known for its well-preserved 19th-century architecture. As the city’s first historic district, it features beautiful Victorian homes, mansions, and cobblestone streets that reflect the area’s rich cultural heritage. Visitors can explore art galleries, cafes, and boutique shops, as well as take guided tours to learn about the district’s history. The King William Historic District is a peaceful and picturesque destination, offering a glimpse into San Antonio’s past while remaining a vibrant part of the city’s present." ,
+        "image": "https://storage.googleapis.com/galleryimageswedding/66_Feat_Newcomer_RayPerezPhoto_VillaFinale_IMG_5187_EDIT_Web.jpg"
+    },
+    {
+        "id": 70,
+        "name": "San Antonio Fire Museum",
+        "type": "specialty_museum",
+        "lat": 29.42612976475973,
+        "lon": -98.4841774323553, 
+        "description": "The San Antonio Fire Museum, located in downtown San Antonio, Texas, is dedicated to preserving the history of firefighting in the city. Housed in a historic fire station, the museum features a collection of antique fire trucks, equipment, uniforms, and photographs. It provides visitors with a glimpse into the evolution of fire services and highlights the bravery and contributions of local firefighters. The museum also hosts educational programs and events, making it a fun and informative stop for families and history enthusiasts." ,
+        "image": "https://storage.googleapis.com/galleryimageswedding/getlstd-property-photo.jpg"
+    },
+    {
+        "id": 71,
+        "name": "Toyota Field",
+        "type": "sports_games",
+        "lat": 29.53953215512395,
+        "lon": -98.39450239523717,
+        "description": "Toyota Field, located in San Antonio, Texas, is a multi-purpose stadium primarily home to San Antonio FC, the city’s professional soccer team. Opened in 2016, the stadium features modern amenities, including seating for over 8,000 fans, luxury suites, and a fan-friendly atmosphere. In addition to soccer matches, Toyota Field hosts a variety of events, such as concerts, community gatherings, and special occasions. With its vibrant energy and prime location, Toyota Field is a key venue for sports and entertainment in San Antonio." ,
+        "image": "https://storage.googleapis.com/galleryimageswedding/DJI_0275_20229a.webp"
+    },
+    {
+        "id": 72,
+        "name": "Alamodome",
+        "type": "sports_games",
+        "lat": 29.41707683078963,
+        "lon": -98.47876065934415,
+        "description": "The Alamodome, located in San Antonio, Texas, is a versatile indoor stadium known for hosting major sporting events, concerts, and conventions. Opened in 1993, the Alamodome is home to the San Antonio Commanders football team and has also hosted the NCAA Final Four, Super Bowl, and various other high-profile events. With a seating capacity of over 65,000, the venue offers modern amenities and excellent acoustics, making it a popular destination for large-scale events and entertainment in San Antonio." ,
+        "image": "https://storage.googleapis.com/galleryimageswedding/Alamodome-V2_856x560-456737df34.jpg"
+    },
+    {
+        "id": 73,
+        "name": "San Antonio Missions Baseball",
+        "type": "sports_games",
+        "lat": 29.40918920816153,
+        "lon": -98.60101808826236,
+        "description": "San Antonio Missions Baseball, the city’s Minor League Baseball team, plays at Nelson W. Wolff Stadium in San Antonio, Texas. As the Double-A affiliate of the Milwaukee Brewers, the Missions offer an exciting, family-friendly atmosphere for baseball fans. With a rich history in the sport, the team has been a staple of the San Antonio sports scene, providing thrilling games, community events, and an opportunity to watch up-and-coming baseball talent. The stadium features a variety of amenities, including food stands, seating options, and activities for fans of all ages." ,
+        "image": "https://storage.googleapis.com/galleryimageswedding/wolff-stadium-san-antonio-missions.jpg"
+    },
+    {
+        "id": 74,
+        "name": "Bowlero San Antonio",
+        "type": "sports_games",
+        "lat": 29.562726292827012,
+        "lon": -98.48473954584506,
+        "description": "Bowlero San Antonio is a modern, upscale bowling alley offering a fun and interactive experience for all ages. With stylish lanes, arcades, and a vibrant atmosphere, it’s perfect for parties, family outings, or a night out with friends. The venue also features a full-service bar, a variety of dining options, and private event spaces. In addition to traditional bowling, Bowlero offers unique games, cosmic bowling, and various entertainment options, making it a top destination for both casual bowlers and those looking for a lively night of fun." ,
+        "image": "https://storage.googleapis.com/galleryimageswedding/2021-01-03.jpg"
+    },
+    {
+        "id": 75,
+        "name": "Chicken N Pickle",
+        "type": "sports_games",
+        "lat": 29.57899840389248,
+        "lon": -98.58978278817408,
+        "description": "Chicken N Pickle, located in San Antonio, Texas, is a fun-filled restaurant and entertainment venue combining delicious food with outdoor activities. Known for its mouthwatering fried chicken and pickleball courts, the venue also features lawn games, shuffleboard, and a bar with craft beers and cocktails. With a lively, family-friendly atmosphere and plenty of space for gatherings, Chicken N Pickle is the perfect spot for casual dining, friendly competition, and socializing with friends and family." ,
+        "image": "https://storage.googleapis.com/galleryimageswedding/Chicken_N_Pickle_AERIAL-1-e1691497182764.webp"
+    },
+    {
+        "id": 76,
+        "name": "Holocaust Memorial Museum of San Antonio",
+        "type": "specialty_museum",
+        "lat": 29.557327764562608,
+        "lon": -98.53310580166908,
+        "description": "The Holocaust Memorial Museum of San Antonio is dedicated to preserving the history and memory of the Holocaust through education and remembrance. The museum features exhibits that highlight the experiences of survivors, the atrocities of the Holocaust, and the lessons of tolerance and human rights. Visitors can explore personal stories, artifacts, photographs, and films that provide insight into this dark chapter in history. The museum’s mission is to promote understanding, empathy, and the importance of preventing future atrocities through education and reflection." ,
+        "image": "https://storage.googleapis.com/galleryimageswedding/ScottBall_holocaust_museum_jewish_survivor_ww2_att_district8_nirenberg_10-10-2016-3.webp"
+    },
+    {
+        "id": 77,
+        "name": "UTSA Institute of Texan Cultures",
+        "type": "specialty_museum",
+        "lat": 29.416775276643573,
+        "lon": -98.48225130352043,
+        "description": "The UTSA Institute of Texan Cultures, located in San Antonio, Texas, is a museum dedicated to preserving and showcasing the diverse cultural heritage of Texas. With exhibits highlighting the state's various ethnic groups, including Native American, Mexican, German, and African American cultures, the museum offers an immersive experience that celebrates the history, traditions, and contributions of these communities. It also hosts events, educational programs, and exhibits that promote understanding and appreciation of Texas's rich cultural diversity." ,
+        "image": "https://storage.googleapis.com/galleryimageswedding/visit.jpg"
+    },
+    {
+        "id": 78,
+        "name": "Texas Transportation Museum",
+        "type": "specialty_museum",
+        "lat": 29.547746544330856,
+        "lon": -98.43493550166939,
+        "description": "The Texas Transportation Museum, located in San Antonio, Texas, is dedicated to preserving the history of transportation in the state. The museum features a wide range of exhibits showcasing vintage vehicles, trains, planes, and historical artifacts. Visitors can explore exhibits on early automobiles, railroad history, and the development of transportation infrastructure in Texas. With interactive displays, a working railroad, and educational programs, the museum offers a fun and informative experience for families, history buffs, and transportation enthusiasts alike." ,
+        "image": "https://storage.googleapis.com/galleryimageswedding/cols_daytrips-1.jpg"
+    },
+    {
+        "id": 79,
+        "name": "Tobin Center for the Performing Arts",
+        "type": "family",
+        "lat": 29.430687703855984,
+        "lon": -98.48870258695263,
+        "description": "The Tobin Center for the Performing Arts, located in San Antonio, Texas, is a premier venue for cultural and artistic performances. Opened in 2014, it combines historic architecture with modern design, featuring a flexible, state-of-the-art performance hall with adjustable acoustics and seating. The Tobin Center hosts a wide range of events, including concerts, theater, dance, and community programs, making it a hub for creativity and entertainment. Its scenic location along the River Walk and iconic LED-covered façade add to its appeal as a vibrant cultural landmark.",
+        "image": "https://storage.googleapis.com/galleryimageswedding/tobin%20night.jpg"
+    },
+    {
+        "id": 80,
+        "name": "Alamo Drafthouse Cinema Park North",
+        "type": "family",
+        "lat": 29.524838332758325,
+        "lon": -98.5016073983872,
+        "description": "Alamo Drafthouse Cinema Park North, located in San Antonio, Texas, is a unique movie theater that combines the magic of cinema with the comfort of dining. Known for its relaxed atmosphere and strict no-talking, no-texting policy, it offers an immersive movie experience with comfortable seating, a full menu of food and drinks, and in-theater service. The theater screens the latest blockbuster films, indie movies, and special events, making it a popular destination for moviegoers who want more than just a typical theater experience." ,
+        "image": "https://storage.googleapis.com/galleryimageswedding/unnamed.jpg"
+    },
+    {
+        "id": 81,
+        "name": "Santikos Palladium",
+        "type": "family",
+        "lat": 29.608618363148782,
+        "lon": -98.59925542439662,
+        "description": "Santikos Palladium, located in San Antonio, Texas, is a state-of-the-art entertainment complex offering a premium moviegoing experience. The venue features luxury recliner seating, an extensive selection of films, and a variety of food and beverage options, including a full-service bar. In addition to its movie theaters, Santikos Palladium offers an arcade, bowling lanes, and event spaces for parties and corporate gatherings. With its modern amenities and fun-filled attractions, it’s a top destination for entertainment and leisure in San Antonio." ,
+        "image": "https://storage.googleapis.com/galleryimageswedding/palladium_GMB.jpg"
+    },
+    {
+        "id": 82,
+        "name": "EVO Entertainment Schertz + EVX",
+        "type": "family",
+        "lat": 29.611590465061205,
+        "lon": -98.2600597693305,
+        "description": "EVO Entertainment Schertz + EVX, located in Schertz, Texas, offers a premier entertainment experience with a wide range of activities. The venue features EVO's signature EVX large-format theaters for an immersive movie experience with cutting-edge visuals and sound. In addition to the theaters, it also includes a full-service arcade, bowling lanes, laser tag, and a bar with dining options. EVO Entertainment is a one-stop destination for entertainment, offering something for everyone, from movie lovers to families and groups looking for fun activities." ,
+        "image": "https://storage.googleapis.com/galleryimageswedding/EVO_8102101_sky.jpg"
+    },
+    {
+        "id": 83,
+        "name": "McKenna Children's Museum",
+        "type": "specialty_museum",
+        "lat": 29.700337336909204,
+        "lon": -98.1284456103427,
+        "description": "The McKenna Children's Museum, located in New Braunfels, Texas, is an interactive museum designed to inspire creativity, learning, and exploration in children. With hands-on exhibits focusing on art, science, health, and culture, the museum offers engaging activities that encourage children to explore, problem-solve, and develop new skills. The museum also hosts educational programs, special events, and workshops, making it a fun and educational destination for families. Its bright, playful environment makes learning enjoyable and accessible for children of all ages." ,
+        "image": "https://storage.googleapis.com/galleryimageswedding/mckenna-children-s-museum.jpg"
+    },
+    {
+        "id": 84,
+        "name": "Santikos Cibolo",
+        "type": "family",
+        "lat": 29.60545581225739,
+        "lon": -98.26832241213894,
+        "description": "Santikos Cibolo, located in Cibolo, Texas, offers a modern movie theater experience with a range of amenities designed for comfort and entertainment. Featuring luxury recliner seating, the theater screens the latest films, including blockbusters and indie hits. In addition to the movie experience, Santikos Cibolo includes a full-service bar, an arcade, and a variety of dining options. With its relaxed atmosphere and state-of-the-art amenities, Santikos Cibolo is the perfect destination for moviegoers looking for more than just a traditional cinema experience." ,
+        "image": "https://storage.googleapis.com/galleryimageswedding/2024-05-22.jpg"
+    },
+    {
+        "id": 85,
+        "name": "Crownridge Canyon Natural Area",
+        "type": "nature_retreat",
+        "lat": 29.6164338974644,
+        "lon": -98.63066224907662,
+        "description": "Crownridge Canyon Natural Area, located in San Antonio, Texas, is a 200-acre nature preserve offering scenic trails, wildlife watching, and stunning views of the Texas Hill Country. The park features hiking paths that wind through diverse landscapes, including canyons, limestone bluffs, and wooded areas. It's a peaceful retreat for outdoor enthusiasts, with opportunities for birdwatching, photography, and nature exploration. With its serene atmosphere and natural beauty, Crownridge Canyon is a hidden gem for those seeking to connect with the outdoors and enjoy San Antonio’s natural heritage." ,
+        "image": "https://storage.googleapis.com/galleryimageswedding/eyJidWNrZXQiOiJhc3NldHMuYWxsdHJhaWxzLmNvbSIsImtleSI6InVwbG9hZHMvcGhvdG8vaW1hZ2UvNjU2MzQwMzkvNzgwZWViYzgzMWMzODE2ZTAwZTkyNWQ3ZWZhMjI1ZWMuanBnIiwiZWRpdHMiOnsidG9Gb3JtYXQiOiJ3ZWJwIiwicmVzaXplIjp7IndpZHRoIjoxMDgwLCJoZWlnaHQiOjcwMCwiZml0IjoiY29.webp"
+    },
+    {
+        "id": 86,
+        "name": "Friedrich Wilderness Park",
+        "type": "nature_retreat",
+        "lat": 29.6411683238581,
+        "lon": -98.62502830351306,
+        "description": "Friedrich Wilderness Park, located in San Antonio, Texas, is a 200-acre nature preserve offering scenic trails and diverse wildlife viewing opportunities. The park features hiking paths that wind through oak-lined canyons, limestone ridges, and native vegetation. Known for its tranquility, the park is a great spot for birdwatching, photography, and outdoor exploration. With its peaceful atmosphere and variety of flora and fauna, Friedrich Wilderness Park is a hidden gem for nature lovers and those seeking to connect with the beauty of the Texas Hill Country." ,
+        "image": "https://storage.googleapis.com/galleryimageswedding/Friedrich-Wilderness-Park-entrance-scaled.jpg"
+    },
+    {
+        "id": 87,
+        "name": "Woodlawn Lake Park",
+        "type": "nature_retreat",
+        "lat": 29.452365779041617,
+        "lon": -98.53419701701348,
+        "description": "Woodlawn Lake Park, located in San Antonio, Texas, is a 200-acre urban park featuring a beautiful lake and a variety of recreational facilities. The park offers walking trails, picnic areas, playgrounds, and sports courts, making it ideal for outdoor activities. Visitors can enjoy a peaceful day by the lake, go fishing, or participate in water sports like kayaking and paddleboarding. With its central location and family-friendly atmosphere, Woodlawn Lake Park is a popular destination for locals and tourists looking to enjoy nature and outdoor fun in the city." ,
+        "image": "https://storage.googleapis.com/galleryimageswedding/woodlawnlakepark4.jpg"
+    },
+    {
+        "id": 88,
+        "name": "Pearsall Park",
+        "type": "nature_retreat",
+        "lat": 29.35921203485742, 
+        "lon": -98.59531036119277,
+        "description": "Pearsall Park, located in San Antonio, Texas, is a 505-acre community park offering a range of recreational activities for all ages. The park features walking trails, sports fields, picnic areas, and a large pond for fishing and relaxation. It also includes a splash pad and playgrounds, making it a great spot for families. With its expansive green spaces, nature trails, and sports facilities, Pearsall Park provides a peaceful retreat and a hub for outdoor fun and community events in San Antonio." ,
+        "image": "https://storage.googleapis.com/galleryimageswedding/pearsallpark-4.jpg"
+    },
+    {
+        "id": 89,
+        "name": "North Star Mall",
+        "type": "shopping",
+        "lat": 29.51857491986298,
+        "lon": -98.49602206133125,
+        "description": "North Star Mall, located in San Antonio, Texas, is one of the city’s largest and most popular shopping destinations. Featuring a wide range of retailers, from high-end brands to popular department stores, the mall offers a variety of shopping options. It also has a diverse selection of dining options and entertainment venues. Known for its iconic giant cowboy boots, North Star Mall provides a vibrant shopping experience with both local and national brands, making it a go-to spot for locals and visitors alike." ,
+        "image": "https://storage.googleapis.com/galleryimageswedding/NorthStar3_B1509807-5056-BFCE-A818FCE711EFDD32-b15097c15056bfc_b1509ada-5056-bfce-a8282fce3c1b65d1.jpg"
+    },
+    {
+        "id": 90,
+        "name": "Ripley’s Believe It or Not! San Antonio",
+        "type": "unique_attraction",
+        "lat": 29.42560317142932,
+        "lon": -98.4873649914062,
+        "description": "Ripley’s Believe It or Not! San Antonio is an exciting and unusual attraction that showcases a collection of oddities, curiosities, and interactive exhibits. Located on the iconic Alamo Plaza, the museum features strange artifacts, bizarre displays, and exhibits that challenge the limits of reality. Visitors can explore everything from shrunken heads and rare animal oddities to optical illusions and interactive games. With its fun and educational approach to the weird and wonderful, Ripley’s Believe It or Not! San Antonio offers a unique experience for all ages." ,
+        "image": "https://storage.googleapis.com/galleryimageswedding/ripley-s-believe-it-or.jpg"
+    },
+    {
+        "id": 91,
+        "name": "Painting with a Twist - The Forum",
+        "type": "unique_attraction",
+        "lat": 29.56725620584164,
+        "lon": -98.3284843602601,
+        "description": "Painting with a Twist - The Forum, located in San Antonio, Texas, is a creative studio where guests can enjoy a fun, social painting experience. The studio offers guided painting classes for individuals, couples, and groups, where participants can create their own artwork while sipping wine or beverages. Whether you’re an experienced artist or a beginner, the laid-back atmosphere and friendly instructors make it a perfect spot for a night out, special events, or team-building activities. It’s a great place to unleash creativity and have fun with friends or family." ,
+        "image": "https://storage.googleapis.com/galleryimageswedding/Screen-Shot-2020-04-28-at-1.00.59-AM.jpg"
+    },
+    {
+        "id": 92,
+        "name": "Historic Hot Wells Ruins",
+        "type": "unique_attraction",
+        "lat": 29.365864901996492,
+        "lon": -98.47101952208813,
+        "description": "The Historic Hot Wells Ruins, located in San Antonio, Texas, are the remnants of a once-popular spa and resort built in the early 20th century. Known for its therapeutic mineral springs, Hot Wells attracted visitors seeking healing treatments in the early 1900s. Today, the ruins are a fascinating historical site, with remnants of the original bathhouses and pools, offering a glimpse into the past. The site is surrounded by nature and is a peaceful spot for photography, exploring, and learning about the area's history and cultural significance." ,
+        "image": "https://storage.googleapis.com/galleryimageswedding/850_2015-e1594415803876.jpg"
+    },
+    {
+        "id": 93,
+        "name": "Monster Mini Golf",
+        "type": "unique_attraction",
+        "lat": 29.557706372588147,
+        "lon": -98.52386314368012,
+        "description": "Monster Mini Golf, located in San Antonio, Texas, is a fun and quirky indoor miniature golf course with a monster-themed environment. The course features glowing neon colors, creative monster-themed obstacles, and an exciting atmosphere for players of all ages. In addition to mini golf, the venue also offers arcade games, laser tag, and a variety of party packages for birthdays and special events. With its vibrant setting and family-friendly activities, Monster Mini Golf provides a unique and entertaining experience for groups, families, and friends." ,
+        "image": "https://storage.googleapis.com/galleryimageswedding/2018-08-02.jpg"
+    },
+    {
+        "id": 94,
+        "name": "Extreme Escape – Colonnade",
+        "type": "unique_attraction",
+        "lat": 29.537030672445397,
+        "lon": -98.5671000067471,
+        "description": "Extreme Escape – Colonnade, located in San Antonio, Texas, offers an immersive escape room experience where participants solve puzzles and work together to escape themed rooms within a set time limit. With various exciting scenarios, including adventure, mystery, and horror themes, it provides a thrilling, interactive experience for friends, families, and corporate groups. Known for its challenging puzzles and engaging storylines, Extreme Escape offers a fun and unique way to test problem-solving skills and teamwork in an exciting and immersive environment." ,
+        "image": "https://storage.googleapis.com/galleryimageswedding/Extreme-Escape-5IumTox-s-sm.jpg"
+    },
+    {
+        "id": 95,
+        "name": "Tejas Rodeo Company",
+        "type": "unique_attraction",
+        "lat": 29.738104965656824,
+        "lon": -98.49134373234506,
+        "description": "Tejas Rodeo Company, located in Bulverde, Texas, offers an authentic Texas rodeo experience with live rodeo events, live music, and a casual, family-friendly atmosphere. The venue hosts weekly rodeo shows featuring bull riding, barrel racing, and other traditional rodeo events. In addition to the rodeo, Tejas Rodeo Company features a restaurant and dance hall, offering delicious Texas BBQ and live country music. It’s a great place to enjoy Texas culture, whether you’re a local or visiting, and provides a true taste of Western hospitality and entertainment." ,
+        "image": "https://storage.googleapis.com/galleryimageswedding/largecedar.jpg"
+    },
+    {
+        "id": 96,
+        "name": "The Berkley V. and Vincent M. Dawson Park",
+        "type": "nature",
+        "lat": 29.430950708333132,
+        "lon":  -98.47647496202134,
+        "description": "The Berkley V. and Vincent M. Dawson Park, located in San Antonio, Texas, is a community park offering a variety of outdoor recreational activities. The park features walking trails, sports courts, picnic areas, and playgrounds, making it a great destination for families and active individuals. With its open green spaces, the park provides opportunities for leisure, exercise, and relaxation. Its welcoming atmosphere and range of amenities make it a popular spot for community events and gatherings in San Antonio." ,
+        "image": "https://storage.googleapis.com/galleryimageswedding/2024-04-07.jpg"
+    },
+    {
+        "id": 97,
+        "name": "Tanger Outlets San Marcos",
+        "type": "shopping",
+        "lat": 29.829732498718286,
+        "lon":  -97.98180435244304,
+        "description": "Tanger Outlets San Marcos, located in San Marcos, Texas, is a popular shopping destination offering a wide range of brand-name stores at discounted prices. With over 80 stores, visitors can find apparel, accessories, home goods, and more from top retailers. The outlet mall features a mix of high-end and casual brands, making it a great place for bargain shopping. In addition to shopping, Tanger Outlets San Marcos also offers dining options and a comfortable outdoor setting, making it a top spot for both locals and visitors to shop and relax." ,
+        "image": "https://storage.googleapis.com/galleryimageswedding/181552.jpg"
+    }
+]
