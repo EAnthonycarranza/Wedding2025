@@ -7,7 +7,7 @@ const Gallery = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(0);
 
-  // Gallery image URLs
+  // Gallery image URLs (remote URLs)
   const galleryItems = [
     "https://storage.googleapis.com/galleryimageswedding/gallery-1.jpg",
     "https://storage.googleapis.com/galleryimageswedding/gallery-2.jpg",
@@ -25,33 +25,34 @@ const Gallery = () => {
     setIsOpen(true);
   };
 
-const downloadAllPhotos = async () => {
-  try {
-    const zip = new JSZip();
-    const folder = zip.folder("wedding-gallery");
+  // Download all images as a zipped file
+  const downloadAllPhotos = async () => {
+    try {
+      const zip = new JSZip();
+      const folder = zip.folder("wedding-gallery");
 
-    for (let i = 0; i < galleryItems.length; i++) {
-      const url = galleryItems[i];
-      const filename = `image-${i + 1}.jpg`;
+      for (let i = 0; i < galleryItems.length; i++) {
+        const url = galleryItems[i];
+        const filename = `image-${i + 1}.jpg`;
 
-      console.log(`Fetching ${url}...`);
-      const response = await fetch(url);
+        console.log(`Fetching ${url}...`);
+        const response = await fetch(url);
 
-      if (!response.ok) {
-        console.error(`Failed to fetch ${url}: ${response.statusText}`);
-        continue;
+        if (!response.ok) {
+          console.error(`Failed to fetch ${url}: ${response.statusText}`);
+          continue;
+        }
+
+        const blob = await response.blob();
+        folder.file(filename, blob);
       }
 
-      const blob = await response.blob();
-      folder.file(filename, blob);
+      const zipBlob = await zip.generateAsync({ type: "blob" });
+      saveAs(zipBlob, "wedding-gallery.zip");
+    } catch (error) {
+      console.error("Error downloading photos:", error.message);
     }
-
-    const zipBlob = await zip.generateAsync({ type: "blob" });
-    saveAs(zipBlob, "wedding-gallery.zip");
-  } catch (error) {
-    console.error("Error downloading photos:", error.message);
-  }
-};
+  };
 
   return (
     <div id="gallery" className="gallery-container">
@@ -62,6 +63,7 @@ const downloadAllPhotos = async () => {
           in detail.
         </p>
       </div>
+
       <div className="gallery-grid">
         {galleryItems.map((item, index) => (
           <div
@@ -76,6 +78,7 @@ const downloadAllPhotos = async () => {
           </div>
         ))}
       </div>
+
       <LightboxGallery
         isOpen={isOpen}
         currentIndex={currentIndex}
@@ -83,6 +86,7 @@ const downloadAllPhotos = async () => {
         onClose={() => setIsOpen(false)}
         setCurrentIndex={setCurrentIndex}
       />
+
       <div className="download-all-container">
         <button className="download-all-button" onClick={downloadAllPhotos}>
           Download All Photos
