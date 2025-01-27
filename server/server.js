@@ -30,35 +30,52 @@ function isCompletelyNullListing(listing) {
 }
 
 
-app.use(
-  helmet({
-    contentSecurityPolicy: {
-      directives: {
-        defaultSrc: ["'self'"],
-        imgSrc: [
-          "'self'",
-          "data:",
-          "https://storage.googleapis.com",
-          "https://*.googleusercontent.com",
-          "https://*.gstatic.com",
-          "https://freesvg.org",
-          "https://*.tile.openstreetmap.org", // Allow OpenStreetMap tiles
-        ],
-                scriptSrc: [
-          "'self'",
-          "'unsafe-inline'",
-          "https://stackpath.bootstrapcdn.com",
-          "https://maps.googleapis.com",
-          "https://www.myregistry.com"  // <-- This must be present
-        ],
-        styleSrc: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com"],
-        fontSrc: ["'self'", "https://fonts.gstatic.com"],
-        frameSrc: ["'self'", "https://www.myregistry.com"],
-        objectSrc: ["'none'"],
-      },
-    },
-  })
-);
+// server.js
+app.use(helmet({
+  contentSecurityPolicy: {
+    directives: {
+      defaultSrc: ["'self'"],
+      styleSrc: [
+        "'self'",
+        "'unsafe-inline'",
+        "https://fonts.googleapis.com",
+        "https://stackpath.bootstrapcdn.com",
+        "https://www.myregistry.com"
+      ],
+      scriptSrc: [
+        "'self'",
+        "'unsafe-inline'",
+        "https://stackpath.bootstrapcdn.com",
+        "https://maps.googleapis.com",
+        "https://www.myregistry.com"
+      ],
+      imgSrc: [
+        "'self'",
+        "data:",
+        "https://storage.googleapis.com",
+        "https://*.googleusercontent.com",
+        "https://*.gstatic.com",
+        "https://freesvg.org",
+        "https://*.tile.openstreetmap.org",
+        "https://a0.muscache.com",
+        "https://unpkg.com"
+      ],
+      connectSrc: [
+        "'self'",
+        "https://router.project-osrm.org",
+        "https://www.myregistry.com"
+      ],
+      fontSrc: [
+        "'self'",
+        "https://fonts.googleapis.com",
+        "https://fonts.gstatic.com"
+      ],
+      mediaSrc: ["'self'"],
+      objectSrc: ["'none'"],
+      frameAncestors: ["'self'", "https://www.myregistry.com"]
+    }
+  }
+}));
 
 app.use(
   cors({
