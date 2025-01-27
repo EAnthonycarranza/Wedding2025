@@ -81,6 +81,5 @@
     { "familyName": "Austin Blackburn", "password": "C9D1E2F3", "token": "cdefgh123456" },
     { "familyName": "David & Noel Schafer", "password": "D1E2F3G4", "token": "defghi234567" },
     { "familyName": "Freddy & Hannah Silva + Family", "password": "E2F3G4H5", "token": "efghij345678" },
-    { "familyName": "Joey Hernandez", "password": "S7T8U9V1", "token": "stuvwx789012" },
-    { "familyName": "Ramirez Family", "password": "FWH2Sf9W1", "token": "tuvsuw924024" }
+    { "familyName": "Joey Hernandez", "password": "S7T8U9V1", "token": "stuvwx789012" }
   ]
