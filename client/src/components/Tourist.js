@@ -208,7 +208,7 @@ const Tourist = () => {
 {/* Header Section */}
 <div
   style={{
-    height: "400px",
+    height: "900px",
     backgroundImage: `url(${bgImage})`,
     backgroundSize: "cover",
     backgroundPosition: "center",
@@ -228,6 +228,7 @@ const Tourist = () => {
       textAlign: "center",
       letterSpacing: "2px",
       fontFamily: "'Sacramento', cursive", // Ensure the title is cursive
+      color: "rgb(255, 255, 255)",
     }}
   >
     Travel Page
@@ -241,7 +242,7 @@ const Tourist = () => {
       lineHeight: "1.6",
     }}
   >
-    Explore San Antonio and discover amazing places to visit.
+    Explore San Antonio and discover amazing places to stay & visit.
   </p>
 </div>
 

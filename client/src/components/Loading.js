@@ -49,13 +49,14 @@ const styles = {
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
-    height: '100%',
+    height: '40vh', // Adjusted to 70% of viewport height for less vertical space
+    padding: '25px 0', // Reduced vertical padding
     width: '100%',
   },
   textContainer: {
-    marginTop: '20px',
+    marginTop: '30px', // Slightly reduced spacing between loader and text
     display: 'flex',
-    gap: '5px', // Adds spacing between letters
+    gap: '8px', // Adds spacing between letters
   },
   text: {
     fontSize: '32px',
