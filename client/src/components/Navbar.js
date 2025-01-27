@@ -362,7 +362,7 @@ useEffect(() => {
                 Gallery
               </MenuItem>
 
-<Typography
+<MenuItem
   onClick={() => handleMenuItemClick('/tour')}
                 sx={{
                   fontFamily: "'Sacramento', cursive",
@@ -378,7 +378,7 @@ useEffect(() => {
                 }}
               >
   Travel
-</Typography>
+</MenuItem>
 
               <MenuItem
                 onClick={() => handleMenuItemClick('/rsvp')}
