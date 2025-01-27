@@ -29,8 +29,6 @@ function isCompletelyNullListing(listing) {
   return Object.values(listing).every(value => value === null || value === undefined);
 }
 
-
-// server.js
 app.use(helmet({
   contentSecurityPolicy: {
     directives: {
@@ -63,7 +61,8 @@ app.use(helmet({
       connectSrc: [
         "'self'",
         "https://router.project-osrm.org",
-        "https://www.myregistry.com"
+        "https://www.myregistry.com",
+        "https://storage.googleapis.com"
       ],
       fontSrc: [
         "'self'",
@@ -76,8 +75,8 @@ app.use(helmet({
         "'self'",
         "https://www.myregistry.com"   // ← allow MyRegistry iFrame
       ],
-
       frameAncestors: ["'self'", "https://www.myregistry.com"]
+
     }
   }
 }));
