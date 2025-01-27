@@ -293,7 +293,7 @@ const Tourist = () => {
       </Box>
 
       {/* Container with Map & Description */}
-      <div className="container">
+      <div className="flex-container">
         <div className="map-section">
           <MapContainer
             center={[center.lat, center.lng]}
