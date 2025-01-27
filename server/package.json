@@ -31,7 +31,7 @@
     "node-cache": "^5.1.2",
     "node-cron": "^3.0.3",
     "node-fetch": "^2.7.0",
-    "p-limit": "^6.2.0",
+    "p-limit": "2.3.0",
     "p-retry": "4.6.0",
     "path": "^0.12.7",
     "rate-limiter-flexible": "^5.0.4"
