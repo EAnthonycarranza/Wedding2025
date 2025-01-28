@@ -323,7 +323,7 @@ function App() {
               variant="contained"
               color="primary"
               fullWidth
-              sx={{ mt: 3, py: 1.5, backgroundColor: "rgb(156 0 68)" }}
+              sx={{ mt: 3, py: 1.5, backgroundColor: "#000000" }}
               onClick={handleRSVPSubmit}
             >
               Submit RSVP
@@ -369,7 +369,7 @@ function App() {
             <Button
               variant="contained"
               fullWidth
-              sx={{ backgroundColor: "rgb(156 0 68)" }}
+              sx={{ backgroundColor: "#000000" }}
               onClick={() => {
                 setTokenExpired(false);
                 navigate("/");
