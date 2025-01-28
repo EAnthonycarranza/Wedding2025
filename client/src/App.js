@@ -318,7 +318,7 @@ function App() {
         RSVP for {familyName}
       </Typography>
       <Typography variant="body2" sx={{ mb: 3 }}>
-        Please fill out the RSVP list by January 1, 2025. You can update
+        Please fill out the RSVP list by April 18, 2025. You can update
         your RSVP any time.
       </Typography>
       {familyMembers.map((member, index) => (
