@@ -320,8 +320,7 @@ useEffect(() => {
                   textAlign: 'center',
                   transition: 'background-color 0.3s ease, color 0.3s ease',
                   '&:hover': {
-                    backgroundColor: 'rgba(156, 0, 68, 0.1)',
-                    color: 'rgb(156 0 68)',
+                    backgroundColor: '6f6f6f33',
                   },
                 }}
               >
@@ -337,8 +336,7 @@ useEffect(() => {
                   textAlign: 'center',
                   transition: 'background-color 0.3s ease, color 0.3s ease',
                   '&:hover': {
-                    backgroundColor: 'rgba(156, 0, 68, 0.1)',
-                    color: 'rgb(156 0 68)',
+                    backgroundColor: '6f6f6f33',
                   },
                 }}
               >
@@ -354,8 +352,7 @@ useEffect(() => {
                   textAlign: 'center',
                   transition: 'background-color 0.3s ease, color 0.3s ease',
                   '&:hover': {
-                    backgroundColor: 'rgba(156, 0, 68, 0.1)',
-                    color: 'rgb(156 0 68)',
+                    backgroundColor: '6f6f6f33',
                   },
                 }}
               >
@@ -373,8 +370,7 @@ useEffect(() => {
     textAlign: 'center',
     transition: 'background-color 0.3s ease, color 0.3s ease',
     '&:hover': {
-      backgroundColor: 'rgba(156, 0, 68, 0.1)',
-      color: 'rgb(156 0 68)',
+      backgroundColor: '6f6f6f33',
     },
   }}
 >
@@ -391,8 +387,7 @@ useEffect(() => {
                   textAlign: 'center',
                   transition: 'background-color 0.3s ease, color 0.3s ease',
                   '&:hover': {
-                    backgroundColor: 'rgba(156, 0, 68, 0.1)',
-                    color: 'rgb(156 0 68)',
+                    backgroundColor: '6f6f6f33',
                   },
                 }}
               >
@@ -408,8 +403,7 @@ useEffect(() => {
     textAlign: 'center',
     transition: 'background-color 0.3s ease, color 0.3s ease',
     '&:hover': {
-      backgroundColor: 'rgba(156, 0, 68, 0.1)',
-      color: 'rgb(156 0 68)',
+      backgroundColor: '6f6f6f33',
     },
   }}
 >
