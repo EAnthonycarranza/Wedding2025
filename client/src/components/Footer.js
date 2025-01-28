@@ -5,7 +5,7 @@ const Footer = () => {
   return (
     <footer style={footerStyle}>
       <div className="container">
-        <p>&copy; 2025 Your Wedding Website. All Rights Reserved.</p>
+        <p>&copy; 2025 Carranza Coding. All Rights Reserved.</p>
         <p>
           Built with love by Anthony & Christina.
         </p>
