@@ -51,13 +51,13 @@
   }
   
   a {
-    color: #9c0044;
+    color: #000000;
     -webkit-transition: 0.5s;
     -o-transition: 0.5s;
     transition: 0.5s;
   }
   a:hover, a:active, a:focus {
-    color: #9c0044;
+    color: #000000;
     outline: none;
     text-decoration: none;
   }
@@ -75,17 +75,17 @@
   
   ::-webkit-selection {
     color: #fff;
-    background: #9c0044;
+    background: #000000;
   }
   
   ::-moz-selection {
     color: #fff;
-    background: #9c0044;
+    background: #000000;
   }
   
   ::selection {
     color: #fff;
-    background: #9c0044;
+    background: #000000;
   }
   
   .fh5co-nav {
@@ -207,7 +207,7 @@
     color: #fff;
   }
   .fh5co-nav ul li.btn-cta a {
-    color: #9c0044;
+    color: #000000;
   }
   .fh5co-nav ul li.btn-cta a span {
     background: #fff;
@@ -779,7 +779,7 @@
     display: inline-block;
     zoom: 1;
     *display: inline;
-    color: #9c0044;
+    color: #000000;
     padding-left: 10px;
     padding-right: 10px;
   }
@@ -798,7 +798,7 @@
     position: relative;
   }
   .fh5co-contact-info ul li:before {
-    color: #9c0044;
+    color: #000000;
     position: absolute;
     left: 0;
     top: .05em;
@@ -890,7 +890,7 @@
   .fh5co-cover .display-tc .btn {
     padding: 15px 20px;
     background: #fff !important;
-    color: #9c0044;
+    color: #000000;
     border: none !important;
     font-size: 14px;
     text-transform: uppercase;
@@ -1054,7 +1054,7 @@
     font-size: 20px;
     background: #fff;
     padding: 20px;
-    color: #9c0044;
+    color: #ff0000;
     -webkit-border-radius: 50%;
     -moz-border-radius: 50%;
     -ms-border-radius: 50%;
@@ -1077,7 +1077,7 @@
   }
   .couple-half h3 {
     font-family: "Sacramento", Arial, serif;
-    color: #9c0044;
+    color: #000000;
     font-size: 30px;
   }
   .couple-half .groom, .couple-half .bride {
@@ -1170,7 +1170,7 @@
     height: 90px;
     font-size: 40px;
     line-height: 40px;
-    color: #9c0044;
+    color: #000000;
   }
   .feature-center p, .feature-center h3 {
     margin-bottom: 30px;
@@ -1192,7 +1192,7 @@
     margin-bottom: 10px;
     line-height: 1.5;
     font-weight: bold;
-    color: #9c0044;
+    color: #000000;
     font-family: "Sacramento", Arial, serif;
   }
   @media screen and (max-width: 768px) {
@@ -1227,7 +1227,7 @@
     display: block;
   }
   #fh5co-testimonial .wrap-testimony .testimony-slide span a.twitter {
-    color: #9c0044;
+    color: #000000;
     font-weight: 300;
   }
   #fh5co-testimonial .wrap-testimony .testimony-slide figure {
@@ -1384,7 +1384,7 @@
   }
   #fh5co-started .btn {
     border: none !important;
-    background: #9c0044;
+    background: #000000;
     color: #fff;
     font-size: 16px;
     text-transform: uppercase;
@@ -1428,7 +1428,7 @@
   }
   .owl-carousel .owl-controls .owl-dot.active span {
     background: transparent;
-    border: 2px solid #9c0044;
+    border: 2px solid #000000;
   }
   
   #fh5co-offcanvas {
@@ -1681,21 +1681,21 @@
   }
   
   .btn-primary {
-    background: #9c0044;
+    background: #000000;
     color: #fff;
-    border: 2px solid #9c0044;
+    border: 2px solid #000000;
   }
   .btn-primary:hover, .btn-primary:focus, .btn-primary:active {
-    background: #9c0044 !important;
-    border-color: #9c0044 !important;
+    background: #000000 !important;
+    border-color: #000000 !important;
   }
   .btn-primary.btn-outline {
     background: transparent;
-    color: #9c0044;
-    border: 2px solid #9c0044;
+    color: #000000;
+    border: 2px solid #000000;
   }
   .btn-primary.btn-outline:hover, .btn-primary.btn-outline:focus, .btn-primary.btn-outline:active {
-    background: #9c0044;
+    background: #000000;
     color: #fff;
   }
   
@@ -1825,7 +1825,7 @@
   .form-control:active, .form-control:focus {
     outline: none;
     box-shadow: none;
-    border-color: #9c0044;
+    border-color: #000000;
   }
   
   .row-pb-md {
@@ -1937,7 +1937,7 @@
   
   .ril__toolbar button:hover,
   .ril__toolbar a:hover {
-    color: #9c0044; /* Highlight color on hover */
+    color: #000000; /* Highlight color on hover */
   }
   
   .ril__toolbar .ril__navButtons {
@@ -1958,7 +1958,7 @@
   .gallery-header h2 {
     font-family: "Sacramento", cursive;
     font-size: 2.5rem;
-    color: #9c0044;
+    color: #000000;
   }
   
   .gallery-header p {
@@ -2011,7 +2011,7 @@
   }
   
   .download-all-button {
-    background-color: #9c0044;
+    background-color: #000000;
     color: white;
     font-size: 1.2rem;
     padding: 10px 20px;
@@ -2022,5 +2022,5 @@
   }
   
   .download-all-button:hover {
-    background-color: #7a0036;
+    background-color: #00000063;
   }
