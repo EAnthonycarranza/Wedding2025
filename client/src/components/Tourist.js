@@ -315,8 +315,19 @@ const Tourist = () => {
 
             {/* User's Current Location */}
             {userLocation && (
-              <Marker position={[userLocation.lat, userLocation.lng]}>
-                <Popup>Your Current Location</Popup>
+              <Marker position={[userLocation.lat, userLocation.lng]}
+              icon={
+                new L.Icon({
+                  iconUrl: "https://cdn-icons-png.flaticon.com/256/0/619.png",
+                  iconSize: [40, 40], // Adjust the size as needed
+                  iconAnchor: [20, 40], // Point of the icon which will correspond to marker's location
+                  popupAnchor: [0, -40], // Point from which the popup should open relative to the iconAnchor
+                })
+              }
+              >
+                    <Tooltip permanent >
+      Your Current Location
+    </Tooltip>
               </Marker>
             )}
 
