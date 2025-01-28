@@ -118,7 +118,7 @@ const Tourist = () => {
   const [descriptionOpen, setDescriptionOpen] = useState(false);
 
   // Default map center
-  const center = { lat: 29.4241, lng: -98.4936 };
+  const center = { lat: 29.553690332030882, lng: -98.37144804803549 };
 
   // Convert placesData from old categories to new 5 categories
   const updatedPlaces = placesData.map((p) => ({
