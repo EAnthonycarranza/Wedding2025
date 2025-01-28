@@ -29,6 +29,8 @@ function isCompletelyNullListing(listing) {
   return Object.values(listing).every(value => value === null || value === undefined);
 }
 
+
+// server.js
 app.use(helmet({
   contentSecurityPolicy: {
     directives: {
@@ -81,6 +83,8 @@ app.use(helmet({
   }
 }));
 
+
+
 app.use(
   cors({
     origin: "*", // Allow all origins for testing
@@ -88,7 +92,9 @@ app.use(
 );
 
 // Serve static files from the React app
+
 app.use(express.static(path.join(__dirname, "../client/build")));
+
 app.use(express.json());
 
 const JWT_SECRET = process.env.JWT_SECRET || "your_secret_key";
@@ -753,6 +759,16 @@ cron.schedule("0 0 * * *", async () => {
 
 // Load families data with tokens from JSON file
 const families = require("./families.json");
+families.forEach((family) => {
+  // Be sure to URL-encode the token just in case
+  const url1 = `https://hidden-citadel-88874-96e904553ae6.herokuapp.com/?token=${encodeURIComponent(family.token)}`;
+  const url2 = `https://www.christinaandanthony2025.com/?token=${encodeURIComponent(family.token)}`;
+
+  console.log(`Family: ${family.familyName}`);
+  console.log("URL1:", url1);
+  console.log("URL2:", url2);
+  console.log("---");
+});
 
 // Middleware to verify JWT
 const verifyJWT = (req, res, next) => {
