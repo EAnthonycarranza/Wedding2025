@@ -814,7 +814,7 @@ app.post("/authenticate", (req, res) => {
   if (familyEntry) {
     const { familyName } = familyEntry;
     const jwtToken = jwt.sign({ familyName }, JWT_SECRET, {
-      expiresIn: "1h",
+      expiresIn: "5h",
     });
     res.status(200).json({ success: true, token: jwtToken, familyName });
   } else {
