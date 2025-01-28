@@ -172,7 +172,7 @@ const RSVPPage = () => {
           sx={{
             mb: { xs: 2, sm: 4 },
             textAlign: "center",
-            color: "#9C0044",
+            color: "#000000",
             fontWeight: "bold",
             fontFamily: "'Sacramento', cursive",
             fontSize: { xs: "1.8rem", sm: "2.5rem" },
@@ -260,9 +260,18 @@ const RSVPPage = () => {
               </Grid>
             ))
           ) : (
-            <Typography>
+            <Grid
+            container
+            justifyContent="center"
+            alignItems="center"
+            sx={{
+              textAlign: "center",
+            }}
+          >
+            <Typography variant="body1" sx={{ fontSize: "1rem", color: "#555" }}>
               No RSVP data available. Please submit your RSVP.
             </Typography>
+          </Grid>
           )}
         </Grid>
 
@@ -274,19 +283,24 @@ const RSVPPage = () => {
             flexWrap: "wrap",
           }}
         >
-          <Button
-            variant="outlined"
-            color="primary"
-            onClick={handleAddFamilyMember}
-            startIcon={<AddCircleIcon />}
-            sx={{
-              borderRadius: "20px",
-              mr: { xs: 0, sm: 2 },
-              mb: { xs: 2, sm: 0 },
-            }}
-          >
-            Add Family Member
-          </Button>
+<Button
+  variant="outlined"
+  onClick={handleAddFamilyMember}
+  startIcon={<AddCircleIcon />}
+  sx={{
+    color: "#000000", // Text and icon color
+    borderColor: "#000000", // Border color
+    borderRadius: "20px", // Rounded corners
+    mr: { xs: 0, sm: 2 }, // Margin right responsive
+    mb: { xs: 2, sm: 0 }, // Margin bottom responsive
+    "&:hover": {
+      borderColor: "#000000", // Maintain black border on hover
+      backgroundColor: "rgba(0, 0, 0, 0.04)", // Optional: subtle background on hover
+    },
+  }}
+>
+  Add Family Member
+</Button>
 
           <Button
             variant="contained"
@@ -294,7 +308,7 @@ const RSVPPage = () => {
             onClick={handleRSVPSubmit}
             startIcon={<SaveIcon />}
             sx={{
-              backgroundColor: "#9C0044",
+              backgroundColor: "#000000",
               borderRadius: "20px",
             }}
           >
