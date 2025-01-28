@@ -136,13 +136,13 @@ body {
 }
 
 a {
-  color: #9c0044;
+  color: #000000;
   -webkit-transition: 0.5s;
   -o-transition: 0.5s;
   transition: 0.5s;
 }
 a:hover, a:active, a:focus {
-  color: #9c0044;
+  color: #000000;
   outline: none;
   text-decoration: none;
 }
@@ -160,17 +160,17 @@ h1, h2, h3, h4, h5, h6, figure {
 
 ::-webkit-selection {
   color: #fff;
-  background: #9c0044;
+  background: #000000;
 }
 
 ::-moz-selection {
   color: #fff;
-  background: #9c0044;
+  background: #000000;
 }
 
 ::selection {
   color: #fff;
-  background: #9c0044;
+  background: #000000;
 }
 
 .fh5co-nav {
@@ -285,7 +285,7 @@ h1, h2, h3, h4, h5, h6, figure {
   color: #fff;
 }
 .fh5co-nav ul li.btn-cta a {
-  color: #9c0044;
+  color: #000000;
 }
 .fh5co-nav ul li.btn-cta a span {
   background: #fff;
@@ -857,7 +857,7 @@ h1, h2, h3, h4, h5, h6, figure {
   display: inline-block;
   zoom: 1;
   *display: inline;
-  color: #9c0044;
+  color: #000000;
   padding-left: 10px;
   padding-right: 10px;
 }
@@ -876,7 +876,7 @@ h1, h2, h3, h4, h5, h6, figure {
   position: relative;
 }
 .fh5co-contact-info ul li:before {
-  color: #9c0044;
+  color: #000000;
   position: absolute;
   left: 0;
   top: .05em;
@@ -989,7 +989,7 @@ form label {
 .fh5co-cover .display-tc .btn {
   padding: 15px 20px;
   background: #fff !important;
-  color: #9c0044;
+  color: #000000;
   border: none !important;
   font-size: 14px;
   text-transform: uppercase;
@@ -1153,7 +1153,7 @@ form label {
   font-size: 20px;
   background: #fff;
   padding: 20px;
-  color: #9c0044;
+  color: #ff0000;
   -webkit-border-radius: 50%;
   -moz-border-radius: 50%;
   -ms-border-radius: 50%;
@@ -1176,7 +1176,7 @@ form label {
 }
 .couple-half h3 {
   font-family: "Sacramento", Arial, serif;
-  color: #9c0044;
+  color: #000000;
   font-size: 30px;
 }
 .couple-half .groom, .couple-half .bride {
@@ -1269,7 +1269,7 @@ form label {
   height: 90px;
   font-size: 40px;
   line-height: 40px;
-  color: #9c0044;
+  color: #000000;
 }
 .feature-center p, .feature-center h3 {
   margin-bottom: 30px;
@@ -1291,7 +1291,7 @@ form label {
   margin-bottom: 10px;
   line-height: 1.5;
   font-weight: bold;
-  color: #9c0044;
+  color: #000000;
   font-family: "Sacramento", Arial, serif;
 }
 @media screen and (max-width: 768px) {
@@ -1326,7 +1326,7 @@ form label {
   display: block;
 }
 #fh5co-testimonial .wrap-testimony .testimony-slide span a.twitter {
-  color: #9c0044;
+  color: #000000;
   font-weight: 300;
 }
 #fh5co-testimonial .wrap-testimony .testimony-slide figure {
@@ -1483,7 +1483,7 @@ form label {
 }
 #fh5co-started .btn {
   border: none !important;
-  background: #9c0044;
+  background: #000000;
   color: #fff;
   font-size: 16px;
   text-transform: uppercase;
@@ -1527,7 +1527,7 @@ form label {
 }
 .owl-carousel .owl-controls .owl-dot.active span {
   background: transparent;
-  border: 2px solid #9c0044;
+  border: 2px solid #000000;
 }
 
 #fh5co-offcanvas {
@@ -1780,21 +1780,21 @@ form label {
 }
 
 .btn-primary {
-  background: #9c0044;
+  background: #000000;
   color: #fff;
-  border: 2px solid #9c0044;
+  border: 2px solid #000000;
 }
 .btn-primary:hover, .btn-primary:focus, .btn-primary:active {
-  background: #9c0044 !important;
-  border-color: #9c0044 !important;
+  background: #000000 !important;
+  border-color: #000000 !important;
 }
 .btn-primary.btn-outline {
   background: transparent;
-  color: #9c0044;
-  border: 2px solid #9c0044;
+  color: #000000;
+  border: 2px solid #000000;
 }
 .btn-primary.btn-outline:hover, .btn-primary.btn-outline:focus, .btn-primary.btn-outline:active {
-  background: #9c0044;
+  background: #000000;
   color: #fff;
 }
 
@@ -1924,7 +1924,7 @@ form label {
 .form-control:active, .form-control:focus {
   outline: none;
   box-shadow: none;
-  border-color: #9c0044;
+  border-color: #000000;
 }
 
 .row-pb-md {
@@ -2054,9 +2054,9 @@ img {
 
 /* Hover Effects for Directions Button */
 .directions-btn:hover {
-  background-color: #9c004458; /* Elegant blue background on hover */
+  background-color: #00000058; /* Elegant blue background on hover */
   color: #ffffff; /* White text color for contrast */
-  border-color: #9c004458; /* Match border with background */
+  border-color: #00000058; /* Match border with background */
   box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15); /* Slightly deeper shadow for hover */
   transform: translateY(-2px); /* Subtle lift effect */
 }
@@ -2064,7 +2064,7 @@ img {
 /* Styles for the Map Marker Icon */
 .directions-icon {
   margin-right: 8px;
-  color: #9c0044; /* Matching blue color for the icon */
+  color: #000000; /* Matching blue color for the icon */
   font-size: 18px; /* Larger size for better visibility */
   transition: transform 0.1s ease-in-out, color 0.1s ease-in-out; /* Smooth scaling and color transition */
 }
@@ -2073,3 +2073,8 @@ img {
   transform: scale(1.3); /* Slightly enlarge the icon on hover */
   color: #ffffff; /* Change icon color to white on hover */
 }
+
+.login-page3-inner > main > label input:focus {
+  border-color: #000000 !important;
+}
+
