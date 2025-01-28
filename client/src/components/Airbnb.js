@@ -81,7 +81,7 @@ function Airbnb() {
   const [collapsed, setCollapsed] = useState(false); // State to manage collapse
 
   // **Responsive Hook**
-  const isWideScreen = useMediaQuery("(min-width:900px)"); // Check if screen width is over 900px
+  const isWideScreen = useMediaQuery("(min-width:700px)"); // Check if screen width is over 900px
 
   // Fixed destination coordinates
   const destinations = [
@@ -896,8 +896,8 @@ function Airbnb() {
               dots={true}
               infinite={true}
               speed={500}
-              slidesToShow={isWideScreen ? 3 : 1} // **Responsive slidesToShow**
-              slidesToScroll={isWideScreen ? 3 : 1} // **Responsive slidesToScroll**
+              slidesToShow={1} // **Fixed slidesToShow to 1**
+              slidesToScroll={1} // **Fixed slidesToScroll to 1**
               adaptiveHeight={true}
               autoplay={false}
               autoplaySpeed={3000}
@@ -1003,7 +1003,7 @@ function Airbnb() {
                     image={image.baseUrl}
                     alt={image.accessibilityLabel || "Image"}
                     sx={{
-                      height: 150,
+                      height: isWideScreen ? 300 : 150,
                       objectFit: "cover",
                       borderRadius: 2,
                       boxShadow: 3,

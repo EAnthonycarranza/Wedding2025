@@ -84,7 +84,7 @@ const destinations = [
 ];
 
 const Hotel = () => {
-  const [collapsed, setCollapsed] = useState(false); // State to manage collapse
+  const [collapsed, setCollapsed] = useState(true); // State to manage collapse
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedDescription, setSelectedDescription] = useState("");
   const [selectedLat, setSelectedLat] = useState(null);
