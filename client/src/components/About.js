@@ -101,7 +101,7 @@ const About = () => {
                       onClick={handleSaveTheDate}
                       className="btn btn-default btn-sm"
                       style={{
-                        color: "#9c0044",
+                        color: "#000000",
                         padding: "10px 20px",
                         fontSize: "16px",
                         border: "none",
