@@ -99,7 +99,7 @@ const Hotel = () => {
 
   const handleCollapse = () => {
     setCollapsed(true);
-    window.scrollTo({ top: 0, behavior: "smooth" }); // Scroll to top smoothly
+    // Removed window.scrollTo to prevent scrolling to top of the page
   };
 
   const handleExpand = () => {
