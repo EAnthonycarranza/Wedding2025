@@ -27,6 +27,7 @@ import placesData from "./places.json";
 import RoutingControl from "./RoutingControl";
 import Airbnb from "./Airbnb"; // Your existing Airbnb component
 import bgImage from "../img/TravelImg.jpg"; // Import the background image
+import Hotel from "./Hotel";
 
 // Fix for default Marker icons
 delete L.Icon.Default.prototype._getIconUrl;
@@ -246,8 +247,11 @@ const Tourist = () => {
   </p>
 </div>
 
-            {/* Render your existing <Airbnb /> UI beneath the filter */}
-            <Airbnb />
+      {/* Wrapper to place buttons side by side */}
+      <div style={{ display: "flex", justifyContent: "center", flexDirection: "column", gap: "10px", marginBottom: "20px" }}>
+        <Airbnb />
+        <Hotel />
+      </div>
 
       {/* Filter Section */}
       <Box

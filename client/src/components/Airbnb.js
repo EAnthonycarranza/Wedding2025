@@ -29,6 +29,7 @@ import L from "leaflet";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Loading from "./Loading";
+import useMediaQuery from "@mui/material/useMediaQuery"; // Ensure useMediaQuery is imported
 
 // Helper function to decode HTML entities
 function decodeHtml(html) {
@@ -79,6 +80,9 @@ function Airbnb() {
   // New state for collapse functionality
   const [collapsed, setCollapsed] = useState(false); // State to manage collapse
 
+  // **Responsive Hook**
+  const isWideScreen = useMediaQuery("(min-width:900px)"); // Check if screen width is over 900px
+
   // Fixed destination coordinates
   const destinations = [
     {
@@ -101,6 +105,7 @@ function Airbnb() {
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
       const { results } = await response.json();
+      console.log("Fetched Airbnb Listings:", results);
 
       const listingsData = [];
       for (const listing of results) {
@@ -188,6 +193,7 @@ function Airbnb() {
             (section) => section.__typename === "PdpHeroSection"
           );
           const previewImages = pdpHeroSection?.previewImages || [];
+          console.log("Preview Images for Airbnb ID:", airbnbId, previewImages);
 
           // Extract Primary HTML Text
           const primaryHtmlText =
@@ -406,6 +412,7 @@ function Airbnb() {
     accordionData,
     images
   ) => {
+    console.log("Opening modal with images:", images); // Log images
     setSelectedDescription(description);
     setSelectedLat(lat);
     setSelectedLng(lng);
@@ -489,25 +496,43 @@ function Airbnb() {
   }
 
   return (
-    <Box sx={{ maxWidth: "800px", margin: "auto", mt: 4, px: 2,}}>
+    <Box sx={{ maxWidth: "800px", margin: "auto", mt: 4, px: 2 }}>
       {!dataLoaded && (
-        <Button
-  variant="contained"
-  onClick={fetchListings}
-  sx={{ 
-    mb: 4, 
-    display: 'block', 
-    mx: 'auto' // mx is a shorthand for margin-left and margin-right
-  }}
->
-  View Airbnb Selections
-</Button>
+    <Button
+    variant="contained"
+    onClick={fetchListings}
+    sx={{ 
+      mb: 4,
+      backgroundColor: '#ff385c',
+      color: '#fff',
+      '&:hover': {
+        backgroundColor: '#e03852',
+      },
+    }}
+  >
+    View Airbnb Selections
+  </Button>
       )}
 
       {/* Wrap listings and pagination inside Collapse for smooth animation */}
       <Collapse in={!collapsed} timeout="auto" unmountOnExit>
         {dataLoaded && (
           <>
+            <Box sx={{ display: "flex", justifyContent: "center", mb: 4 }}>
+            <Button
+  variant="contained"
+  onClick={handleCollapse}
+  sx={{
+    backgroundColor: '#ff385c !important',
+    color: '#fff !important',
+    '&:hover': {
+      backgroundColor: '#e03852 !important',
+    },
+  }}
+>
+  Hide Airbnb Listings
+</Button>
+            </Box>
             {currentListings.map((listing, index) => (
               <Card key={index} sx={{ mb: 4 }}>
                 {/* Thumbnail */}
@@ -722,6 +747,14 @@ function Airbnb() {
                           listing.previewImages // Pass images here
                         )
                       }
+                      sx={{
+                        borderColor: '#ff385c !important',
+                        color: '#ff385c !important',
+                        '&:hover': {
+                          borderColor: '#e03852 !important',
+                          backgroundColor: 'rgba(255, 56, 92, 0.04) !important', // Optional: subtle background on hover
+                        },
+                      }}
                     >
                       View More
                     </Button>
@@ -740,18 +773,30 @@ function Airbnb() {
                           listing.isVerified // Pass Verified status
                         )
                       }
+                      sx={{
+                        borderColor: '#ff385c !important',
+                        color: '#ff385c !important',
+                        '&:hover': {
+                          borderColor: '#e03852 !important',
+                          backgroundColor: 'rgba(255, 56, 92, 0.04)', // Optional: subtle background on hover
+                        },
+                      }}
                     >
                       About Host
                     </Button>
 
                     {/* Link to Airbnb Page */}
                     <Button
-                      variant="contained"
-                      color="primary"
-                      href={`https://www.airbnb.com/rooms/${listing.airbnbId}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
+  variant="contained"
+  onClick={handleExpand}
+  sx={{
+    backgroundColor: '#ff385c !important',
+    color: '#fff !important',
+    '&:hover': {
+      backgroundColor: '#e03852 !important',
+    },
+  }}
+>
                       Visit Airbnb Page
                     </Button>
                   </Box>
@@ -781,13 +826,19 @@ function Airbnb() {
             mt: 4,
           }}
         >
-          <Button
-            variant="contained"
-            color="secondary"
-            onClick={handleCollapse} // Use the new handler
-          >
-            Collapse
-          </Button>
+<Button
+  variant="contained"
+  onClick={handleCollapse} // Use the new handler
+  sx={{
+    backgroundColor: '#ff385c !important', // Set the button's background color
+    color: '#fff !important', // Set the text color to white for better contrast
+    '&:hover': {
+      backgroundColor: '#e03852 !important', // Darken the background color on hover
+    },
+  }}
+>
+  Collapse
+</Button>
         </Box>
       )}
 
@@ -800,13 +851,19 @@ function Airbnb() {
             mt: 4,
           }}
         >
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={handleExpand} // Use the new handler
-          >
-            Expand
-          </Button>
+<Button
+  variant="contained"
+  onClick={handleExpand}
+  sx={{
+    backgroundColor: '#ff385c !important',
+    color: '#fff !important',
+    '&:hover': {
+      backgroundColor: '#e03852 !important',
+    },
+  }}
+>
+  View Airbnb Listings
+</Button>
         </Box>
       )}
 
@@ -839,8 +896,8 @@ function Airbnb() {
               dots={true}
               infinite={true}
               speed={500}
-              slidesToShow={3} // Number of images visible at once
-              slidesToScroll={1}
+              slidesToShow={isWideScreen ? 3 : 1} // **Responsive slidesToShow**
+              slidesToScroll={isWideScreen ? 3 : 1} // **Responsive slidesToScroll**
               adaptiveHeight={true}
               autoplay={false}
               autoplaySpeed={3000}
@@ -1073,8 +1130,11 @@ function Airbnb() {
             variant="contained"
             onClick={handleCloseModal}
             sx={{
-              bgcolor: "primary.main",
-              ":hover": { bgcolor: "primary.dark" },
+              backgroundColor: '#ff385c !important',
+              color: '#fff !important',
+              '&:hover': {
+                backgroundColor: '#e03852 !important',
+              },
               mt: 3,
             }}
           >
@@ -1203,8 +1263,11 @@ function Airbnb() {
             variant="contained"
             onClick={handleCloseAboutHostModal}
             sx={{
-              bgcolor: "primary.main",
-              ":hover": { bgcolor: "primary.dark" },
+              backgroundColor: '#ff385c !important',
+              color: '#fff !important',
+              '&:hover': {
+                backgroundColor: '#e03852 !important',
+              },
               mt: 3,
             }}
           >
