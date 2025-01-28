@@ -31,7 +31,7 @@ const CoupleInfo = () => {
             <h2
               style={{
                 fontFamily: "Sacramento",
-                color: "#9c0044",
+                color: "#323232",
               }}
             >
               Eduardo Antonio
@@ -64,7 +64,7 @@ const CoupleInfo = () => {
             <h2
               style={{
                 fontFamily: "Sacramento",
-                color: "#9c0044",
+                color: "#323232",
               }}
             >
               Christina Kyara
