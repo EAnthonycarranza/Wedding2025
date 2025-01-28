@@ -121,7 +121,7 @@ useEffect(() => {
     transition: 'background-color 0.3s ease, color 0.3s ease',
     borderRadius: '15px',
     '&:hover': {
-      backgroundColor: '#9c004433',
+      backgroundColor: '#6f6f6f33',
     },
   }}
 >
@@ -142,7 +142,7 @@ useEffect(() => {
     transition: 'background-color 0.3s ease, color 0.3s ease',
     borderRadius: '15px',
     '&:hover': {
-      backgroundColor: '#9c004433',
+      backgroundColor: '#6f6f6f33',
     },
   }}
 >
@@ -163,7 +163,7 @@ useEffect(() => {
     transition: 'background-color 0.3s ease, color 0.3s ease',
     borderRadius: '15px',
     '&:hover': {
-      backgroundColor: '#9c004433',
+      backgroundColor: '#6f6f6f33',
     },
   }}
 >
@@ -184,7 +184,7 @@ useEffect(() => {
     transition: 'background-color 0.3s ease, color 0.3s ease',
     borderRadius: '15px',
     '&:hover': {
-      backgroundColor: '#9c004433',
+      backgroundColor: '#6f6f6f33',
     },
   }}
 >
@@ -205,7 +205,7 @@ useEffect(() => {
     transition: 'background-color 0.3s ease, color 0.3s ease',
     borderRadius: '15px',
     '&:hover': {
-      backgroundColor: '#9c004433',
+      backgroundColor: '#6f6f6f33',
     },
   }}
 >
@@ -226,7 +226,7 @@ useEffect(() => {
     transition: 'background-color 0.3s ease, color 0.3s ease',
     borderRadius: '15px',
     '&:hover': {
-      backgroundColor: '#9c004433',
+      backgroundColor: '#6f6f6f33',
     },
   }}
 >
@@ -263,7 +263,7 @@ useEffect(() => {
               sx={{
                 transition: 'background-color 0.3s ease', // Smooth transition
                 '&:hover': {
-                  backgroundColor: 'rgba(156, 0, 68, 0.1)', // Add hover effect for the profile icon
+                  backgroundColor: '#6f6f6f33', // Add hover effect for the profile icon
                 },
               }}
             >
@@ -362,23 +362,24 @@ useEffect(() => {
                 Gallery
               </MenuItem>
 
-<MenuItem
+              <MenuItem
+
   onClick={() => handleMenuItemClick('/tour')}
-                sx={{
-                  fontFamily: "'Sacramento', cursive",
-                  marginRight: '40px',
-                  padding: '10px 20px',
-                  borderRadius: '10px',
-                  textAlign: 'center',
-                  transition: 'background-color 0.3s ease, color 0.3s ease',
-                  '&:hover': {
-                    backgroundColor: 'rgba(156, 0, 68, 0.1)',
-                    color: 'rgb(156 0 68)',
-                  },
-                }}
-              >
+  sx={{
+    fontFamily: "'Sacramento', cursive",
+    marginRight: '40px',
+    padding: '10px 20px',
+    borderRadius: '10px',
+    textAlign: 'center',
+    transition: 'background-color 0.3s ease, color 0.3s ease',
+    '&:hover': {
+      backgroundColor: 'rgba(156, 0, 68, 0.1)',
+      color: 'rgb(156 0 68)',
+    },
+  }}
+>
   Travel
-</MenuItem>
+  </MenuItem>
 
               <MenuItem
                 onClick={() => handleMenuItemClick('/rsvp')}
