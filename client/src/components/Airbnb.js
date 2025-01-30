@@ -740,20 +740,24 @@ function Airbnb() {
                       About Host
                     </Button>
 
-                    {/* Link to Airbnb Page */}
-                    <Button
-                      variant="contained"
-                      onClick={handleExpand}
-                      sx={{
-                        backgroundColor: "#ff385c !important",
-                        color: "#fff !important",
-                        "&:hover": {
-                          backgroundColor: "#e03852 !important",
-                        },
-                      }}
-                    >
-                      Visit Airbnb Page
-                    </Button>
+{/* Visit Airbnb Page Button */}
+<Button
+  variant="contained"
+  component="a"
+  href={`https://www.airbnb.com/rooms/${listing.airbnbId}`}
+  target="_blank"
+  rel="noopener noreferrer"
+  aria-label={`Visit Airbnb page for ${listing.listingTitle}`}
+  sx={{
+    backgroundColor: "#ff385c !important",
+    color: "#fff !important",
+    "&:hover": {
+      backgroundColor: "#e03852 !important",
+    },
+  }}
+>
+  Visit Airbnb Page
+</Button>
                   </Box>
                 </CardContent>
               </Card>
