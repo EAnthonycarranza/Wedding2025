@@ -21,10 +21,12 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import SaveIcon from "@mui/icons-material/Save";
 import { useNavigate } from "react-router-dom";
+import {jwtDecode} from "jwt-decode";
 
 const RSVPPage = () => {
   const [familyMembers, setFamilyMembers] = useState([]);
   const [familyName, setFamilyName] = useState("");
+  const [familyCount, setFamilyCount] = useState(0);
   const [loading, setLoading] = useState(true);
   const [modalOpen, setModalOpen] = useState(false);
   const [modalMessage, setModalMessage] = useState("");
@@ -37,9 +39,7 @@ const RSVPPage = () => {
         method: "GET",
         headers: { Authorization: `Bearer ${token}` },
       });
-
       const data = await response.json();
-
       if (response.ok && data.mongoData) {
         setFamilyName(data.mongoData.familyName || "Unknown Family");
         setFamilyMembers(data.mongoData.familyMembers || []);
@@ -52,6 +52,21 @@ const RSVPPage = () => {
       setLoading(false);
     }
   };
+
+  // Decode token to set familyCount
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      try {
+        const decoded = jwtDecode(token);
+        if (decoded.familyCount) {
+          setFamilyCount(decoded.familyCount);
+        }
+      } catch (e) {
+        console.error("Error decoding token:", e);
+      }
+    }
+  }, []);
 
   useEffect(() => {
     fetchRSVPData();
@@ -68,7 +83,6 @@ const RSVPPage = () => {
         },
         body: JSON.stringify({ familyMembers }),
       });
-
       const data = await response.json();
       if (response.ok) {
         openModal("RSVP updated successfully!");
@@ -88,14 +102,18 @@ const RSVPPage = () => {
   };
 
   const handleAddFamilyMember = () => {
-    setFamilyMembers([
-      ...familyMembers,
-      {
-        firstName: "",
-        lastName: "",
-        rsvpStatus: "No Status / I don't know",
-      },
-    ]);
+    if (familyMembers.length < familyCount) {
+      setFamilyMembers([
+        ...familyMembers,
+        {
+          firstName: "",
+          lastName: "",
+          rsvpStatus: "No Status / I don't know",
+        },
+      ]);
+    } else {
+      alert(`You can only RSVP for ${familyCount} people.`);
+    }
   };
 
   const handleRemoveFamilyMember = async (index) => {
@@ -125,7 +143,6 @@ const RSVPPage = () => {
         },
         body: JSON.stringify({ familyMember: memberToRemove }),
       });
-
       const data = await response.json();
       if (!response.ok) {
         openModal(`Failed to delete family member: ${data.message}`);
@@ -261,17 +278,20 @@ const RSVPPage = () => {
             ))
           ) : (
             <Grid
-            container
-            justifyContent="center"
-            alignItems="center"
-            sx={{
-              textAlign: "center",
-            }}
-          >
-            <Typography variant="body1" sx={{ fontSize: "1rem", color: "#555" }}>
-              No RSVP data available. Please submit your RSVP.
-            </Typography>
-          </Grid>
+              container
+              justifyContent="center"
+              alignItems="center"
+              sx={{
+                textAlign: "center",
+              }}
+            >
+              <Typography
+                variant="body1"
+                sx={{ fontSize: "1rem", color: "#555" }}
+              >
+                No RSVP data available. Please submit your RSVP.
+              </Typography>
+            </Grid>
           )}
         </Grid>
 
@@ -283,24 +303,25 @@ const RSVPPage = () => {
             flexWrap: "wrap",
           }}
         >
-<Button
-  variant="outlined"
-  onClick={handleAddFamilyMember}
-  startIcon={<AddCircleIcon />}
-  sx={{
-    color: "#000000", // Text and icon color
-    borderColor: "#000000", // Border color
-    borderRadius: "20px", // Rounded corners
-    mr: { xs: 0, sm: 2 }, // Margin right responsive
-    mb: { xs: 2, sm: 0 }, // Margin bottom responsive
-    "&:hover": {
-      borderColor: "#000000", // Maintain black border on hover
-      backgroundColor: "rgba(0, 0, 0, 0.04)", // Optional: subtle background on hover
-    },
-  }}
->
-  Add Family Member
-</Button>
+          <Button
+            variant="outlined"
+            onClick={handleAddFamilyMember}
+            startIcon={<AddCircleIcon />}
+            disabled={familyMembers.length >= familyCount}
+            sx={{
+              color: "#000000",
+              borderColor: "#000000",
+              borderRadius: "20px",
+              mr: { xs: 0, sm: 2 },
+              mb: { xs: 2, sm: 0 },
+              "&:hover": {
+                borderColor: "#000000",
+                backgroundColor: "rgba(0, 0, 0, 0.04)",
+              },
+            }}
+          >
+            Add Family Member
+          </Button>
 
           <Button
             variant="contained"
