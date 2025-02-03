@@ -38,6 +38,7 @@ import "./App.css";
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [familyName, setFamilyName] = useState("");
+  const [familyCount, setFamilyCount] = useState(0);
   const [showRSVPModal, setShowRSVPModal] = useState(false);
   const [familyMembers, setFamilyMembers] = useState([
     { firstName: "", lastName: "", rsvpStatus: "No Status / I don't know" },
@@ -101,6 +102,8 @@ function App() {
       const data = await response.json();
       setIsAuthenticated(true);
       setFamilyName(data.familyName);
+      setFamilyCount(data.familyCount);
+      setTokenExpired(false); // Reset tokenExpired on successful authentication
 
       await fetchRSVPData(tokenFromStorage);
     } catch (error) {
@@ -124,6 +127,8 @@ function App() {
         localStorage.setItem("token", jwtToken);
         setIsAuthenticated(true);
         setFamilyName(response.data.familyName);
+        setFamilyCount(response.data.familyCount);
+        setTokenExpired(false);
 
         navigate("/home", { replace: true });
         await fetchRSVPData(jwtToken);
@@ -182,7 +187,8 @@ function App() {
     }
     localStorage.removeItem("token");
     setIsAuthenticated(false);
-    navigate("/");
+    // Refresh the page after logout
+    window.location.reload();
   };
 
   // --------------------------------------------------
@@ -230,10 +236,14 @@ function App() {
   };
 
   const handleAddFamilyMember = () => {
-    setFamilyMembers([
-      ...familyMembers,
-      { firstName: "", lastName: "", rsvpStatus: "No Status / I don't know" },
-    ]);
+    if (familyMembers.length < familyCount) {
+      setFamilyMembers([
+        ...familyMembers,
+        { firstName: "", lastName: "", rsvpStatus: "No Status / I don't know" },
+      ]);
+    } else {
+      alert(`You can only RSVP for ${familyCount} people.`);
+    }
   };
 
   const handleRemoveFamilyMember = (index) => {
@@ -284,124 +294,124 @@ function App() {
 
       {/* Show RSVP modal if not submitted */}
       {showRSVPModal && (
-  <Modal
-    open={true}
-    onClose={closeRSVPModal}
-    aria-labelledby="rsvp-modal-title"
-    sx={{
-      display: 'flex',
-      justifyContent: 'center',
-      alignItems: 'center',
-    }}
-  >
-    <Box
-      sx={{
-        width: { xs: '90%', sm: 500 }, // 90% width on small screens, 500px on larger
-        p: 4,
-        bgcolor: 'background.paper',
-        borderRadius: '10px',
-        boxShadow: 24,
-        maxHeight: '90vh', // Prevent overflow on very small screens
-        overflowY: 'auto',  // Enable scrolling if content is too long
-      }}
-    >
-      <Typography
-        id="rsvp-modal-title"
-        variant="h5"
-        sx={{
-          textAlign: 'center',
-          mb: 2,
-          fontFamily: "'Sacramento', cursive",
-          fontSize: '1.8rem',
-        }}
-      >
-        RSVP for {familyName}
-      </Typography>
-      <Typography variant="body2" sx={{ mb: 3 }}>
-        Please fill out the RSVP list by April 18, 2025. You can update
-        your RSVP any time.
-      </Typography>
-      {familyMembers.map((member, index) => (
-        <Grid container spacing={2} key={index} sx={{ mb: 2 }}>
-          <Grid item xs={12} sm={4}>
-            <TextField
-              fullWidth
-              label="First Name"
+        <Modal
+          open={true}
+          onClose={closeRSVPModal}
+          aria-labelledby="rsvp-modal-title"
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <Box
+            sx={{
+              width: { xs: "90%", sm: 500 },
+              p: 4,
+              bgcolor: "background.paper",
+              borderRadius: "10px",
+              boxShadow: 24,
+              maxHeight: "90vh",
+              overflowY: "auto",
+            }}
+          >
+            <Typography
+              id="rsvp-modal-title"
+              variant="h5"
+              sx={{
+                textAlign: "center",
+                mb: 2,
+                fontFamily: "'Sacramento', cursive",
+                fontSize: "1.8rem",
+              }}
+            >
+              RSVP for {familyName}
+            </Typography>
+            <Typography variant="body2" sx={{ mb: 3 }}>
+              Please fill out the RSVP list by April 18, 2025. You can update your RSVP any time.
+            </Typography>
+            {familyMembers.map((member, index) => (
+              <Grid container spacing={2} key={index} sx={{ mb: 2 }}>
+                <Grid item xs={12} sm={4}>
+                  <TextField
+                    fullWidth
+                    label="First Name"
+                    variant="outlined"
+                    value={member.firstName}
+                    onChange={(e) =>
+                      handleFamilyMemberChange(index, "firstName", e.target.value)
+                    }
+                  />
+                </Grid>
+                <Grid item xs={12} sm={4}>
+                  <TextField
+                    fullWidth
+                    label="Last Name"
+                    variant="outlined"
+                    value={member.lastName}
+                    onChange={(e) =>
+                      handleFamilyMemberChange(index, "lastName", e.target.value)
+                    }
+                  />
+                </Grid>
+                <Grid item xs={12} sm={3}>
+                  <FormControl fullWidth>
+                    <Select
+                      value={member.rsvpStatus}
+                      onChange={(e) =>
+                        handleFamilyMemberChange(index, "rsvpStatus", e.target.value)
+                      }
+                    >
+                      <MenuItem value="Going">Going</MenuItem>
+                      <MenuItem value="Not Going">Not Going</MenuItem>
+                      <MenuItem value="No Status / I don't know">
+                        No Status / I don't know
+                      </MenuItem>
+                    </Select>
+                  </FormControl>
+                </Grid>
+                <Grid item xs={12} sm={1} sx={{ display: "flex", alignItems: "center" }}>
+                  {index > 0 && (
+                    <IconButton
+                      aria-label="delete"
+                      onClick={() => handleRemoveFamilyMember(index)}
+                    >
+                      <DeleteIcon />
+                    </IconButton>
+                  )}
+                </Grid>
+              </Grid>
+            ))}
+            <Button
               variant="outlined"
-              value={member.firstName}
-              onChange={(e) =>
-                handleFamilyMemberChange(index, 'firstName', e.target.value)
-              }
-            />
-          </Grid>
-          <Grid item xs={12} sm={4}>
-            <TextField
+              sx={{
+                mb: 2,
+                color: "#000000",
+                borderColor: "#000000",
+                "&:hover": {
+                  backgroundColor: "rgba(0, 0, 0, 0.04)",
+                },
+              }}
+              onClick={handleAddFamilyMember}
+              disabled={familyMembers.length >= familyCount}
+            >
+              Add Family Member
+            </Button>
+            <Button
+              variant="contained"
+              color="primary"
               fullWidth
-              label="Last Name"
-              variant="outlined"
-              value={member.lastName}
-              onChange={(e) =>
-                handleFamilyMemberChange(index, 'lastName', e.target.value)
-              }
-            />
-          </Grid>
-          <Grid item xs={12} sm={3}>
-            <FormControl fullWidth>
-              <Select
-                value={member.rsvpStatus}
-                onChange={(e) =>
-                  handleFamilyMemberChange(index, 'rsvpStatus', e.target.value)
-                }
-              >
-                <MenuItem value="Going">Going</MenuItem>
-                <MenuItem value="Not Going">Not Going</MenuItem>
-                <MenuItem value="No Status / I don't know">
-                  No Status / I don't know
-                </MenuItem>
-              </Select>
-            </FormControl>
-          </Grid>
-          <Grid item xs={12} sm={1} sx={{ display: 'flex', alignItems: 'center' }}>
-            {index > 0 && (
-              <IconButton
-                aria-label="delete"
-                onClick={() => handleRemoveFamilyMember(index)}
-              >
-                <DeleteIcon />
-              </IconButton>
-            )}
-          </Grid>
-        </Grid>
-      ))}
-      <Button
-        variant="outlined"
-        sx={{
-          mb: 2,
-          color: '#000000', // Text color
-          borderColor: '#000000', // Border color (if outlined)
-          '&:hover': {
-            backgroundColor: 'rgba(0, 0, 0, 0.04)', // Optional hover effect
-          },
-        }}
-        onClick={handleAddFamilyMember}
-      >
-        Add Family Member
-      </Button>
-      <Button
-        variant="contained"
-        color="primary"
-        fullWidth
-        sx={{ mt: 3, py: 1.5, backgroundColor: '#000000' }}
-        onClick={handleRSVPSubmit}
-      >
-        Submit RSVP
-      </Button>
-    </Box>
-  </Modal>
-)}
+              sx={{ mt: 3, py: 1.5, backgroundColor: "#000000" }}
+              onClick={handleRSVPSubmit}
+            >
+              Submit RSVP
+            </Button>
+          </Box>
+        </Modal>
+      )}
 
-      {/* Show token expired modal only if token is expired AND user is not on "/" */}
-      {tokenExpired && location.pathname !== "/" && (
+      {/* Show token expired modal only if token is expired and user is not authenticated */}
+      {tokenExpired && !isAuthenticated && location.pathname !== "/" && (
         <Modal
           open={true}
           onClose={() => {
