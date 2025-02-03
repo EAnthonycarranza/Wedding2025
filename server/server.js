@@ -775,9 +775,7 @@ families.forEach((family) => {
 const verifyJWT = (req, res, next) => {
   const authHeader = req.headers["authorization"];
   if (!authHeader || !authHeader.startsWith("Bearer ")) {
-    return res
-      .status(403)
-      .json({ message: "No token provided or invalid format" });
+    return res.status(403).json({ message: "No token provided or invalid format" });
   }
   const token = authHeader.split(" ")[1];
   jwt.verify(token, JWT_SECRET, (err, decoded) => {
@@ -785,6 +783,7 @@ const verifyJWT = (req, res, next) => {
       return res.status(401).json({ message: "Failed to authenticate token" });
     }
     req.familyName = decoded.familyName;
+    req.familyCount = decoded.familyCount; // Added familyCount from JWT
     next();
   });
 };
@@ -801,23 +800,20 @@ app.use("/authenticate", authLimiter);
 app.post("/authenticate", (req, res) => {
   const { password, token } = req.body;
   let familyEntry;
-
   if (password) {
     familyEntry = families.find((family) => family.password === password);
   } else if (token) {
     familyEntry = families.find((family) => family.token === token);
   } else {
-    return res
-      .status(400)
-      .json({ success: false, message: "No credentials provided" });
+    return res.status(400).json({ success: false, message: "No credentials provided" });
   }
 
   if (familyEntry) {
-    const { familyName } = familyEntry;
-    const jwtToken = jwt.sign({ familyName }, JWT_SECRET, {
-      expiresIn: "5h",
+    const { familyName, familyCount } = familyEntry;
+    const jwtToken = jwt.sign({ familyName, familyCount }, JWT_SECRET, {
+      expiresIn: "1h",
     });
-    res.status(200).json({ success: true, token: jwtToken, familyName });
+    res.status(200).json({ success: true, token: jwtToken, familyName, familyCount });
   } else {
     res.status(401).json({ success: false, message: "Invalid credentials" });
   }
@@ -826,7 +822,7 @@ app.post("/authenticate", (req, res) => {
 // Check authentication
 app.get("/check-auth", verifyJWT, (req, res) => {
   try {
-    res.status(200).json({ isAuthenticated: true, familyName: req.familyName });
+    res.status(200).json({ isAuthenticated: true, familyName: req.familyName, familyCount: req.familyCount });
   } catch (error) {
     res.status(500).json({ success: false, message: "Error checking authentication" });
   }
@@ -856,8 +852,11 @@ app.get("/rsvp", verifyJWT, async (req, res) => {
 
 // 2. Update RSVP Data (PUT)
 app.put("/rsvp", verifyJWT, async (req, res) => {
-  const { familyMembers } = req.body; 
+  const { familyMembers } = req.body;
   const familyName = req.familyName;
+  if (familyMembers.length > req.familyCount) {
+    return res.status(400).json({ message: `You can only RSVP for ${req.familyCount} people.` });
+  }
   try {
     if (!rsvpCollection) {
       throw new Error("rsvpCollection is not initialized");
@@ -869,7 +868,6 @@ app.put("/rsvp", verifyJWT, async (req, res) => {
     );
     console.log(`RSVP updated in MongoDB for family: ${familyName}`);
 
-    // Update Google Sheets
     const rows = familyMembers.map((member) => [
       familyName,
       member.firstName,
@@ -935,7 +933,6 @@ app.delete("/rsvp", verifyJWT, async (req, res) => {
       );
       console.log(`RSVP updated in MongoDB for family: ${familyName}`);
 
-      // Also clear from Google Sheets
       const sheetResponse = await sheets.spreadsheets.values.get({
         spreadsheetId: SHEET_ID,
         range: "RSVP LIST!A:E",
@@ -970,6 +967,9 @@ app.delete("/rsvp", verifyJWT, async (req, res) => {
 app.post("/submit-rsvp", verifyJWT, async (req, res) => {
   const { familyMembers } = req.body;
   const familyName = req.familyName;
+  if (familyMembers.length > req.familyCount) {
+    return res.status(400).json({ message: `You can only RSVP for ${req.familyCount} people.` });
+  }
   try {
     if (!rsvpCollection) {
       throw new Error("rsvpCollection is not initialized");
@@ -981,7 +981,6 @@ app.post("/submit-rsvp", verifyJWT, async (req, res) => {
     );
     console.log(`RSVP submitted in MongoDB for family: ${familyName}`);
 
-    // Update Sheets
     const rows = familyMembers.map((member) => [
       familyName,
       member.firstName,
