@@ -320,7 +320,7 @@ const RSVPPage = () => {
               },
             }}
           >
-            Add Family Member
+            Add Family Member / Guest
           </Button>
 
           <Button
