@@ -829,7 +829,15 @@ app.get("/check-auth", verifyJWT, (req, res) => {
 });
 
 // 1. Get RSVP Data for a Family (MongoDB)
-app.get("/rsvp", verifyJWT, async (req, res) => {
+// If the request accepts HTML (i.e. a direct browser navigation), serve index.html
+app.get("/rsvp", (req, res, next) => {
+  const acceptHeader = req.headers.accept || "";
+  if (acceptHeader.includes("text/html")) {
+    // Serve the React app so the client-side router can handle the route
+    return res.sendFile(path.join(__dirname, "../client/build", "index.html"));
+  }
+  next();
+}, verifyJWT, async (req, res) => {
   const familyName = req.familyName;
   console.log(`Fetching RSVP for family: ${familyName}`);
   try {
