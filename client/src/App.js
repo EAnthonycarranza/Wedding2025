@@ -83,9 +83,9 @@ function App() {
   // --------------------------------------------------
   const checkAuth = useCallback(async () => {
     const tokenFromStorage = localStorage.getItem("token");
-    // If no token, mark as not authenticated and (if not on "/") mark token as expired.
     if (!tokenFromStorage) {
       setIsAuthenticated(false);
+      // If trying to access a protected route (i.e. not "/"), mark token as expired.
       if (location.pathname !== "/") {
         setTokenExpired(true);
       }
@@ -112,6 +112,7 @@ function App() {
 
       await fetchRSVPData(tokenFromStorage);
     } catch (error) {
+      // If the check fails, token might be invalid or expired
       setIsAuthenticated(false);
       setTokenExpired(true);
     }
@@ -162,7 +163,6 @@ function App() {
   // On Every Route Change, Re-check Auth
   // --------------------------------------------------
   useEffect(() => {
-    // Whenever location changes, verify token again
     checkAuth();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [location]);
@@ -191,7 +191,7 @@ function App() {
     }
     localStorage.removeItem("token");
     setIsAuthenticated(false);
-    // Refresh the page after logout so that checkAuth sets tokenExpired if needed
+    // Refresh the page after logout so that protected routes show the expired modal
     window.location.reload();
   };
 
@@ -273,7 +273,7 @@ function App() {
           <Routes location={location}>
             {isAuthenticated ? (
               <>
-                {/* If authenticated, "/" redirects to "/home" */}
+                {/* Redirect from "/" to "/home" for authenticated users */}
                 <Route path="/" element={<Navigate to="/home" replace />} />
                 <Route path="/home" element={<Home />} />
                 <Route path="/about" element={<About />} />
