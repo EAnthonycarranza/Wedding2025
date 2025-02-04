@@ -5,6 +5,7 @@ import {
   BrowserRouter as Router,
   Route,
   Routes,
+  Navigate,
   useLocation,
   useNavigate,
 } from "react-router-dom";
@@ -82,8 +83,12 @@ function App() {
   // --------------------------------------------------
   const checkAuth = useCallback(async () => {
     const tokenFromStorage = localStorage.getItem("token");
+    // If no token, mark as not authenticated and (if not on "/") mark token as expired.
     if (!tokenFromStorage) {
       setIsAuthenticated(false);
+      if (location.pathname !== "/") {
+        setTokenExpired(true);
+      }
       return;
     }
 
@@ -107,11 +112,10 @@ function App() {
 
       await fetchRSVPData(tokenFromStorage);
     } catch (error) {
-      // If the check fails, token might be invalid or expired
       setIsAuthenticated(false);
       setTokenExpired(true);
     }
-  }, [fetchRSVPData]);
+  }, [fetchRSVPData, location.pathname]);
 
   // --------------------------------------------------
   // Authenticate Using URL Token
@@ -187,7 +191,7 @@ function App() {
     }
     localStorage.removeItem("token");
     setIsAuthenticated(false);
-    // Refresh the page after logout
+    // Refresh the page after logout so that checkAuth sets tokenExpired if needed
     window.location.reload();
   };
 
@@ -269,6 +273,8 @@ function App() {
           <Routes location={location}>
             {isAuthenticated ? (
               <>
+                {/* If authenticated, "/" redirects to "/home" */}
+                <Route path="/" element={<Navigate to="/home" replace />} />
                 <Route path="/home" element={<Home />} />
                 <Route path="/about" element={<About />} />
                 <Route path="/services" element={<Services />} />
