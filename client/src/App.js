@@ -401,7 +401,7 @@ function App() {
               onClick={handleAddFamilyMember}
               disabled={familyMembers.length >= familyCount}
             >
-              Add Family Member
+              Add Family Member / Guest
             </Button>
             <Button
               variant="contained"
