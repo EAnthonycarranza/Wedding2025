@@ -29,7 +29,7 @@
     {
         "id": 4,
         "name": "Tower of the Americas",
-        "type": "adventure",
+        "type": "history",
         "lat": 29.41915666433884,
         "lon": -98.48354955489582,
         "description": "The Tower of the Americas, located in San Antonio, Texas, is a 750-foot observation tower and landmark offering stunning panoramic views of the city. Built for the 1968 World’s Fair, it features an observation deck, a revolving restaurant, and a 4D theater experience. Visitors can enjoy breathtaking scenery, dining, and interactive exhibits that showcase Texas history and culture. Situated in Hemisfair Park, the Tower remains a must-see attraction and an iconic symbol of San Antonio’s skyline.",
@@ -524,7 +524,7 @@
     {
         "id": 59,
         "name": "Guadalupe River",
-        "type": "day_trip",
+        "type": "adventure",
         "lat": 29.532878350987264,
         "lon": -97.92999933268905,
         "description": "The Guadalupe River, flowing through central and southern Texas, is a popular destination for outdoor activities such as tubing, kayaking, fishing, and swimming. Known for its crystal-clear waters and scenic surroundings, the river offers picturesque views, especially along the Texas Hill Country. Whether you're looking for a relaxing float or an adventurous paddle, the Guadalupe River provides a variety of recreational opportunities in a tranquil natural setting.",
@@ -587,7 +587,7 @@
     {
         "id": 66,
         "name": "Espada Aqueduct",
-        "type": "local_hidden_gem",
+        "type": "nature",
         "lat": 29.332800973775935,
         "lon": -98.46137041916067,
         "description": "The Espada Aqueduct, located in San Antonio, Texas, is a historic structure that once carried water from the San Antonio River to the Spanish colonial missions. Built in the 1700s, it is a part of the San Antonio Missions National Historical Park and is a key feature of the area’s early irrigation system. The aqueduct’s distinctive design and historical significance make it an important part of the region’s cultural heritage. Today, it stands as a testament to early engineering and is a popular site for visitors exploring the history of the San Antonio Missions." ,
@@ -614,7 +614,7 @@
     {
         "id": 69,
         "name": "King William Historic District",
-        "type": "local_hidden_gem",
+        "type": "history",
         "lat": 29.41601571226514,
         "lon": -98.49017402866222,
         "description": "The King William Historic District, located in San Antonio, Texas, is a charming neighborhood known for its well-preserved 19th-century architecture. As the city’s first historic district, it features beautiful Victorian homes, mansions, and cobblestone streets that reflect the area’s rich cultural heritage. Visitors can explore art galleries, cafes, and boutique shops, as well as take guided tours to learn about the district’s history. The King William Historic District is a peaceful and picturesque destination, offering a glimpse into San Antonio’s past while remaining a vibrant part of the city’s present." ,
@@ -803,7 +803,7 @@
     {
         "id": 90,
         "name": "Ripley’s Believe It or Not! San Antonio",
-        "type": "unique_attraction",
+        "type": "art",
         "lat": 29.42560317142932,
         "lon": -98.4873649914062,
         "description": "Ripley’s Believe It or Not! San Antonio is an exciting and unusual attraction that showcases a collection of oddities, curiosities, and interactive exhibits. Located on the iconic Alamo Plaza, the museum features strange artifacts, bizarre displays, and exhibits that challenge the limits of reality. Visitors can explore everything from shrunken heads and rare animal oddities to optical illusions and interactive games. With its fun and educational approach to the weird and wonderful, Ripley’s Believe It or Not! San Antonio offers a unique experience for all ages." ,
@@ -812,7 +812,7 @@
     {
         "id": 91,
         "name": "Painting with a Twist - The Forum",
-        "type": "unique_attraction",
+        "type": "art",
         "lat": 29.56725620584164,
         "lon": -98.3284843602601,
         "description": "Painting with a Twist - The Forum, located in San Antonio, Texas, is a creative studio where guests can enjoy a fun, social painting experience. The studio offers guided painting classes for individuals, couples, and groups, where participants can create their own artwork while sipping wine or beverages. Whether you’re an experienced artist or a beginner, the laid-back atmosphere and friendly instructors make it a perfect spot for a night out, special events, or team-building activities. It’s a great place to unleash creativity and have fun with friends or family." ,
@@ -848,7 +848,7 @@
     {
         "id": 95,
         "name": "Tejas Rodeo Company",
-        "type": "unique_attraction",
+        "type": "family",
         "lat": 29.738104965656824,
         "lon": -98.49134373234506,
         "description": "Tejas Rodeo Company, located in Bulverde, Texas, offers an authentic Texas rodeo experience with live rodeo events, live music, and a casual, family-friendly atmosphere. The venue hosts weekly rodeo shows featuring bull riding, barrel racing, and other traditional rodeo events. In addition to the rodeo, Tejas Rodeo Company features a restaurant and dance hall, offering delicious Texas BBQ and live country music. It’s a great place to enjoy Texas culture, whether you’re a local or visiting, and provides a true taste of Western hospitality and entertainment." ,
