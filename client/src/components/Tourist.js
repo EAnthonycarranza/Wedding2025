@@ -159,8 +159,6 @@ const Tourist = () => {
 
   // Ref for Locations List to enable scrolling to it
   const listRef = useRef(null);
-  // Ref for the selected marker to automatically open its popup
-  const selectedMarkerRef = useRef(null);
 
   // Default map center
   const center = { lat: 29.553690332030882, lng: -98.37144804803549 };
@@ -242,13 +240,6 @@ const Tourist = () => {
   const handleSelectPlace = (place) => {
     setSelectedPlace(place);
   };
-
-  // When a search result is selected, open its popup automatically
-  useEffect(() => {
-    if (selectedPlace && selectedMarkerRef.current) {
-      selectedMarkerRef.current.openPopup();
-    }
-  }, [selectedPlace]);
 
   // Pagination logic
   const totalPages = Math.ceil(searchedLocations.length / itemsPerPage);
@@ -428,7 +419,6 @@ const Tourist = () => {
 
       {/* Expand/Collapse Locations List Button and Listing Component */}
       <Box sx={{ maxWidth: "800px", margin: "20px auto", padding: "15px" }}>
-        {/* Top Toggle Button */}
         <Button
           variant="contained"
           fullWidth
@@ -524,7 +514,7 @@ const Tourist = () => {
                         background: "linear-gradient(135deg, #6a11cb, #2575fc)",
                         color: "#fff",
                         textTransform: "none",
-                        boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
+                        boxShadow: "0px 4px 6px rgba(0,0,0,0.1)",
                         "&:hover": {
                           background: "linear-gradient(135deg, #2575fc, #6a11cb)",
                         },
@@ -559,21 +549,6 @@ const Tourist = () => {
             </Box>
             <Box sx={{ display: "flex", justifyContent: "center", marginTop: "20px" }}>
               <Pagination count={totalPages} page={page} onChange={handleChangePage} color="primary" />
-            </Box>
-            {/* Bottom Collapse Button */}
-            <Box sx={{ display: "flex", justifyContent: "center", marginTop: "20px" }}>
-              <Button
-                variant="contained"
-                fullWidth
-                onClick={() => setListExpanded(false)}
-                sx={{
-                  background: "linear-gradient(135deg, #6a11cb, #2575fc)",
-                  color: "#fff",
-                  textTransform: "none",
-                }}
-              >
-                Collapse Locations List
-              </Button>
             </Box>
           </Box>
         </Collapse>
@@ -634,19 +609,20 @@ const Tourist = () => {
                 })
               }
             >
-              <Tooltip permanent>First Assembly of God at San Antonio - The Ceremony</Tooltip>
+              <Tooltip permanent>
+                First Assembly of God at San Antonio - The Ceremony
+              </Tooltip>
             </Marker>
-            {selectedPlace ? (
+            {filteredPlaces.map((place) => (
               <Marker
-                key={selectedPlace.id}
-                position={[selectedPlace.lat, selectedPlace.lon]}
-                ref={selectedMarkerRef}
+                key={place.id}
+                position={[place.lat, place.lon]}
                 eventHandlers={{
-                  click: () => handleSelectPlace(selectedPlace),
+                  click: () => handleSelectPlace(place),
                 }}
               >
                 <Tooltip direction="top" offset={[0, -10]} opacity={1}>
-                  {selectedPlace.name}
+                  {place.name}
                 </Tooltip>
                 <Popup>
                   <strong
@@ -661,7 +637,7 @@ const Tourist = () => {
                       textShadow: "1px 1px 2px rgba(0, 0, 0, 0.3)",
                     }}
                   >
-                    {selectedPlace.name}
+                    {place.name}
                   </strong>
                   <div
                     style={{
@@ -678,21 +654,21 @@ const Tourist = () => {
                       <strong style={{ color: "#000", fontWeight: "600" }}>
                         Type:
                       </strong>{" "}
-                      {displayCategory(selectedPlace.type)}
+                      {displayCategory(place.type)}
                     </span>
-                    {etaData[selectedPlace.id] && (
+                    {etaData[place.id] && (
                       <>
                         <span style={{ display: "block", marginBottom: "5px" }}>
                           <strong style={{ color: "#000", fontWeight: "600" }}>
                             ETA:
                           </strong>{" "}
-                          {formatDuration(etaData[selectedPlace.id].duration)}
+                          {formatDuration(etaData[place.id].duration)}
                         </span>
                         <span style={{ display: "block" }}>
                           <strong style={{ color: "#000", fontWeight: "600" }}>
                             Distance:
                           </strong>{" "}
-                          {etaData[selectedPlace.id].distance}
+                          {etaData[place.id].distance}
                         </span>
                       </>
                     )}
@@ -714,7 +690,7 @@ const Tourist = () => {
                     }}
                     onClick={() =>
                       window.open(
-                        `https://www.google.com/maps/dir/?api=1&destination=${selectedPlace.lat},${selectedPlace.lon}`,
+                        `https://www.google.com/maps/dir/?api=1&destination=${place.lat},${place.lon}`,
                         "_blank"
                       )
                     }
@@ -730,7 +706,7 @@ const Tourist = () => {
                       textTransform: "none",
                     }}
                     onClick={() => {
-                      setModalPlace(selectedPlace);
+                      setModalPlace(place);
                       setOpenModal(true);
                     }}
                   >
@@ -738,110 +714,7 @@ const Tourist = () => {
                   </Button>
                 </Popup>
               </Marker>
-            ) : (
-              filteredPlaces.map((place) => (
-                <Marker
-                  key={place.id}
-                  position={[place.lat, place.lon]}
-                  eventHandlers={{
-                    click: () => handleSelectPlace(place),
-                  }}
-                >
-                  <Tooltip direction="top" offset={[0, -10]} opacity={1}>
-                    {place.name}
-                  </Tooltip>
-                  <Popup>
-                    <strong
-                      style={{
-                        fontSize: "1.3rem",
-                        fontWeight: "700",
-                        fontFamily: "'Roboto Slab', serif",
-                        color: "#1a73e8",
-                        marginBottom: "8px",
-                        display: "block",
-                        textAlign: "center",
-                        textShadow: "1px 1px 2px rgba(0, 0, 0, 0.3)",
-                      }}
-                    >
-                      {place.name}
-                    </strong>
-                    <div
-                      style={{
-                        fontSize: "1rem",
-                        fontWeight: "500",
-                        fontFamily: "'Open Sans', sans-serif",
-                        color: "#4a4a4a",
-                        lineHeight: "1.6",
-                        textAlign: "left",
-                        marginTop: "5px",
-                      }}
-                    >
-                      <span style={{ display: "block", marginBottom: "5px" }}>
-                        <strong style={{ color: "#000", fontWeight: "600" }}>
-                          Type:
-                        </strong>{" "}
-                        {displayCategory(place.type)}
-                      </span>
-                      {etaData[place.id] && (
-                        <>
-                          <span style={{ display: "block", marginBottom: "5px" }}>
-                            <strong style={{ color: "#000", fontWeight: "600" }}>
-                              ETA:
-                            </strong>{" "}
-                            {formatDuration(etaData[place.id].duration)}
-                          </span>
-                          <span style={{ display: "block" }}>
-                            <strong style={{ color: "#000", fontWeight: "600" }}>
-                              Distance:
-                            </strong>{" "}
-                            {etaData[place.id].distance}
-                          </span>
-                        </>
-                      )}
-                    </div>
-                    <Button
-                      variant="contained"
-                      sx={{
-                        fontSize: "0.9rem",
-                        color: "#ffffff",
-                        background: "linear-gradient(135deg, #6a11cb, #2575fc)",
-                        padding: "8px 12px",
-                        borderRadius: "8px",
-                        textTransform: "none",
-                        boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
-                        transition: "background 0.3s ease-in-out, transform 0.2s",
-                        border: "none",
-                        cursor: "pointer",
-                        mb: 1,
-                      }}
-                      onClick={() =>
-                        window.open(
-                          `https://www.google.com/maps/dir/?api=1&destination=${place.lat},${place.lon}`,
-                          "_blank"
-                        )
-                      }
-                    >
-                      Get Directions
-                    </Button>
-                    <Button
-                      variant="outlined"
-                      sx={{
-                        fontSize: "0.9rem",
-                        color: "#6a11cb",
-                        borderColor: "#6a11cb",
-                        textTransform: "none",
-                      }}
-                      onClick={() => {
-                        setModalPlace(place);
-                        setOpenModal(true);
-                      }}
-                    >
-                      View Details
-                    </Button>
-                  </Popup>
-                </Marker>
-              ))
-            )}
+            ))}
             {selectedPlace && userLocation && (
               <RoutingControl
                 userLocation={userLocation}
