@@ -18,8 +18,10 @@ const CoupleInfo = () => {
             display: "flex",
             justifyContent: "space-between",
             gap: "40px", // Adjusts space between groom, heart, and bride
+            alignItems: "center",
           }}
         >
+          {/* Groom Section */}
           <div
             className="desc-groom"
             style={{
@@ -28,6 +30,18 @@ const CoupleInfo = () => {
               paddingRight: "40px",
             }}
           >
+            <img
+              src="https://storage.googleapis.com/galleryimageswedding/6.jpg"
+              alt="Groom"
+              style={{
+                width: "150px",
+                height: "150px",
+                borderRadius: "50%",
+                objectFit: "cover",
+                marginBottom: "15px",
+                border: "4px solid #ddd",
+              }}
+            />
             <h2
               style={{
                 fontFamily: "Sacramento",
@@ -42,6 +56,8 @@ const CoupleInfo = () => {
               Christina.
             </p>
           </div>
+
+          {/* Heart Icon */}
           <div
             className="heart"
             style={{
@@ -53,6 +69,8 @@ const CoupleInfo = () => {
           >
             <i className="icon-heart2"></i>
           </div>
+
+          {/* Bride Section */}
           <div
             className="desc-bride"
             style={{
@@ -61,6 +79,19 @@ const CoupleInfo = () => {
               paddingLeft: "40px",
             }}
           >
+            <img
+              src="https://storage.googleapis.com/galleryimageswedding/10.jpg"
+              alt="Bride"
+              style={{
+                width: "150px",
+                height: "150px",
+                borderRadius: "50%",
+                objectFit: "cover",
+                objectPosition: "center 20%", // Moves image up and zooms in slightly
+                marginBottom: "15px",
+                border: "4px solid #ddd",
+              }}
+            />
             <h2
               style={{
                 fontFamily: "Sacramento",
