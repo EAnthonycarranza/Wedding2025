@@ -1,3 +1,4 @@
+// src/components/Welcomepg.js
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -11,7 +12,6 @@ import LoginPage, {
   Welcome,
   ButtonAfter,
 } from "@react-login-page/page3";
-import defaultBannerImage from "../img/Untitled.jpg";
 
 const containerStyles = {
   display: "flex",
@@ -59,6 +59,7 @@ const customLoginStyles = {
   "--login-input-bg": "transparent",
   "--login-input-border": "rgba(0, 0, 0, 0.13)",
   "--login-input-placeholder": "#999999",
+  
   borderRadius: "20px",
 };
 
@@ -104,7 +105,7 @@ const Welcomepg = ({ setIsAuthenticated, setFamilyName }) => {
   return (
     <div style={containerStyles}>
       <form onSubmit={handleSubmit} style={formStyles}>
-        <LoginPage style={{ height: 580, ...customLoginStyles }}>
+        <LoginPage style={{ ...customLoginStyles }}>
           <Logo visible={false} />
           <Title style={{ fontFamily: "'Sacramento', cursive", fontSize: "25px" }}>
             Welcome!
@@ -124,8 +125,9 @@ const Welcomepg = ({ setIsAuthenticated, setFamilyName }) => {
           <ButtonAfter visible={false} />
           <Banner
             style={{
-              backgroundImage: `url(${defaultBannerImage})`,
+              backgroundImage: `url("https://storage.googleapis.com/galleryimageswedding/2.jpg")`,
               backgroundSize: "cover",
+              backgroundPosition: "center",
             }}
           />
           {error && (
