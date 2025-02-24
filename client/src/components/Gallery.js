@@ -34,7 +34,7 @@ const Gallery = () => {
     "https://storage.googleapis.com/galleryimageswedding/18.jpg",
     "https://storage.googleapis.com/galleryimageswedding/12.jpg",
     "https://storage.googleapis.com/galleryimageswedding/13.jpg",
-    "https://storage.googleapis.com/galleryimageswedding/10.jpg",
+    "https://storage.googleapis.com/galleryimageswedding/10-2.jpg",
     "https://storage.googleapis.com/galleryimageswedding/6.jpg",
   ];
 
