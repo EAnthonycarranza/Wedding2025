@@ -1,4 +1,3 @@
-// src/components/CoupleInfo.js
 import React from "react";
 
 const CoupleInfo = () => {
@@ -12,13 +11,16 @@ const CoupleInfo = () => {
             <p>We invited you to celebrate our wedding!</p>
           </div>
         </div>
+
+        {/* Responsive Couple Wrap */}
         <div
           className="couple-wrap animate-box"
           style={{
             display: "flex",
             justifyContent: "space-between",
-            gap: "40px", // Adjusts space between groom, heart, and bride
+            gap: "40px",
             alignItems: "center",
+            flexDirection: window.innerWidth <= 768 ? "column-reverse" : "row", // Responsive layout
           }}
         >
           {/* Groom Section */}
@@ -26,16 +28,16 @@ const CoupleInfo = () => {
             className="desc-groom"
             style={{
               flex: 1,
-              textAlign: "right",
-              paddingRight: "40px",
+              textAlign: window.innerWidth <= 768 ? "center" : "right",
+              paddingRight: window.innerWidth <= 768 ? "0px" : "40px",
             }}
           >
             <img
               src="https://storage.googleapis.com/galleryimageswedding/6.jpg"
               alt="Groom"
               style={{
-                width: "150px",
-                height: "150px",
+                width: "200px",
+                height: "200px",
                 borderRadius: "50%",
                 objectFit: "cover",
                 marginBottom: "15px",
@@ -75,23 +77,24 @@ const CoupleInfo = () => {
             className="desc-bride"
             style={{
               flex: 1,
-              textAlign: "left",
-              paddingLeft: "40px",
+              textAlign: window.innerWidth <= 768 ? "center" : "left",
+              paddingLeft: window.innerWidth <= 768 ? "0px" : "40px",
             }}
           >
             <img
-              src="https://storage.googleapis.com/galleryimageswedding/10.jpg"
+              src="https://storage.googleapis.com/galleryimageswedding/9.jpg"
               alt="Bride"
               style={{
-                width: "150px",
-                height: "150px",
+                width: "200px",
+                height: "200px",
                 borderRadius: "50%",
                 objectFit: "cover",
-                objectPosition: "center 20%", // Moves image up and zooms in slightly
+                objectPosition: "center 80%",
                 marginBottom: "15px",
                 border: "4px solid #ddd",
               }}
             />
+
             <h2
               style={{
                 fontFamily: "Sacramento",
@@ -101,8 +104,8 @@ const CoupleInfo = () => {
               Christina Kyara
             </h2>
             <p>
-              Christina, from San Antonio, is a joyful spirit with a love for
-              worship and family. She’s thrilled to marry Anthony.
+            Christina, from New Jersey, is a woman of faith with a joyful spirit and a love for family.
+            She’s excited as she and Anthony begin the next chapter of their beautiful relationship.
             </p>
           </div>
         </div>

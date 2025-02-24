@@ -1,5 +1,6 @@
 // src/components/Timeline.js
 import React from "react";
+import "./Timeline.css"; // Make sure to import the CSS file
 
 const Timeline = () => {
   return (
@@ -28,13 +29,13 @@ const Timeline = () => {
                   </div>
                   <div className="timeline-body">
                     <p>
-                      Christina grew up in New Jersey but was born in San Antonio, TX. Her love for Jesus grew through serving at Victory Chapel in children’s and youth ministries, as well as playing in the worship team.
+                    Christina, from New Jersey, is a woman of faith with a joyful spirit and a love for family. She’s excited as she and Anthony begin the next chapter of their beautiful relationship.
                     </p>
                     <p>
-                      Anthony, born and raised in San Antonio, actively served at First Assembly of God, participating in the youth worship team throughout his middle and high school years.
+                    Anthony, born and raised in San Antonio, actively served at First Assembly of God, participating in the youth worship team throughout his middle and high school years.
                     </p>
                     <p>
-                      Despite growing up in different places, their shared faith and love for ministry brought them together.
+                    Despite growing up in different places, their shared faith and love for ministry brought them together.
                     </p>
                   </div>
                 </div>
