@@ -1,11 +1,14 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import JSZip from "jszip";
 import { saveAs } from "file-saver";
 import LightboxGallery from "./LightboxGallery";
+import Pagination from "@mui/material/Pagination";
+import "./Gallery.css";
 
 const Gallery = () => {
-  const [isOpen, setIsOpen] = useState(false);
-  const [currentIndex, setCurrentIndex] = useState(0);
+  // Flag: set to true if you want larger desktop images (with pagination),
+  // set to false if you want small desktop thumbnails that show all images.
+  const desktopLarge = false;
 
   // Gallery image URLs (remote URLs)
   const galleryItems = [
@@ -35,9 +38,43 @@ const Gallery = () => {
     "https://storage.googleapis.com/galleryimageswedding/SNY00684.jpg",
   ];
 
-  // Handle clicking an image
+  // Determine page size based on device width and the desktopLarge flag.
+  function getPageSize() {
+    if (window.innerWidth < 768) {
+      // For mobile devices, show fewer images per page
+      return 6;
+    } else {
+      // For desktop: if large images are desired, paginate (e.g., 12 per page),
+      // otherwise, show all images in one grid.
+      return desktopLarge ? 12 : galleryItems.length;
+    }
+  }
+
+  const [isOpen, setIsOpen] = useState(false);
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [currentPage, setCurrentPage] = useState(0);
+  const [pageSize, setPageSize] = useState(getPageSize());
+
+  // Update pageSize on window resize
+  useEffect(() => {
+    const handleResize = () => {
+      const newPageSize = getPageSize();
+      setPageSize(newPageSize);
+      setCurrentPage(0); // Reset to first page on resize
+    };
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  // Calculate pagination based on pageSize
+  const totalPages = Math.ceil(galleryItems.length / pageSize);
+  const startIndex = currentPage * pageSize;
+  const paginatedItems = galleryItems.slice(startIndex, startIndex + pageSize);
+
+  // Handle clicking an image (converts paginated index to absolute index)
   const handleImageClick = (index) => {
-    setCurrentIndex(index);
+    const absoluteIndex = currentPage * pageSize + index;
+    setCurrentIndex(absoluteIndex);
     setIsOpen(true);
   };
 
@@ -72,21 +109,21 @@ const Gallery = () => {
 
   return (
     <div id="gallery" className="gallery-container">
-      <div className="gallery-header text-center">
+      <header className="gallery-header">
         <h2>Photo Gallery</h2>
         <p>
-          Captured moments from our special day. Click on any photo to view it
-          in detail.
+          Captured moments from our special day. Click on any photo to view it in
+          detail.
         </p>
-      </div>
+      </header>
 
       <div className="gallery-grid">
-        {galleryItems.map((item, index) => (
+        {paginatedItems.map((item, index) => (
           <div
             key={index}
             className="gallery-item"
-            onClick={() => handleImageClick(index)}
             style={{ backgroundImage: `url(${item})` }}
+            onClick={() => handleImageClick(index)}
           >
             <div className="gallery-overlay">
               <span>View Photo</span>
@@ -94,6 +131,17 @@ const Gallery = () => {
           </div>
         ))}
       </div>
+
+      {/* Use MUI Pagination for navigation if there is more than one page */}
+      {totalPages > 1 && (
+        <Pagination
+          count={totalPages}
+          page={currentPage + 1} // MUI Pagination is 1-indexed
+          onChange={(event, value) => setCurrentPage(value - 1)}
+          color="primary"
+          sx={{ display: "flex", justifyContent: "center", margin: "20px 0" }}
+        />
+      )}
 
       <LightboxGallery
         isOpen={isOpen}
