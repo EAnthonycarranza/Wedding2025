@@ -1003,6 +1003,28 @@ form label {
   box-shadow: 0px 14px 30px -15px rgba(0, 0, 0, 0.75) !important;
 }
 
+/* Default Background Image Styling */
+#fh5co-header {
+  background-position: center top;
+  background-size: cover;
+  background-repeat: no-repeat;
+  min-height: 100vh; /* Ensure section has height */
+}
+
+/* Move background image to the left for smaller screens */
+@media screen and (max-width: 768px) {
+  #fh5co-header {
+    background-position: 40% top !important; /* Moves image left */
+  }
+}
+
+/* Move it even further left for extra small screens */
+@media screen and (max-width: 480px) {
+  #fh5co-header {
+    background-position: 50% top !important; /* Moves image more left */
+  }
+}
+
 #fh5co-counter {
   text-align: center;
 }
@@ -1131,13 +1153,20 @@ form label {
 }
 
 .couple-wrap {
-  width: 90%;
-  margin: 0 auto;
-  position: relative;
+  display: flex;
+  justify-content: space-between;
+  gap: 40px;
+  align-items: center;
+  flex-direction: row;
 }
-@media screen and (max-width: 768px) {
+@media (max-width: 768px) {
   .couple-wrap {
-    width: 100%;
+    flex-direction: column-reverse !important;
+  }
+
+  .desc-groom, .desc-bride {
+    text-align: center !important;
+    padding: 0px !important;
   }
 }
 
