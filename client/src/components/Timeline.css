@@ -1,0 +1,7 @@
+/* src/components/Timeline.css */
+@media only screen and (min-width: 993px) {
+  .timeline {
+    display: flex;
+    flex-direction: column;
+  }
+}
