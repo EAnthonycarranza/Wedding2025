@@ -5,37 +5,64 @@ import LightboxGallery from "./LightboxGallery";
 import Pagination from "@mui/material/Pagination";
 import "./Gallery.css";
 
+// Import local images from src/img
+import gallery1 from "../img/gallery-1.jpg";
+import gallery2 from "../img/gallery-2.jpg";
+import gallery3 from "../img/gallery-3.jpg";
+import gallery4 from "../img/gallery-4.jpg";
+import gallery5 from "../img/gallery-5.jpg";
+import gallery6 from "../img/gallery-6.jpg";
+import gallery7 from "../img/gallery-7.jpg";
+import gallery8 from "../img/gallery-8.jpg";
+import SNY00580_2 from "../img/SNY00580-2.jpg";
+import SNY00616 from "../img/SNY00616.jpg";
+import SNY00676 from "../img/SNY00676.jpg";
+import SNY00712 from "../img/SNY00712.jpg";
+import SNY00752 from "../img/SNY00752.jpg";
+import SNY00848 from "../img/SNY00848.jpg";
+// Note: Replace the original SNY00884-2 with SNY00648-2 per your file naming
+import SNY00648_2 from "../img/SNY00648-2.jpg";
+import SNY01164 from "../img/SNY01164.jpg";
+import SNY01177 from "../img/SNY01177.jpg";
+import SNY01291 from "../img/SNY01291.jpg";
+import SNY01307 from "../img/SNY01307.jpg";
+import SNY01352 from "../img/SNY01352.jpg";
+import SNY01132 from "../img/SNY01132.jpg";
+import SNY01092 from "../img/SNY01092.jpg";
+import SNY00859 from "../img/SNY00859.jpg";
+import SNY00684 from "../img/SNY00684.jpg";
+
 const Gallery = () => {
   // Flag: set to true if you want larger desktop images (with pagination),
   // set to false if you want small desktop thumbnails that show all images.
   const desktopLarge = false;
 
-  // Gallery image URLs (remote URLs)
+  // Gallery image imports
   const galleryItems = [
-    "https://storage.googleapis.com/galleryimageswedding/gallery-1.jpg",
-    "https://storage.googleapis.com/galleryimageswedding/gallery-2.jpg",
-    "https://storage.googleapis.com/galleryimageswedding/gallery-3.jpg",
-    "https://storage.googleapis.com/galleryimageswedding/gallery-4.jpg",
-    "https://storage.googleapis.com/galleryimageswedding/gallery-5.jpg",
-    "https://storage.googleapis.com/galleryimageswedding/gallery-6.jpg",
-    "https://storage.googleapis.com/galleryimageswedding/gallery-7.jpg",
-    "https://storage.googleapis.com/galleryimageswedding/gallery-8.jpg",
-    "https://storage.googleapis.com/galleryimageswedding/SNY00580-2.jpg",
-    "https://storage.googleapis.com/galleryimageswedding/SNY00616.jpg",
-    "https://storage.googleapis.com/galleryimageswedding/SNY00676.jpg",
-    "https://storage.googleapis.com/galleryimageswedding/SNY00712.jpg",
-    "https://storage.googleapis.com/galleryimageswedding/SNY00752.jpg",
-    "https://storage.googleapis.com/galleryimageswedding/SNY00848.jpg",
-    "https://storage.googleapis.com/galleryimageswedding/SNY00884-2.jpg",
-    "https://storage.googleapis.com/galleryimageswedding/SNY01164.jpg",
-    "https://storage.googleapis.com/galleryimageswedding/SNY01177.jpg",
-    "https://storage.googleapis.com/galleryimageswedding/SNY01291.jpg",
-    "https://storage.googleapis.com/galleryimageswedding/SNY01307.jpg",
-    "https://storage.googleapis.com/galleryimageswedding/SNY01352.jpg",
-    "https://storage.googleapis.com/galleryimageswedding/SNY01132.jpg",
-    "https://storage.googleapis.com/galleryimageswedding/SNY01092.jpg",
-    "https://storage.googleapis.com/galleryimageswedding/SNY00859.jpg",
-    "https://storage.googleapis.com/galleryimageswedding/SNY00684.jpg",
+    gallery1,
+    gallery2,
+    gallery3,
+    gallery4,
+    gallery5,
+    gallery6,
+    gallery7,
+    gallery8,
+    SNY00580_2,
+    SNY00616,
+    SNY00676,
+    SNY00712,
+    SNY00752,
+    SNY00848,
+    SNY00648_2,
+    SNY01164,
+    SNY01177,
+    SNY01291,
+    SNY01307,
+    SNY01352,
+    SNY01132,
+    SNY01092,
+    SNY00859,
+    SNY00684,
   ];
 
   // Determine page size based on device width and the desktopLarge flag.
@@ -90,12 +117,10 @@ const Gallery = () => {
 
         console.log(`Fetching ${url}...`);
         const response = await fetch(url);
-
         if (!response.ok) {
           console.error(`Failed to fetch ${url}: ${response.statusText}`);
           continue;
         }
-
         const blob = await response.blob();
         folder.file(filename, blob);
       }
