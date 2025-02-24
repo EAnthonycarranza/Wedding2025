@@ -1,4 +1,3 @@
-// Gallery.js
 import React, { useState, useEffect } from "react";
 import { useTheme, useMediaQuery, Pagination } from "@mui/material";
 import JSZip from "jszip";
@@ -62,7 +61,8 @@ const Gallery = () => {
     columns = 4;
     rows = 3;
   } else if (isLg) {
-    // Large screens: 6 columns x 3 rows = 18 images per page.
+    // Large screens: mosaic mode will show all images using natural aspect ratios.
+    // (Pagination and grid layout are bypassed.)
     columns = 6;
     rows = 3;
   } else {
@@ -82,14 +82,15 @@ const Gallery = () => {
     setCurrentPage(0); // Reset to first page on layout change.
   }, [computedPageSize]);
 
-  // Compute balanced pagination.
+  // Compute balanced pagination only for non-large screens.
   const totalPages = Math.ceil(galleryItems.length / pageSize);
   const startIndex = currentPage * pageSize;
   const paginatedItems = galleryItems.slice(startIndex, startIndex + pageSize);
 
-  // Handle clicking an image (convert paginated index to absolute index)
-  const handleImageClick = (index) => {
-    const absoluteIndex = currentPage * pageSize + index;
+  // Handle clicking an image.
+  // For mosaic view, the index is already absolute; for grid view, convert paginated index.
+  const handleImageClick = (index, mosaic = false) => {
+    const absoluteIndex = mosaic ? index : currentPage * pageSize + index;
     setCurrentIndex(absoluteIndex);
     setIsOpen(true);
   };
@@ -126,53 +127,71 @@ const Gallery = () => {
       <header className="gallery-header">
         <h2>Photo Gallery</h2>
         <p>
-          Captured photos from our special moments. Click on any photo to view it in
-          detail.
+          Captured photos from our special moments. Click on any photo to view it in detail.
         </p>
       </header>
 
-      <div className="gallery-grid">
-        {paginatedItems.map((item, index) => (
-          <div
-            key={index}
-            className="gallery-item"
-            style={{ backgroundImage: `url(${item})` }}
-            onClick={() => handleImageClick(index)}
-          >
-            <div className="gallery-overlay">
-              <span>View Photo</span>
+      {isLg ? (
+        // Mosaic view for large screens: display ALL images with natural aspect ratios and enhanced hover overlay.
+        <div className="gallery-mosaic">
+          {galleryItems.map((item, index) => (
+            <div
+              key={index}
+              className="mosaic-item"
+              onClick={() => handleImageClick(index, true)}
+            >
+              <img src={item} alt={`Gallery item ${index + 1}`} />
+              <div className="mosaic-overlay">
+                <span>View Photo</span>
+              </div>
             </div>
+          ))}
+        </div>
+      ) : (
+        <>
+          <div className="gallery-grid">
+            {paginatedItems.map((item, index) => (
+              <div
+                key={index}
+                className="gallery-item"
+                style={{ backgroundImage: `url(${item})` }}
+                onClick={() => handleImageClick(index)}
+              >
+                <div className="gallery-overlay">
+                  <span>View Photo</span>
+                </div>
+              </div>
+            ))}
           </div>
-        ))}
-      </div>
 
-      {totalPages > 1 && (
-        <Pagination
-  count={totalPages}
-  page={currentPage + 1} // MUI Pagination is 1-indexed.
-  onChange={(event, value) => setCurrentPage(value - 1)}
-  sx={{
-    display: "flex",
-    justifyContent: "center",
-    margin: "20px 0",
-    "& .MuiPaginationItem-root": {
-      color: "black", // Changes the text color to black
-      backgroundColor: "transparent", // Keeps background transparent
-      "&:hover": {
-        backgroundColor: "rgba(0, 0, 0, 0.1)", // Slight dark hover effect
-      },
-      "&.Mui-selected": {
-        backgroundColor: "black", // Makes selected page black
-        color: "white", // Makes selected page text white
-        "&:hover": {
-          backgroundColor: "black",
-          opacity: 0.8, // Slight transparency on hover
-        },
-      },
-    },
-  }}
-/>
-
+          {totalPages > 1 && (
+            <Pagination
+              count={totalPages}
+              page={currentPage + 1} // MUI Pagination is 1-indexed.
+              onChange={(event, value) => setCurrentPage(value - 1)}
+              sx={{
+                display: "flex",
+                justifyContent: "center",
+                margin: "20px 0",
+                "& .MuiPaginationItem-root": {
+                  color: "black",
+                  backgroundColor: "transparent",
+                  "&:hover": {
+                    backgroundColor: "rgba(0, 0, 0, 0.1)",
+                  },
+                  "&.Mui-selected": {
+                    backgroundColor: "black",
+                    color: "white",
+                    "&:hover": {
+                      backgroundColor: "black",
+                      opacity: 0.8,
+                    },
+                  },
+                },
+              }}
+            />
+          )}
+        </>
       )}
 
       <LightboxGallery
