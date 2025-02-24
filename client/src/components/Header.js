@@ -1,88 +1,51 @@
-import React from "react";
-import Countdown from "react-countdown"; // Import the countdown component
+import React, { useState, useEffect } from "react";
+import Countdown from "react-countdown";
 
 const Header = () => {
-  // Determine if screen width is greater than or equal to 1350px
-  const isWideScreen = window.innerWidth >= 1350;
+  // State to track screen width
+  const [screenWidth, setScreenWidth] = useState(window.innerWidth);
 
-  // Countdown renderer function
-  const countdownRenderer = ({ days, hours, minutes, seconds, completed }) => {
-    if (completed) {
-      return (
-        <h2
-          style={{
-            fontFamily: "Sacramento",
-            fontSize: "3rem",
-            color: "#9c0044",
-            marginTop: "20px",
-          }}
-        >
-          The Big Day is Here!
-        </h2>
-      ); // Message displayed when the countdown ends
-    } else {
-      return (
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            gap: "20px",
-            fontFamily: "Sacramento",
-            color: "#fff",
-            fontSize: "2.5rem",
-            marginTop: "20px",
-          }}
-        >
-          <div>
-            <span style={{ display: "block", fontWeight: "bold" }}>{days}</span>
-            <span style={{ fontSize: "1.2rem" }}>Days</span>
-          </div>
-          <div>
-            <span style={{ display: "block", fontWeight: "bold" }}>{hours}</span>
-            <span style={{ fontSize: "1.2rem" }}>Hours</span>
-          </div>
-          <div>
-            <span style={{ display: "block", fontWeight: "bold" }}>{minutes}</span>
-            <span style={{ fontSize: "1.2rem" }}>Minutes</span>
-          </div>
-          <div>
-            <span style={{ display: "block", fontWeight: "bold" }}>{seconds}</span>
-            <span style={{ fontSize: "1.2rem" }}>Seconds</span>
-          </div>
-        </div>
-      );
-    }
-  };
+  useEffect(() => {
+    const handleResize = () => {
+      setScreenWidth(window.innerWidth);
+    };
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  // Background position logic
+  let backgroundPosition = "center 0%"; // Default for large screens
+  if (screenWidth <= 768) {
+    backgroundPosition = "67% center"; // Move left on small screens
+  }
 
   return (
     <header
       id="fh5co-header"
-      className="fh5co-cover"
+      className="fh5co-cover header-bg"
       role="banner"
       style={{
-        backgroundImage: `url(https://storage.googleapis.com/galleryimageswedding/img_bg_2.jpg)`,
+        backgroundImage: `url(https://storage.googleapis.com/galleryimageswedding/20-1.jpg)`,
         backgroundSize: "cover",
-        backgroundPosition: isWideScreen ? "center top" : "center center", // Adjust background position
-        position: "relative", // Ensure proper stacking
+        backgroundPosition: backgroundPosition, // Responsive background position
+        position: "relative",
       }}
       data-stellar-background-ratio="0.5"
     >
       <div
         className="overlay"
         style={{
-          backgroundColor: "rgba(0, 0, 0, 0.5)", // Ensure transparency
+          backgroundColor: "rgba(0, 0, 0, 0.5)",
           position: "absolute",
           top: 0,
           left: 0,
           width: "100%",
           height: "100%",
-          zIndex: 1, // Behind text
+          zIndex: 1,
         }}
       ></div>
-      <div
-        className="container"
-        style={{ position: "relative", zIndex: 2 }} // Text above overlay
-      >
+      <div className="container" style={{ position: "relative", zIndex: 2 }}>
         <div className="row">
           <div className="col-md-8 col-md-offset-2 text-center">
             <div className="display-t">
@@ -112,7 +75,56 @@ const Header = () => {
                 <div className="simply-countdown">
                   <Countdown
                     date={new Date("2025-06-28T00:00:00")}
-                    renderer={countdownRenderer}
+                    renderer={({ days, hours, minutes, seconds, completed }) =>
+                      completed ? (
+                        <h2
+                          style={{
+                            fontFamily: "Sacramento",
+                            fontSize: "3rem",
+                            color: "#9c0044",
+                            marginTop: "20px",
+                          }}
+                        >
+                          The Big Day is Here!
+                        </h2>
+                      ) : (
+                        <div
+                          style={{
+                            display: "flex",
+                            justifyContent: "center",
+                            gap: "20px",
+                            fontFamily: "Sacramento",
+                            color: "#fff",
+                            fontSize: "2.5rem",
+                            marginTop: "20px",
+                          }}
+                        >
+                          <div>
+                            <span style={{ display: "block", fontWeight: "bold" }}>
+                              {days}
+                            </span>
+                            <span style={{ fontSize: "1.2rem" }}>Days</span>
+                          </div>
+                          <div>
+                            <span style={{ display: "block", fontWeight: "bold" }}>
+                              {hours}
+                            </span>
+                            <span style={{ fontSize: "1.2rem" }}>Hours</span>
+                          </div>
+                          <div>
+                            <span style={{ display: "block", fontWeight: "bold" }}>
+                              {minutes}</span>
+                            <span style={{ fontSize: "1.2rem" }}>Minutes</span>
+                          </div>
+                          <div>
+                            <span style={{ display: "block", fontWeight: "bold" }}>
+                              {seconds}
+                            </span>
+                            <span style={{ fontSize: "1.2rem" }}>Seconds</span>
+                          </div>
+                        </div>
+                      )
+                    }
                   />
                 </div>
               </div>
