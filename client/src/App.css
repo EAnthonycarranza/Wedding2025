@@ -1014,14 +1014,14 @@ form label {
 /* Move background image to the left for smaller screens */
 @media screen and (max-width: 768px) {
   #fh5co-header {
-    background-position: 40% top !important; /* Moves image left */
+    background-position: 40% top; /* Moves image left */
   }
 }
 
 /* Move it even further left for extra small screens */
 @media screen and (max-width: 480px) {
   #fh5co-header {
-    background-position: 50% top !important; /* Moves image more left */
+    background-position: 50% top ; /* Moves image more left */
   }
 }
 
@@ -2107,3 +2107,9 @@ img {
   border-color: #000000 !important;
 }
 
+.header-bg {
+  background-image: url("https://storage.googleapis.com/galleryimageswedding/20-1.jpg") !important;
+  background-size: cover !important;
+  background-position: 67% center ; /* Moves left */
+  position: relative !important;
+}
