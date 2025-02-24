@@ -43,18 +43,34 @@ const About = () => {
     <div id="page">
       {/* Header Section */}
       <header
-        id="fh5co-header"
-        className="fh5co-cover"
-        role="banner"
-        style={{
-          position: "relative",
-          backgroundImage: `url(https://storage.googleapis.com/galleryimageswedding/img_bg_1.jpg)`,
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-          height: "100vh",
-        }}
-        data-stellar-background-ratio="0.5"
-      >
+  id="fh5co-header"
+  className="fh5co-cover"
+  role="banner"
+  style={{
+    position: "relative",
+    backgroundImage: `url(https://storage.googleapis.com/galleryimageswedding/7.jpg)`,
+    backgroundSize: "cover",
+    backgroundPosition: "center top",
+    backgroundPositionY: "20%", // Moves it slightly downward
+    height: "100vh",
+  }}
+  data-stellar-background-ratio="0.5"
+>
+  <style>
+    {`
+      @media (max-width: 768px) {
+        #fh5co-header {
+          background-position: 58% top !important; /* Moves image slightly to the left */
+        }
+      }
+
+      @media (max-width: 480px) {
+        #fh5co-header {
+          background-position: 58% top !important; /* Moves image more left for smaller screens */
+        }
+      }
+    `}
+  </style>
         {/* Semi-transparent Overlay */}
         <div
           className="overlay"
@@ -105,19 +121,19 @@ const About = () => {
                         padding: "10px 20px",
                         fontSize: "16px",
                         border: "none",
-                        backgroundColor: "rgba(156, 0, 68, 0.5)",
+                        backgroundColor: "hsla(0, 0.00%, 0.00%, 0.50)",
                         cursor: "pointer",
                         borderRadius: "5px",
                         transition: "all 0.3s ease",
                       }}
                       onMouseOver={(e) => {
                         e.target.style.backgroundColor =
-                          "rgba(176, 0, 85, 0.7)";
+                          "rgba(0, 0, 0, 0.7)";
                         e.target.style.transform = "scale(1.05)";
                       }}
                       onMouseOut={(e) => {
                         e.target.style.backgroundColor =
-                          "rgba(156, 0, 68, 0.5)";
+                          "rgba(0, 0, 0, 0.5)";
                         e.target.style.transform = "scale(1)";
                       }}
                       aria-label="Save the date for Christina & Anthony's wedding"
