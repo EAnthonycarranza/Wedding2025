@@ -17,6 +17,22 @@ const Gallery = () => {
     "https://storage.googleapis.com/galleryimageswedding/gallery-6.jpg",
     "https://storage.googleapis.com/galleryimageswedding/gallery-7.jpg",
     "https://storage.googleapis.com/galleryimageswedding/gallery-8.jpg",
+    "https://storage.googleapis.com/galleryimageswedding/SNY00580-2.jpg",
+    "https://storage.googleapis.com/galleryimageswedding/SNY00616.jpg",
+    "https://storage.googleapis.com/galleryimageswedding/SNY00676.jpg",
+    "https://storage.googleapis.com/galleryimageswedding/SNY00712.jpg",
+    "https://storage.googleapis.com/galleryimageswedding/SNY00752.jpg",
+    "https://storage.googleapis.com/galleryimageswedding/SNY00848.jpg",
+    "https://storage.googleapis.com/galleryimageswedding/SNY00884-2.jpg",
+    "https://storage.googleapis.com/galleryimageswedding/SNY01164.jpg",
+    "https://storage.googleapis.com/galleryimageswedding/SNY01177.jpg",
+    "https://storage.googleapis.com/galleryimageswedding/SNY01291.jpg",
+    "https://storage.googleapis.com/galleryimageswedding/SNY01307.jpg",
+    "https://storage.googleapis.com/galleryimageswedding/SNY01352.jpg",
+    "https://storage.googleapis.com/galleryimageswedding/SNY01132.jpg",
+    "https://storage.googleapis.com/galleryimageswedding/SNY01092.jpg",
+    "https://storage.googleapis.com/galleryimageswedding/SNY00859.jpg",
+    "https://storage.googleapis.com/galleryimageswedding/SNY00684.jpg",
   ];
 
   // Handle clicking an image
