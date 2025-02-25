@@ -1,3 +1,4 @@
+// File: Gallery.js
 import React, { useState, useEffect } from "react";
 import { useTheme, useMediaQuery, Pagination } from "@mui/material";
 import JSZip from "jszip";
@@ -49,20 +50,15 @@ const Gallery = () => {
   // Define grid columns and rows based on breakpoints to enforce even numbers.
   let columns, rows;
   if (isXs) {
-    // Mobile: 2 columns x 2 rows = 4 images per page.
     columns = 2;
     rows = 2;
   } else if (isSm) {
-    // Small screens: 4 columns x 2 rows = 8 images per page.
     columns = 4;
     rows = 2;
   } else if (isMd) {
-    // Medium screens: 4 columns x 3 rows = 12 images per page.
     columns = 4;
     rows = 3;
   } else if (isLg) {
-    // Large screens: mosaic mode will show all images using natural aspect ratios.
-    // (Pagination and grid layout are bypassed.)
     columns = 6;
     rows = 3;
   } else {
@@ -168,7 +164,10 @@ const Gallery = () => {
             <Pagination
               count={totalPages}
               page={currentPage + 1} // MUI Pagination is 1-indexed.
-              onChange={(event, value) => setCurrentPage(value - 1)}
+              onChange={(event, value) => {
+                setCurrentPage(value - 1);
+                document.getElementById("gallery").scrollIntoView({ behavior: "smooth" });
+              }}
               sx={{
                 display: "flex",
                 justifyContent: "center",
