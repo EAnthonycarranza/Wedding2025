@@ -53,8 +53,7 @@ const Events = () => {
                     <div className="d-flex justify-content-center">
                       <div className="event-col me-3">
                         <i className="icon-clock"></i>
-                        <span>1:00 PM</span>
-                        <span>2:00 PM</span>
+                        <span>12:00 PM</span>
                       </div>
                       <div className="event-col">
                         <i className="icon-calendar"></i>
