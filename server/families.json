@@ -109,5 +109,7 @@
   { "familyName": "David Arroyo", "password": "Arroyo2025", "token": "new037890123", "familyCount": 1 },
   { "familyName": "Frida Constantino", "password": "Frida2025", "token": "new038901234", "familyCount": 1 },
   { "familyName": "Yvonne Talamentez", "password": "Talamentez2025", "token": "new039012345", "familyCount": 2 },
-  { "familyName": "Seth Sladcik", "password": "Sladcik2025", "token": "new040123456", "familyCount": 1 }
+  { "familyName": "Seth Sladcik", "password": "Sladcik2025", "token": "new040123456", "familyCount": 1 },
+  { "familyName": "Ramirez", "password": "Ramirez2025", "token": "new040284923", "familyCount": 6}
+
 ]
