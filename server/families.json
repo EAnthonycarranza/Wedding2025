@@ -41,7 +41,7 @@
   { "familyName": "Roland & Jennifer Cuellar + Family", "password": "Cuellar2025", "token": "mnopqr901234", "familyCount": 3 },
   { "familyName": "Lisa Panagos + Family", "password": "Panagos2025", "token": "nopqrs012345", "familyCount": 2 },
   { "familyName": "Marvin & Patricia Ramharak", "password": "Ramharak2025", "token": "opqrst123456", "familyCount": 2 },
-  { "familyName": "Jorge & Ada Perez + Family", "password": "JorgeAda2025", "token": "pqrstu234567", "familyCount": 4 },
+  { "familyName": "Ada Perez + Family", "password": "JorgeAda2025", "token": "pqrstu234567", "familyCount": 4 },
   { "familyName": "Clorinda Belevan", "password": "Belevan2025", "token": "qrstuv345678", "familyCount": 1 },
   { "familyName": "Eddie & Cynthia Montanez + Family", "password": "Montanez2025", "token": "rstuvw456789", "familyCount": 2 },
   { "familyName": "Eddie & Wanda Cardenas", "password": "Cardenas2025", "token": "stuvwx567890", "familyCount": 2 },
@@ -89,7 +89,7 @@
   { "familyName": "Brent and Bryanna Jones", "password": "BestMan2025", "token": "new002345678", "familyCount": 2 },
   { "familyName": "Sophie Huh", "password": "Sophie2025", "token": "new003456789", "familyCount": 2 },
   { "familyName": "Laila Khatib and Sam Golovan", "password": "LailaSam2025", "token": "new004567890", "familyCount": 2 },
-  { "familyName": "Jasmein Nunez & Giovanni", "password": "JasmeinGiovanni2025", "token": "new005678901", "familyCount": 2 },
+  { "familyName": "Jasmein Nunez & Jovanni", "password": "JasmeinJovanni2025", "token": "new005678901", "familyCount": 2 },
   { "familyName": "Isabella Zitt", "password": "IsabellaZitt2025", "token": "new007890123", "familyCount": 1 },
   { "familyName": "Jonathon Ramos + Jayce Ramos", "password": "Jonathon2025", "token": "new007890124", "familyCount": 2 },
   { "familyName": "Jimmy Le", "password": "JimmyLe2025", "token": "new021234567", "familyCount": 1 },
@@ -113,5 +113,8 @@
   { "familyName": "Yvonne Talamentez", "password": "Talamentez2025", "token": "new039012345", "familyCount": 2 },
   { "familyName": "Seth Sladcik", "password": "Sladcik2025", "token": "new040123456", "familyCount": 1 },
   { "familyName": "Ramirez Family", "password": "Ramirez2025", "token": "new040284923", "familyCount": 6},
-  { "familyName": "Abalos Family", "password": "Abalos2025", "token": "abcdef153069", "familyCount": 6 }
+  { "familyName": "Abalos Family", "password": "Abalos2025", "token": "abcdef153069", "familyCount": 6 },
+  { "familyName": "Pastor Fernando Abalos & Socorro Family", "password": "Pastor2025", "token": "sjgknb569073", "familyCount": 2 },
+  { "familyName": "Pedro & Benita Valerio", "password": "Valerio", "token": "agfdyt157549", "familyCount": 2 },
+  { "familyName": "Branden Haley & Kara Haley", "password": "Haley2025", "token": "jfndkg954849", "familyCount": 2 }
 ]
