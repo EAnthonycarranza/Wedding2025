@@ -46,6 +46,9 @@ function App() {
   ]);
   const [hasRSVP, setHasRSVP] = useState(false);
   const [tokenExpired, setTokenExpired] = useState(false);
+  const [modalMessage, setModalMessage] = useState("");
+  const [modalOpen, setModalOpen] = useState(false);
+
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -220,13 +223,16 @@ function App() {
       if (response.ok) {
         setHasRSVP(true);
         setShowRSVPModal(false);
-        alert("RSVP submitted successfully!");
+        setModalMessage("RSVP submitted successfully!");
+        setModalOpen(true);
       } else {
         const data = await response.json();
-        alert(`Failed to submit RSVP: ${data.message}`);
+        setModalMessage(`Failed to submit RSVP: ${data.message}`);
+        setModalOpen(true);
       }
     } catch (error) {
-      alert("An error occurred while submitting your RSVP.");
+      setModalMessage("An error occurred while submitting your RSVP.");
+      setModalOpen(true);
     }
   };
 
@@ -246,7 +252,8 @@ function App() {
         { firstName: "", lastName: "", rsvpStatus: "No Status / I don't know" },
       ]);
     } else {
-      alert(`You can only RSVP for ${familyCount} people.`);
+      setModalMessage(`You can only RSVP for ${familyCount} people.`);
+      setModalOpen(true);
     }
   };
 
@@ -334,7 +341,7 @@ function App() {
               RSVP for {familyName}
             </Typography>
             <Typography variant="body2" sx={{ mb: 3 }}>
-              Please fill out the RSVP list by April 15, 2025. You can update your RSVP any time.
+              Please fill out the RSVP list by April 18, 2025. You can update your RSVP any time.
             </Typography>
             {familyMembers.map((member, index) => (
               <Grid container spacing={2} key={index} sx={{ mb: 2 }}>
@@ -460,6 +467,45 @@ function App() {
               }}
             >
               Go to Login
+            </Button>
+          </Box>
+        </Modal>
+      )}
+
+      {/* Alert Modal */}
+      {modalOpen && (
+        <Modal
+          open={modalOpen}
+          onClose={() => setModalOpen(false)}
+          aria-labelledby="alert-modal-title"
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <Box
+            sx={{
+              width: { xs: "90%", sm: 400 },
+              p: 4,
+              bgcolor: "background.paper",
+              borderRadius: "10px",
+              boxShadow: 24,
+            }}
+          >
+            <Typography id="alert-modal-title" variant="h6" sx={{ textAlign: "center", mb: 2 }}>
+              Notification
+            </Typography>
+            <Typography variant="body1" sx={{ mb: 3, textAlign: "center" }}>
+              {modalMessage}
+            </Typography>
+            <Button
+              variant="contained"
+              fullWidth
+              sx={{ backgroundColor: "#000000" }}
+              onClick={() => setModalOpen(false)}
+            >
+              Close
             </Button>
           </Box>
         </Modal>
