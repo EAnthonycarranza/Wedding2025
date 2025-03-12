@@ -34,7 +34,7 @@ import NavBar from "./components/Navbar";
 import Footer from "./components/Footer";
 import Registry from "./components/Registry";
 import Tourist from "./components/Tourist";
-import Itinerary from "./components/Itinerary";
+//import Itinerary from "./components/Itinerary";
 import "./App.css";
 
 function App() {
@@ -307,7 +307,6 @@ function App() {
                 <Route path="/gallery" element={<Gallery />} />
                 <Route path="/rsvp" element={<RSVPPage />} />
                 <Route path="/tour" element={<Tourist />} />
-                <Route path="/itinerary" element={<Itinerary />} />
               </>
             ) : (
               <Route
