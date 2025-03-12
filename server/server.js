@@ -828,16 +828,15 @@ app.get("/check-auth", verifyJWT, (req, res) => {
   }
 });
 
+// -------------------------------------------------------------------------------------
+// [Other endpoints omitted for brevity; they remain unchanged]
+// -------------------------------------------------------------------------------------
+
 // 1. Get RSVP Data for a Family (MongoDB)
-// If the request accepts HTML (i.e. a direct browser navigation), serve index.html
-app.get("/rsvp", (req, res, next) => {
-  const acceptHeader = req.headers.accept || "";
-  if (acceptHeader.includes("text/html")) {
-    // Serve the React app so the client-side router can handle the route
-    return res.sendFile(path.join(__dirname, "../client/build", "index.html"));
+app.get("/rsvp", verifyJWT, async (req, res) => {
+  if (req.familyName === "Guest") {
+    return res.status(403).json({ message: "Guest account is not allowed to RSVP." });
   }
-  next();
-}, verifyJWT, async (req, res) => {
   const familyName = req.familyName;
   console.log(`Fetching RSVP for family: ${familyName}`);
   try {
@@ -860,6 +859,9 @@ app.get("/rsvp", (req, res, next) => {
 
 // 2. Update RSVP Data (PUT)
 app.put("/rsvp", verifyJWT, async (req, res) => {
+  if (req.familyName === "Guest") {
+    return res.status(403).json({ message: "Guest account is not allowed to RSVP." });
+  }
   const { familyMembers } = req.body;
   const familyName = req.familyName;
   if (familyMembers.length > req.familyCount) {
@@ -876,41 +878,73 @@ app.put("/rsvp", verifyJWT, async (req, res) => {
     );
     console.log(`RSVP updated in MongoDB for family: ${familyName}`);
 
-    const rows = familyMembers.map((member) => [
-      familyName,
-      member.firstName,
-      member.lastName,
-      member.rsvpStatus || "No Status",
-    ]);
-
+    // Retrieve existing rows from the Google Sheet
     const sheetResponse = await sheets.spreadsheets.values.get({
       spreadsheetId: SHEET_ID,
       range: "RSVP LIST!A:E",
     });
-
     const existingRows = sheetResponse.data.values || [];
-    const rowIndex = existingRows.findIndex((row) => row[0] === familyName);
+    // Find all indices (0-indexed) for rows belonging to this family
+    const familyRowIndices = [];
+    existingRows.forEach((row, index) => {
+      if (row[0] === familyName) {
+        familyRowIndices.push(index);
+      }
+    });
 
-    if (rowIndex >= 0) {
-      const lastFamilyRowIndex = rowIndex + familyMembers.length - 1;
-      await sheets.spreadsheets.values.clear({
-        spreadsheetId: SHEET_ID,
-        range: `RSVP LIST!A${rowIndex + 1}:D${lastFamilyRowIndex + 1}`,
-      });
-      await sheets.spreadsheets.values.update({
-        spreadsheetId: SHEET_ID,
-        range: `RSVP LIST!A${rowIndex + 1}`,
-        valueInputOption: "USER_ENTERED",
-        resource: { values: rows },
-      });
+    // Prepare new rows for the current submission
+    const newRows = familyMembers.map(member => [
+      familyName,
+      member.firstName,
+      member.lastName,
+      member.rsvpStatus || "No Status / I don't know"
+    ]);
+
+    // If we have existing rows for this family, update them
+    if (familyRowIndices.length > 0) {
+      const numExisting = familyRowIndices.length;
+      const numNew = newRows.length;
+      const minCount = Math.min(numExisting, numNew);
+      // Update rows that exist in both the sheet and the submission
+      for (let i = 0; i < minCount; i++) {
+        const rowNumber = familyRowIndices[i] + 1; // Sheets rows are 1-indexed
+        await sheets.spreadsheets.values.update({
+          spreadsheetId: SHEET_ID,
+          range: `RSVP LIST!A${rowNumber}:D${rowNumber}`,
+          valueInputOption: "USER_ENTERED",
+          resource: { values: [ newRows[i] ] },
+        });
+      }
+      // If there are more new rows, append the extras
+      if (numNew > numExisting) {
+        const extraRows = newRows.slice(numExisting);
+        await sheets.spreadsheets.values.append({
+          spreadsheetId: SHEET_ID,
+          range: "RSVP LIST!A:E",
+          valueInputOption: "USER_ENTERED",
+          resource: { values: extraRows },
+        });
+      }
+      // If there are extra existing rows that are not in the new submission, clear them
+      if (numExisting > numNew) {
+        for (let i = numNew; i < numExisting; i++) {
+          const rowNumber = familyRowIndices[i] + 1;
+          await sheets.spreadsheets.values.clear({
+            spreadsheetId: SHEET_ID,
+            range: `RSVP LIST!A${rowNumber}:E${rowNumber}`,
+          });
+        }
+      }
     } else {
+      // If no existing rows for this family, simply append the new rows
       await sheets.spreadsheets.values.append({
         spreadsheetId: SHEET_ID,
         range: "RSVP LIST!A:E",
         valueInputOption: "USER_ENTERED",
-        resource: { values: rows },
+        resource: { values: newRows },
       });
     }
+
     console.log(`RSVP updated in Google Sheets for family: ${familyName}`);
     res.status(200).json({ message: "RSVP updated successfully!" });
   } catch (error) {
@@ -921,6 +955,9 @@ app.put("/rsvp", verifyJWT, async (req, res) => {
 
 // DELETE route to remove a family member
 app.delete("/rsvp", verifyJWT, async (req, res) => {
+  if (req.familyName === "Guest") {
+    return res.status(403).json({ message: "Guest account is not allowed to RSVP." });
+  }
   const { familyMember } = req.body;
   const familyName = req.familyName;
   try {
@@ -934,7 +971,6 @@ app.delete("/rsvp", verifyJWT, async (req, res) => {
           member.firstName !== familyMember.firstName ||
           member.lastName !== familyMember.lastName
       );
-
       await rsvpCollection.updateOne(
         { familyName },
         { $set: { familyMembers: updatedFamilyMembers } }
@@ -960,7 +996,6 @@ app.delete("/rsvp", verifyJWT, async (req, res) => {
       console.log(
         `Family member ${familyMember.firstName} ${familyMember.lastName} removed from Google Sheets`
       );
-
       res.status(200).json({ message: "Family member deleted successfully!" });
     } else {
       res.status(404).json({ message: "RSVP not found for the family" });
@@ -973,6 +1008,9 @@ app.delete("/rsvp", verifyJWT, async (req, res) => {
 
 // 3. Submit RSVP (POST)
 app.post("/submit-rsvp", verifyJWT, async (req, res) => {
+  if (req.familyName === "Guest") {
+    return res.status(403).json({ message: "Guest account is not allowed to RSVP." });
+  }
   const { familyMembers } = req.body;
   const familyName = req.familyName;
   if (familyMembers.length > req.familyCount) {
@@ -993,35 +1031,17 @@ app.post("/submit-rsvp", verifyJWT, async (req, res) => {
       familyName,
       member.firstName,
       member.lastName,
-      member.rsvpStatus || "No Status",
+      member.rsvpStatus || "No Status / I don't know",
     ]);
 
-    const sheetResponse = await sheets.spreadsheets.values.get({
+    // For initial submission we simply append new rows
+    await sheets.spreadsheets.values.append({
       spreadsheetId: SHEET_ID,
       range: "RSVP LIST!A:E",
+      valueInputOption: "USER_ENTERED",
+      resource: { values: rows },
     });
-    const existingRows = sheetResponse.data.values || [];
-    const rowIndex = existingRows.findIndex((row) => row[0] === familyName);
 
-    if (rowIndex >= 0) {
-      await sheets.spreadsheets.values.clear({
-        spreadsheetId: SHEET_ID,
-        range: `RSVP LIST!A${rowIndex + 1}:E${rowIndex + familyMembers.length}`,
-      });
-      await sheets.spreadsheets.values.update({
-        spreadsheetId: SHEET_ID,
-        range: `RSVP LIST!A${rowIndex + 1}`,
-        valueInputOption: "USER_ENTERED",
-        resource: { values: rows },
-      });
-    } else {
-      await sheets.spreadsheets.values.append({
-        spreadsheetId: SHEET_ID,
-        range: "RSVP LIST!A:E",
-        valueInputOption: "USER_ENTERED",
-        resource: { values: rows },
-      });
-    }
     console.log(`RSVP submitted in Google Sheets for family: ${familyName}`);
     res.status(200).json({ message: "RSVP submitted successfully!" });
   } catch (error) {
