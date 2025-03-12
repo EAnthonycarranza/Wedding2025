@@ -34,6 +34,7 @@ import NavBar from "./components/Navbar";
 import Footer from "./components/Footer";
 import Registry from "./components/Registry";
 import Tourist from "./components/Tourist";
+import Itinerary from "./components/Itinerary";
 import "./App.css";
 
 function App() {
@@ -48,9 +49,16 @@ function App() {
   const [tokenExpired, setTokenExpired] = useState(false);
   const [modalMessage, setModalMessage] = useState("");
   const [modalOpen, setModalOpen] = useState(false);
+  // New state to track if submit has been attempted
+  const [submitAttempted, setSubmitAttempted] = useState(false);
 
   const location = useLocation();
   const navigate = useNavigate();
+
+  // Check if every family member has both first and last name filled
+  const isFormValid = familyMembers.every(
+    (member) => member.firstName.trim() !== "" && member.lastName.trim() !== ""
+  );
 
   // --------------------------------------------------
   // Fetch RSVP Data
@@ -209,6 +217,14 @@ function App() {
   // Submit RSVP
   // --------------------------------------------------
   const handleRSVPSubmit = async () => {
+    setSubmitAttempted(true);
+    // Prevent submission if any first name or last name is empty
+    if (!isFormValid) {
+      setModalMessage("Please fill in all required fields.");
+      setModalOpen(true);
+      return;
+    }
+
     const token = localStorage.getItem("token");
     try {
       const response = await fetch("/submit-rsvp", {
@@ -225,6 +241,8 @@ function App() {
         setShowRSVPModal(false);
         setModalMessage("RSVP submitted successfully!");
         setModalOpen(true);
+        // Reset submitAttempted since submission was successful
+        setSubmitAttempted(false);
       } else {
         const data = await response.json();
         setModalMessage(`Failed to submit RSVP: ${data.message}`);
@@ -289,6 +307,7 @@ function App() {
                 <Route path="/gallery" element={<Gallery />} />
                 <Route path="/rsvp" element={<RSVPPage />} />
                 <Route path="/tour" element={<Tourist />} />
+                <Route path="/itinerary" element={<Itinerary />} />
               </>
             ) : (
               <Route
@@ -354,6 +373,12 @@ function App() {
                     onChange={(e) =>
                       handleFamilyMemberChange(index, "firstName", e.target.value)
                     }
+                    error={submitAttempted && member.firstName.trim() === ""}
+                    helperText={
+                      submitAttempted && member.firstName.trim() === ""
+                        ? "First name is required"
+                        : ""
+                    }
                   />
                 </Grid>
                 <Grid item xs={12} sm={4}>
@@ -364,6 +389,12 @@ function App() {
                     value={member.lastName}
                     onChange={(e) =>
                       handleFamilyMemberChange(index, "lastName", e.target.value)
+                    }
+                    error={submitAttempted && member.lastName.trim() === ""}
+                    helperText={
+                      submitAttempted && member.lastName.trim() === ""
+                        ? "Last name is required"
+                        : ""
                     }
                   />
                 </Grid>
@@ -383,7 +414,12 @@ function App() {
                     </Select>
                   </FormControl>
                 </Grid>
-                <Grid item xs={12} sm={1} sx={{ display: "flex", alignItems: "center" }}>
+                <Grid
+                  item
+                  xs={12}
+                  sm={1}
+                  sx={{ display: "flex", alignItems: "center" }}
+                >
                   {index > 0 && (
                     <IconButton
                       aria-label="delete"
@@ -493,7 +529,11 @@ function App() {
               boxShadow: 24,
             }}
           >
-            <Typography id="alert-modal-title" variant="h6" sx={{ textAlign: "center", mb: 2 }}>
+            <Typography
+              id="alert-modal-title"
+              variant="h6"
+              sx={{ textAlign: "center", mb: 2 }}
+            >
               Notification
             </Typography>
             <Typography variant="body1" sx={{ mb: 3, textAlign: "center" }}>
