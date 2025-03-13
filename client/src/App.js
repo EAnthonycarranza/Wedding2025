@@ -359,7 +359,7 @@ function App() {
               RSVP for {familyName}
             </Typography>
             <Typography variant="body2" sx={{ mb: 3 }}>
-              Please fill out the RSVP list by April 18, 2025. You can update your RSVP any time.
+              Please fill out the RSVP list by April 15, 2025. You can update your RSVP any time.
             </Typography>
             {familyMembers.map((member, index) => (
               <Grid container spacing={2} key={index} sx={{ mb: 2 }}>
