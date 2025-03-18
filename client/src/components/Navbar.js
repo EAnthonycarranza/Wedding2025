@@ -1,3 +1,4 @@
+// Navbar.js
 import * as React from 'react';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
@@ -15,15 +16,47 @@ import { useEffect, useState } from 'react';
 import './Navbar.css'; // Import the CSS file for animation and other styles
 
 export default function Navbar({ familyName, onLogout }) {
-  const [menuAnchorEl, setMenuAnchorEl] = React.useState(null);
-  const [accountAnchorEl, setAccountAnchorEl] = React.useState(null);
-  const [showNavbar, setShowNavbar] = useState(true); // State to control visibility of navbar
-  const [lastScrollY, setLastScrollY] = useState(window.pageYOffset); // Track the last Y scroll position
+  const [menuAnchorEl, setMenuAnchorEl] = useState(null);
+  const [accountAnchorEl, setAccountAnchorEl] = useState(null);
+  const [showNavbar, setShowNavbar] = useState(true); // Controls navbar visibility
+  const [lastScrollY, setLastScrollY] = useState(window.pageYOffset); // Track last scroll position
+  const [pulse, setPulse] = useState(false); // Controls pulsing animation
   const navigate = useNavigate();
   const theme = useTheme();
 
-  // Media query to detect if the screen is a mobile screen
+  // Media query for mobile screen
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
+
+  // Trigger hamburger pulse periodically
+  useEffect(() => {
+    const pulseInterval = setInterval(() => {
+      setPulse(true);
+      // Remove the pulse class after animation completes (3 iterations x 0.5s = 1.5s)
+      setTimeout(() => {
+        setPulse(false);
+      }, 1500);
+    }, 5000); // Repeat every 5 seconds
+
+    return () => clearInterval(pulseInterval);
+  }, []);
+
+  // Handle scroll event to hide/show navbar
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentScrollY = window.pageYOffset;
+      if (currentScrollY === 0) {
+        setShowNavbar(true);
+      } else if (currentScrollY > lastScrollY) {
+        setShowNavbar(false);
+      } else {
+        setShowNavbar(true);
+      }
+      setLastScrollY(currentScrollY);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [lastScrollY]);
 
   // Open navigation menu (hamburger menu)
   const handleMenuClick = (event) => {
@@ -45,54 +78,28 @@ export default function Navbar({ familyName, onLogout }) {
     setAccountAnchorEl(null);
   };
 
-  // Handle scrolling to the top of the page before navigation
+  // Handle navigation item click with smooth scroll
   const handleMenuItemClick = (path) => {
-    window.scrollTo({ top: 0, behavior: 'smooth' }); // Scroll to the top smoothly
-    navigate(path); // Navigate to the selected route
-    setMenuAnchorEl(null); // Close menu
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    navigate(path);
+    setMenuAnchorEl(null);
   };
 
-  // Handle logout and close account menu
+  // Handle logout and navigation
   const handleLogout = () => {
     onLogout();
-    navigate('/'); // Redirect to welcome page
-    setAccountAnchorEl(null); // Close account menu
+    navigate('/');
+    setAccountAnchorEl(null);
   };
-
-// Inside the existing Navbar.js
-useEffect(() => {
-  const handleScroll = () => {
-    const currentScrollY = window.pageYOffset;
-
-    // Ensure the navbar stays visible when the user is at the top
-    if (currentScrollY === 0) {
-      setShowNavbar(true);
-    } else if (currentScrollY > lastScrollY) {
-      setShowNavbar(false); // Hide navbar on scroll down
-    } else {
-      setShowNavbar(true); // Show navbar on scroll up
-    }
-
-    setLastScrollY(currentScrollY);
-  };
-
-  window.addEventListener('scroll', handleScroll);
-
-  return () => {
-    window.removeEventListener('scroll', handleScroll);
-  };
-}, [lastScrollY]);
 
   return (
     <Box sx={{ flexGrow: 1 }}>
-      {/* Apply "navbar" class and "navbar-hidden" if showNavbar is false */}
       <AppBar
         position="fixed"
         className={`navbar ${showNavbar ? 'navbar-visible' : 'navbar-hidden'}`}
         sx={{ backgroundColor: '#33333378', transition: 'transform 0.5s ease-in-out' }}
       >
         <Toolbar sx={{ fontFamily: "'Sacramento', cursive" }}>
-          {/* Show Hamburger Menu only on Mobile */}
           {isMobile ? (
             <IconButton
               size="large"
@@ -100,142 +107,124 @@ useEffect(() => {
               color="inherit"
               aria-label="menu"
               sx={{ mr: 2 }}
-              onClick={handleMenuClick} // Open navigation menu
+              onClick={handleMenuClick}
+              className={pulse ? "pulse" : ""}
             >
               <MenuIcon />
             </IconButton>
           ) : (
-            // Show text-based menu on desktop
             <Box sx={{ display: 'flex', flexGrow: 1, fontFamily: "'Sacramento', cursive" }}>
-<Typography
-  variant="h6"
-  component="div"
-  onClick={() => handleMenuItemClick('/home')}
-  sx={{
-    cursor: 'pointer',
-    marginRight: '20px',
-    padding: '10px 20px',
-    fontFamily: "'Sacramento', cursive",
-    fontSize: '26px',
-    fontWeight: '500',
-    transition: 'background-color 0.3s ease, color 0.3s ease',
-    borderRadius: '15px',
-    '&:hover': {
-      backgroundColor: '#6f6f6f33',
-    },
-  }}
->
-  Home
-</Typography>
-
-<Typography
-  variant="h6"
-  component="div"
-  onClick={() => handleMenuItemClick('/about')}
-  sx={{
-    cursor: 'pointer',
-    marginRight: '20px',
-    padding: '10px 20px',
-    fontFamily: "'Sacramento', cursive",
-    fontSize: '26px',
-    fontWeight: '500',
-    transition: 'background-color 0.3s ease, color 0.3s ease',
-    borderRadius: '15px',
-    '&:hover': {
-      backgroundColor: '#6f6f6f33',
-    },
-  }}
->
-  Story
-</Typography>
-
-<Typography
-  variant="h6"
-  component="div"
-  onClick={() => handleMenuItemClick('/gallery')}
-  sx={{
-    cursor: 'pointer',
-    marginRight: '20px',
-    padding: '10px 20px',
-    fontFamily: "'Sacramento', cursive",
-    fontSize: '26px',
-    fontWeight: '500',
-    transition: 'background-color 0.3s ease, color 0.3s ease',
-    borderRadius: '15px',
-    '&:hover': {
-      backgroundColor: '#6f6f6f33',
-    },
-  }}
->
-  Gallery
-</Typography>
-
-<Typography
-  variant="h6"
-  component="div"
-  onClick={() => handleMenuItemClick('/tour')}
-  sx={{
-    cursor: 'pointer',
-    marginRight: '20px',
-    padding: '10px 20px',
-    fontFamily: "'Sacramento', cursive",
-    fontSize: '26px',
-    fontWeight: '500',
-    transition: 'background-color 0.3s ease, color 0.3s ease',
-    borderRadius: '15px',
-    '&:hover': {
-      backgroundColor: '#6f6f6f33',
-    },
-  }}
->
-  Travel
-</Typography>
-
-<Typography
-  variant="h6"
-  component="div"
-  onClick={() => handleMenuItemClick('/rsvp')}
-  sx={{
-    cursor: 'pointer',
-    marginRight: '20px',
-    padding: '10px 20px',
-    fontFamily: "'Sacramento', cursive",
-    fontSize: '26px',
-    fontWeight: '500',
-    transition: 'background-color 0.3s ease, color 0.3s ease',
-    borderRadius: '15px',
-    '&:hover': {
-      backgroundColor: '#6f6f6f33',
-    },
-  }}
->
-  RSVP
-</Typography>
-
-<Typography
-  variant="h6"
-  component="div"
-  onClick={() => handleMenuItemClick('/registry')}
-  sx={{
-    cursor: 'pointer',
-    marginRight: '20px',
-    padding: '10px 20px',
-    fontFamily: "'Sacramento', cursive",
-    fontSize: '26px',
-    fontWeight: '500',
-    transition: 'background-color 0.3s ease, color 0.3s ease',
-    borderRadius: '15px',
-    '&:hover': {
-      backgroundColor: '#6f6f6f33',
-    },
-  }}
->
-  Registry
-</Typography>
+              <Typography
+                variant="h6"
+                component="div"
+                onClick={() => handleMenuItemClick('/home')}
+                sx={{
+                  cursor: 'pointer',
+                  marginRight: '20px',
+                  padding: '10px 20px',
+                  fontFamily: "'Sacramento', cursive",
+                  fontSize: '26px',
+                  fontWeight: '500',
+                  transition: 'background-color 0.3s ease, color 0.3s ease',
+                  borderRadius: '15px',
+                  '&:hover': { backgroundColor: '#6f6f6f33' },
+                }}
+              >
+                Home
+              </Typography>
+              <Typography
+                variant="h6"
+                component="div"
+                onClick={() => handleMenuItemClick('/about')}
+                sx={{
+                  cursor: 'pointer',
+                  marginRight: '20px',
+                  padding: '10px 20px',
+                  fontFamily: "'Sacramento', cursive",
+                  fontSize: '26px',
+                  fontWeight: '500',
+                  transition: 'background-color 0.3s ease, color 0.3s ease',
+                  borderRadius: '15px',
+                  '&:hover': { backgroundColor: '#6f6f6f33' },
+                }}
+              >
+                Story
+              </Typography>
+              <Typography
+                variant="h6"
+                component="div"
+                onClick={() => handleMenuItemClick('/gallery')}
+                sx={{
+                  cursor: 'pointer',
+                  marginRight: '20px',
+                  padding: '10px 20px',
+                  fontFamily: "'Sacramento', cursive",
+                  fontSize: '26px',
+                  fontWeight: '500',
+                  transition: 'background-color 0.3s ease, color 0.3s ease',
+                  borderRadius: '15px',
+                  '&:hover': { backgroundColor: '#6f6f6f33' },
+                }}
+              >
+                Gallery
+              </Typography>
+              <Typography
+                variant="h6"
+                component="div"
+                onClick={() => handleMenuItemClick('/tour')}
+                sx={{
+                  cursor: 'pointer',
+                  marginRight: '20px',
+                  padding: '10px 20px',
+                  fontFamily: "'Sacramento', cursive",
+                  fontSize: '26px',
+                  fontWeight: '500',
+                  transition: 'background-color 0.3s ease, color 0.3s ease',
+                  borderRadius: '15px',
+                  '&:hover': { backgroundColor: '#6f6f6f33' },
+                }}
+              >
+                Travel
+              </Typography>
+              <Typography
+                variant="h6"
+                component="div"
+                onClick={() => handleMenuItemClick('/rsvp')}
+                sx={{
+                  cursor: 'pointer',
+                  marginRight: '20px',
+                  padding: '10px 20px',
+                  fontFamily: "'Sacramento', cursive",
+                  fontSize: '26px',
+                  fontWeight: '500',
+                  transition: 'background-color 0.3s ease, color 0.3s ease',
+                  borderRadius: '15px',
+                  '&:hover': { backgroundColor: '#6f6f6f33' },
+                }}
+              >
+                RSVP
+              </Typography>
+              <Typography
+                variant="h6"
+                component="div"
+                onClick={() => handleMenuItemClick('/registry')}
+                sx={{
+                  cursor: 'pointer',
+                  marginRight: '20px',
+                  padding: '10px 20px',
+                  fontFamily: "'Sacramento', cursive",
+                  fontSize: '26px',
+                  fontWeight: '500',
+                  transition: 'background-color 0.3s ease, color 0.3s ease',
+                  borderRadius: '15px',
+                  '&:hover': { backgroundColor: '#6f6f6f33' },
+                }}
+              >
+                Registry
+              </Typography>
             </Box>
           )}
 
-          {/* Display Welcome Message */}
           <Typography
             variant="h6"
             component="div"
@@ -245,68 +234,49 @@ useEffect(() => {
               marginRight: '20px',
               fontFamily: "'Sacramento', cursive",
               fontSize: '24px',
-              color: '#fff', // White text color
+              color: '#fff',
             }}
           >
             Welcome {familyName}
           </Typography>
 
-          {/* Account Circle Icon for Logout */}
           <div>
             <IconButton
               size="large"
               aria-label="account of current user"
               aria-controls="account-menu-appbar"
               aria-haspopup="true"
-              onClick={handleAccountMenuClick} // Open account menu
+              onClick={handleAccountMenuClick}
               color="inherit"
               sx={{
-                transition: 'background-color 0.3s ease', // Smooth transition
-                '&:hover': {
-                  backgroundColor: '#6f6f6f33', // Add hover effect for the profile icon
-                },
+                transition: 'background-color 0.3s ease',
+                '&:hover': { backgroundColor: '#6f6f6f33' },
               }}
             >
               <AccountCircle />
             </IconButton>
-
-            {/* Menu for Account Actions */}
             <Menu
               id="account-menu-appbar"
               anchorEl={accountAnchorEl}
-              anchorOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
-              }}
+              anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
               keepMounted
-              transformOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
-              }}
+              transformOrigin={{ vertical: 'top', horizontal: 'right' }}
               open={Boolean(accountAnchorEl)}
-              onClose={handleAccountMenuClose} // Close account menu
+              onClose={handleAccountMenuClose}
             >
-              {/* Logout Option */}
               <MenuItem onClick={handleLogout} sx={{ fontFamily: "'Sacramento', cursive" }}>
                 Logout
               </MenuItem>
             </Menu>
           </div>
 
-          {/* Navigation Menu for Mobile (Hamburger Menu) */}
           {isMobile && (
             <Menu
               id="menu-appbar"
               anchorEl={menuAnchorEl}
-              anchorOrigin={{
-                vertical: 'top',
-                horizontal: 'left',
-              }}
+              anchorOrigin={{ vertical: 'top', horizontal: 'left' }}
               keepMounted
-              transformOrigin={{
-                vertical: 'top',
-                horizontal: 'left',
-              }}
+              transformOrigin={{ vertical: 'top', horizontal: 'left' }}
               open={Boolean(menuAnchorEl)}
               onClose={handleMenuClose}
             >
@@ -319,9 +289,7 @@ useEffect(() => {
                   borderRadius: '10px',
                   textAlign: 'center',
                   transition: 'background-color 0.3s ease, color 0.3s ease',
-                  '&:hover': {
-                    backgroundColor: '6f6f6f33',
-                  },
+                  '&:hover': { backgroundColor: '#6f6f6f33' },
                 }}
               >
                 Home
@@ -335,9 +303,7 @@ useEffect(() => {
                   borderRadius: '10px',
                   textAlign: 'center',
                   transition: 'background-color 0.3s ease, color 0.3s ease',
-                  '&:hover': {
-                    backgroundColor: '6f6f6f33',
-                  },
+                  '&:hover': { backgroundColor: '#6f6f6f33' },
                 }}
               >
                 Story
@@ -351,32 +317,25 @@ useEffect(() => {
                   borderRadius: '10px',
                   textAlign: 'center',
                   transition: 'background-color 0.3s ease, color 0.3s ease',
-                  '&:hover': {
-                    backgroundColor: '6f6f6f33',
-                  },
+                  '&:hover': { backgroundColor: '#6f6f6f33' },
                 }}
               >
                 Gallery
               </MenuItem>
-
               <MenuItem
-
-  onClick={() => handleMenuItemClick('/tour')}
-  sx={{
-    fontFamily: "'Sacramento', cursive",
-    marginRight: '40px',
-    padding: '10px 20px',
-    borderRadius: '10px',
-    textAlign: 'center',
-    transition: 'background-color 0.3s ease, color 0.3s ease',
-    '&:hover': {
-      backgroundColor: '6f6f6f33',
-    },
-  }}
->
-  Travel
-  </MenuItem>
-
+                onClick={() => handleMenuItemClick('/tour')}
+                sx={{
+                  fontFamily: "'Sacramento', cursive",
+                  marginRight: '40px',
+                  padding: '10px 20px',
+                  borderRadius: '10px',
+                  textAlign: 'center',
+                  transition: 'background-color 0.3s ease, color 0.3s ease',
+                  '&:hover': { backgroundColor: '#6f6f6f33' },
+                }}
+              >
+                Travel
+              </MenuItem>
               <MenuItem
                 onClick={() => handleMenuItemClick('/rsvp')}
                 sx={{
@@ -386,29 +345,25 @@ useEffect(() => {
                   borderRadius: '10px',
                   textAlign: 'center',
                   transition: 'background-color 0.3s ease, color 0.3s ease',
-                  '&:hover': {
-                    backgroundColor: '6f6f6f33',
-                  },
+                  '&:hover': { backgroundColor: '#6f6f6f33' },
                 }}
               >
                 RSVP
               </MenuItem>
               <MenuItem
-  onClick={() => handleMenuItemClick('/registry')}
-  sx={{
-    fontFamily: "'Sacramento', cursive",
-    marginRight: '40px',
-    padding: '10px 20px',
-    borderRadius: '10px',
-    textAlign: 'center',
-    transition: 'background-color 0.3s ease, color 0.3s ease',
-    '&:hover': {
-      backgroundColor: '6f6f6f33',
-    },
-  }}
->
-  Registry
-</MenuItem>
+                onClick={() => handleMenuItemClick('/registry')}
+                sx={{
+                  fontFamily: "'Sacramento', cursive",
+                  marginRight: '40px',
+                  padding: '10px 20px',
+                  borderRadius: '10px',
+                  textAlign: 'center',
+                  transition: 'background-color 0.3s ease, color 0.3s ease',
+                  '&:hover': { backgroundColor: '#6f6f6f33' },
+                }}
+              >
+                Registry
+              </MenuItem>
             </Menu>
           )}
         </Toolbar>

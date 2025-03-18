@@ -1,13 +1,52 @@
 .navbar {
-    transition: transform 0.5s ease-in-out;
-    transform: translateY(0); /* Start in visible position */
+  transition: transform 0.5s ease-in-out;
+  transform: translateY(0); /* Start in visible position */
+}
+
+.navbar-hidden {
+  transform: translateY(-100%); /* Move out of view when hidden */
+}
+
+.navbar-visible {
+  transform: translateY(0); /* Keep visible */
+}
+
+
+/* Define the pulse animation that animates both background color and scale */
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+    background-color: rgba(0, 123, 255, 0.2); /* Subtle blue at start */
   }
-  
-  .navbar-hidden {
-    transform: translateY(-100%); /* Move out of view when hidden */
+  50% {
+    transform: scale(1.2);
+    background-color: rgba(0, 123, 255, 0.5); /* Vivid blue at peak */
   }
-  
-  .navbar-visible {
-    transform: translateY(0); /* Keep visible */
+  100% {
+    transform: scale(1);
+    background-color: rgba(0, 123, 255, 0.2); /* Return to subtle blue */
   }
-  
+}
+
+
+.pulse {
+  animation: pulse 0.5s ease-in-out 3;
+}
+
+/* Pulse animation for the icon color */
+@keyframes iconColorPulse {
+  0% {
+    color: inherit;
+  }
+  50% {
+    color: #007bff; /* Blue color */
+  }
+  100% {
+    color: inherit;
+  }
+}
+
+/* Apply the icon color animation to the MenuIcon inside the IconButton */
+.pulse .MuiSvgIcon-root {
+  animation: iconColorPulse 0.5s ease-in-out 3;
+}
