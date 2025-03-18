@@ -21,6 +21,7 @@ import {
   Select,
   IconButton,
   Grid,
+  Alert
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import axios from "axios";
@@ -49,20 +50,15 @@ function App() {
   const [tokenExpired, setTokenExpired] = useState(false);
   const [modalMessage, setModalMessage] = useState("");
   const [modalOpen, setModalOpen] = useState(false);
-  // New state to track if submit has been attempted
   const [submitAttempted, setSubmitAttempted] = useState(false);
 
   const location = useLocation();
   const navigate = useNavigate();
 
-  // Check if every family member has both first and last name filled
   const isFormValid = familyMembers.every(
     (member) => member.firstName.trim() !== "" && member.lastName.trim() !== ""
   );
 
-  // --------------------------------------------------
-  // Fetch RSVP Data
-  // --------------------------------------------------
   const fetchRSVPData = useCallback(async (token) => {
     try {
       const rsvpResponse = await fetch("/rsvp", {
@@ -89,14 +85,10 @@ function App() {
     }
   }, []);
 
-  // --------------------------------------------------
-  // Check Authentication
-  // --------------------------------------------------
   const checkAuth = useCallback(async () => {
     const tokenFromStorage = localStorage.getItem("token");
     if (!tokenFromStorage) {
       setIsAuthenticated(false);
-      // If trying to access a protected route (i.e. not "/"), mark token as expired.
       if (location.pathname !== "/") {
         setTokenExpired(true);
       }
@@ -119,19 +111,15 @@ function App() {
       setIsAuthenticated(true);
       setFamilyName(data.familyName);
       setFamilyCount(data.familyCount);
-      setTokenExpired(false); // Reset tokenExpired on successful authentication
+      setTokenExpired(false);
 
       await fetchRSVPData(tokenFromStorage);
     } catch (error) {
-      // If the check fails, token might be invalid or expired
       setIsAuthenticated(false);
       setTokenExpired(true);
     }
   }, [fetchRSVPData, location.pathname]);
 
-  // --------------------------------------------------
-  // Authenticate Using URL Token
-  // --------------------------------------------------
   const authenticateWithToken = useCallback(
     async (tokenFromUrl) => {
       try {
@@ -156,9 +144,6 @@ function App() {
     [fetchRSVPData, navigate]
   );
 
-  // --------------------------------------------------
-  // On Mount (and if token in URL)
-  // --------------------------------------------------
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
     const tokenFromUrl = urlParams.get("token");
@@ -170,22 +155,14 @@ function App() {
     }
   }, [authenticateWithToken, checkAuth]);
 
-  // --------------------------------------------------
-  // On Every Route Change, Re-check Auth
-  // --------------------------------------------------
   useEffect(() => {
     checkAuth();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [location]);
 
-  // --------------------------------------------------
-  // Handle Logout
-  // --------------------------------------------------
   const handleLogout = async () => {
     const token = localStorage.getItem("token");
     if (token) {
       try {
-        // Invalidate token on the server
         await axios.post(
           "/logout",
           { token },
@@ -202,23 +179,15 @@ function App() {
     }
     localStorage.removeItem("token");
     setIsAuthenticated(false);
-    // Refresh the page after logout so that protected routes show the expired modal
     window.location.reload();
   };
 
-  // --------------------------------------------------
-  // Close RSVP Modal
-  // --------------------------------------------------
   const closeRSVPModal = () => {
     setShowRSVPModal(false);
   };
 
-  // --------------------------------------------------
-  // Submit RSVP
-  // --------------------------------------------------
   const handleRSVPSubmit = async () => {
     setSubmitAttempted(true);
-    // Prevent submission if any first name or last name is empty
     if (!isFormValid) {
       setModalMessage("Please fill in all required fields.");
       setModalOpen(true);
@@ -241,7 +210,6 @@ function App() {
         setShowRSVPModal(false);
         setModalMessage("RSVP submitted successfully!");
         setModalOpen(true);
-        // Reset submitAttempted since submission was successful
         setSubmitAttempted(false);
       } else {
         const data = await response.json();
@@ -254,9 +222,6 @@ function App() {
     }
   };
 
-  // --------------------------------------------------
-  // Form Handlers
-  // --------------------------------------------------
   const handleFamilyMemberChange = (index, field, value) => {
     const updatedMembers = [...familyMembers];
     updatedMembers[index][field] = value;
@@ -280,9 +245,6 @@ function App() {
     setFamilyMembers(updatedMembers);
   };
 
-  // --------------------------------------------------
-  // Render
-  // --------------------------------------------------
   return (
     <div className="App">
       {isAuthenticated && (
@@ -298,7 +260,6 @@ function App() {
           <Routes location={location}>
             {isAuthenticated ? (
               <>
-                {/* Redirect from "/" to "/home" for authenticated users */}
                 <Route path="/" element={<Navigate to="/home" replace />} />
                 <Route path="/home" element={<Home />} />
                 <Route path="/about" element={<About />} />
@@ -323,7 +284,6 @@ function App() {
         </CSSTransition>
       </TransitionGroup>
 
-      {/* Show RSVP modal if not submitted */}
       {showRSVPModal && (
         <Modal
           open={true}
@@ -358,9 +318,12 @@ function App() {
             >
               RSVP for {familyName}
             </Typography>
-            <Typography variant="body2" sx={{ mb: 3 }}>
-              Please fill out the RSVP list by April 15, 2025. You can update your RSVP any time.
-            </Typography>
+            <Alert severity="warning" sx={{ mb: 3 }}>
+              RSVP by April 15, 2025. Enter each guest's first and last name separately. Do not combine names.
+            </Alert>
+            <Alert severity="success" sx={{ mb: 3 }}>
+              You can update your RSVP any time.
+            </Alert>
             {familyMembers.map((member, index) => (
               <Grid container spacing={2} key={index} sx={{ mb: 2 }}>
                 <Grid item xs={12} sm={4}>
@@ -458,7 +421,6 @@ function App() {
         </Modal>
       )}
 
-      {/* Show token expired modal only if token is expired and user is not authenticated */}
       {tokenExpired && !isAuthenticated && location.pathname !== "/" && (
         <Modal
           open={true}
@@ -507,7 +469,6 @@ function App() {
         </Modal>
       )}
 
-      {/* Alert Modal */}
       {modalOpen && (
         <Modal
           open={modalOpen}
