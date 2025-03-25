@@ -37,6 +37,7 @@ import Registry from "./components/Registry";
 import Tourist from "./components/Tourist";
 //import Itinerary from "./components/Itinerary";
 import "./App.css";
+import ButtomNavBar from "./components/ButtonNavBar";
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -254,6 +255,7 @@ function App() {
           onLogout={handleLogout}
         />
       )}
+              <ButtomNavBar/>
 
       <TransitionGroup>
         <CSSTransition key={location.key} classNames="fade" timeout={300}>
@@ -319,7 +321,7 @@ function App() {
               RSVP for {familyName}
             </Typography>
             <Alert severity="warning" sx={{ mb: 3 }}>
-              RSVP by April 15, 2025. Enter each guest's first and last name separately.
+              RSVP by April 15, 2025. Enter each guest's first and last name separately. Do not combine names.
             </Alert>
             <Alert severity="success" sx={{ mb: 3 }}>
               You can update your RSVP any time.
