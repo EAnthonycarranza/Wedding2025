@@ -1,0 +1,71 @@
+/* File: ButtomNavBar.css */
+.buttom-nav-container {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 200px;
+    height: 200px;
+    z-index: 1000;
+    touch-action: none;
+  }
+  
+  .central-button {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    pointer-events: auto;
+  }
+  
+  /* Wrapper to align jiggle movement along the tangent */
+  .jiggle-wrapper {
+    display: inline-block;
+  }
+  
+  /* Inner container that will receive the jiggle animation */
+  .jiggle-inner {
+    display: inline-block;
+  }
+  
+  /* Jiggle animation applied when the "jiggle" class is active */
+  .jiggle {
+    animation: jiggleAnimation 0.5s ease;
+  }
+  
+  @keyframes jiggleAnimation {
+    0% {
+      transform: translateX(0);
+    }
+    25% {
+      transform: translateX(5px);
+    }
+    50% {
+      transform: translateX(0);
+    }
+    75% {
+      transform: translateX(-5px);
+    }
+    100% {
+      transform: translateX(0);
+    }
+  }
+  
+  /* Container for each menu item that holds the bubble and icon */
+  .menu-item-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  /* Bubble styling for the label above each icon */
+  .icon-bubble {
+    background-color: rgba(0, 0, 0, 0.75);
+    color: #ffffff;
+    padding: 3px 8px;
+    border-radius: 12px;
+    font-size: 0.7rem;
+    margin-bottom: 4px;
+    white-space: nowrap;
+  }
+  
