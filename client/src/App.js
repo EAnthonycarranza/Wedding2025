@@ -21,7 +21,7 @@ import {
   Select,
   IconButton,
   Grid,
-  Alert
+  Alert,
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import axios from "axios";
@@ -249,13 +249,15 @@ function App() {
   return (
     <div className="App">
       {isAuthenticated && (
-        <NavBar
-          familyName={familyName}
-          isAuthenticated={isAuthenticated}
-          onLogout={handleLogout}
-        />
+        <>
+          <NavBar
+            familyName={familyName}
+            isAuthenticated={isAuthenticated}
+            onLogout={handleLogout}
+          />
+          <ButtomNavBar />
+        </>
       )}
-              <ButtomNavBar/>
 
       <TransitionGroup>
         <CSSTransition key={location.key} classNames="fade" timeout={300}>
