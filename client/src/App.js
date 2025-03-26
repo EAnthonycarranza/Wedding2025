@@ -326,7 +326,7 @@ function App() {
             <Alert severity="warning" sx={{ mb: 3 }}>
               RSVP by April 15, 2025. Enter each guest's first and last name separately. Do not combine names.
             </Alert>
-            <Alert severity="success" sx={{ mb: 3 }}>
+            <Alert severity="info" sx={{ mb: 3 }}>
               You can update your RSVP any time.
             </Alert>
             {familyMembers.map((member, index) => (
