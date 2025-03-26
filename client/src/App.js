@@ -472,9 +472,9 @@ function App() {
     </Box>
 
     <Typography variant="body2" sx={{ textAlign: "center", mb: 2 }}>
-      <div>Having trouble logging in? </div>
-      Text <strong>(210) 997-2900</strong> for help.
-    </Typography>
+  Having trouble logging in? <a href="sms:2109972900">Text (210) 997-2900</a> for help.
+</Typography>
+
 
     <Button
       variant="contained"
