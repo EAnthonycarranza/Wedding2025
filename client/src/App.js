@@ -38,6 +38,7 @@ import Tourist from "./components/Tourist";
 //import Itinerary from "./components/Itinerary";
 import "./App.css";
 import ButtomNavBar from "./components/ButtonNavBar";
+import qrScanGif from "./img/qr-scan.gif"
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -427,50 +428,69 @@ function App() {
 
       {tokenExpired && !isAuthenticated && location.pathname !== "/" && (
         <Modal
-          open={true}
-          onClose={() => {
-            setTokenExpired(false);
-            navigate("/");
-          }}
-          aria-labelledby="token-expired-modal-title"
-        >
-          <Box
-            sx={{
-              width: 400,
-              p: 4,
-              bgcolor: "white",
-              margin: "auto",
-              top: "50%",
-              left: "50%",
-              transform: "translate(-50%, -50%)",
-              position: "absolute",
-              borderRadius: "10px",
-              boxShadow: 24,
-            }}
-          >
-            <Typography
-              id="token-expired-modal-title"
-              variant="h6"
-              sx={{ textAlign: "center", mb: 2 }}
-            >
-              Your session has expired.
-            </Typography>
-            <Typography variant="body1" sx={{ mb: 3, textAlign: "center" }}>
-              Please sign in again.
-            </Typography>
-            <Button
-              variant="contained"
-              fullWidth
-              sx={{ backgroundColor: "#000000" }}
-              onClick={() => {
-                setTokenExpired(false);
-                navigate("/");
-              }}
-            >
-              Go to Login
-            </Button>
-          </Box>
-        </Modal>
+  open={true}
+  onClose={() => {
+    setTokenExpired(false);
+    navigate("/");
+  }}
+  aria-labelledby="token-expired-modal-title"
+>
+  <Box
+    sx={{
+      width: 400,
+      p: 4,
+      bgcolor: "white",
+      margin: "auto",
+      top: "50%",
+      left: "50%",
+      transform: "translate(-50%, -50%)",
+      position: "absolute",
+      borderRadius: "10px",
+      boxShadow: 24,
+    }}
+  >
+    <Typography
+      id="token-expired-modal-title"
+      variant="h6"
+      sx={{ textAlign: "center", mb: 2 }}
+    >
+      Session Expired
+    </Typography>
+
+    <Alert severity="warning" sx={{ mb: 3, textAlign: "center" }}>
+      Please re-enter your password or scan the QR code again.
+      <br />
+      (Found on your invitation.)
+    </Alert>
+
+    <Box sx={{ display: "flex", justifyContent: "center", mb: 2 }}>
+      <img
+        src={qrScanGif}
+        alt="Scan QR code"
+        style={{ width: "100%", maxWidth: "300px" }}
+      />
+    </Box>
+
+    <Typography variant="body2" sx={{ textAlign: "center", mb: 2 }}>
+      <div>Having trouble logging in? </div>
+      Text <strong>(210) 997-2900</strong> for help.
+    </Typography>
+
+    <Button
+      variant="contained"
+      fullWidth
+      sx={{ backgroundColor: "#000000" }}
+      onClick={() => {
+        setTokenExpired(false);
+        navigate("/");
+      }}
+    >
+      Go to Login
+    </Button>
+  </Box>
+</Modal>
+
+
       )}
 
       {modalOpen && (
