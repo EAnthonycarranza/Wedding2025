@@ -12,6 +12,7 @@ import LoginPage, {
   Welcome,
   ButtonAfter,
 } from "@react-login-page/page3";
+import qrScanGif from "../img/qr-scan.gif"; // Importing the QR scan GIF
 
 const containerStyles = {
   display: "flex",
@@ -69,16 +70,67 @@ const helpTextStyles = {
   left: "0",
   width: "100%",
   textAlign: "center",
-  fontFamily: "Helvetica, sans-serif", // Updated to use Helvetica
+  fontFamily: "Helvetica, sans-serif",
   fontSize: "14px",
   color: "black",
   padding: "0 10px",
+};
+
+const modalButtonStyles = {
+  marginTop: "20px",
+  backgroundColor: "rgb(0 0 0)",
+  color: "#fff",
+  border: "none",
+  padding: "10px 20px",
+  fontFamily: "Helvetica, sans-serif",
+  fontSize: "16px",
+  borderRadius: "20px",
+  cursor: "pointer",
+  display: "block",
+  marginLeft: "auto",
+  marginRight: "auto",
+};
+
+const modalOverlayStyles = {
+  position: "fixed",
+  top: 0,
+  left: 0,
+  right: 0,
+  bottom: 0,
+  backgroundColor: "rgba(0,0,0,0.5)",
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
+  zIndex: 1000,
+};
+
+const modalContentStyles = {
+  backgroundColor: "#fff",
+  padding: "20px",
+  borderRadius: "10px",
+  textAlign: "center",
+  maxWidth: "90%",
+  maxHeight: "90%",
+  overflowY: "auto",
+};
+
+const closeButtonStyles = {
+  marginTop: "20px",
+  backgroundColor: "rgb(0 0 0)",
+  color: "#fff",
+  border: "none",
+  padding: "10px 20px",
+  fontFamily: "Helvetica, sans-serif",
+  fontSize: "16px",
+  borderRadius: "20px",
+  cursor: "pointer",
 };
 
 const Welcomepg = ({ setIsAuthenticated, setFamilyName }) => {
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [showModal, setShowModal] = useState(false);
   const navigate = useNavigate();
 
   const handleSubmit = async (event) => {
@@ -86,24 +138,14 @@ const Welcomepg = ({ setIsAuthenticated, setFamilyName }) => {
     setLoading(true);
 
     try {
-      // Authenticate the password and get family name from the server
       const response = await axios.post("/authenticate", { password });
-
-      // Store the JWT token in localStorage
       const token = response.data.token;
       localStorage.setItem("token", token);
-
-      // Get the family name from the server response
       const familyName = response.data.familyName;
-
-      // Set the family name and authentication state
       setIsAuthenticated(true);
       setFamilyName(familyName);
-
-      // Redirect to /home after successful login
       navigate("/home");
     } catch (error) {
-      // Display an error message if authentication fails
       setError(
         error.response
           ? error.response.data.message
@@ -146,10 +188,41 @@ const Welcomepg = ({ setIsAuthenticated, setFamilyName }) => {
             <div style={{ color: "red", marginTop: "1rem" }}>{error}</div>
           )}
         </LoginPage>
+        <button
+          type="button"
+          style={modalButtonStyles}
+          onClick={() => setShowModal(true)}
+        >
+         View password instructions
+        </button>
       </form>
+      
       <div style={helpTextStyles}>
-        Having Trouble logging in? Text (210) 997-2900 for help.
-      </div>
+  Having trouble logging in? <a href="sms:2109972900">Text (210) 997-2900</a> for help.
+</div>
+
+
+      {showModal && (
+        <div style={modalOverlayStyles}>
+          <div style={modalContentStyles}>
+            <img
+              src={qrScanGif}
+              alt="QR Code Scan Animation"
+              style={{ maxWidth: "100%", height: "auto" }}
+            />
+            <p style={{ marginTop: "20px", fontFamily: "Helvetica, sans-serif", fontSize: "16px", color: "#333" }}>
+              Please scan your QR code or use the password provided with your invitation.
+            </p>
+            <button
+              type="button"
+              style={closeButtonStyles}
+              onClick={() => setShowModal(false)}
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
