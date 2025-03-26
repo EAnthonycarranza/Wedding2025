@@ -9,7 +9,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import HomeIcon from "@mui/icons-material/Home";
 import InfoIcon from "@mui/icons-material/Info";
 import BuildIcon from "@mui/icons-material/Build";
-import FavoriteIcon from "@mui/icons-material/Favorite";
+import CardGiftcardIcon from '@mui/icons-material/CardGiftcard';
 import PhotoLibraryIcon from "@mui/icons-material/PhotoLibrary";
 import EventIcon from "@mui/icons-material/Event";
 import ExploreIcon from "@mui/icons-material/Explore";
@@ -18,7 +18,7 @@ import "./ButtonNavBar.css";
 const menuItems = [
   { label: "Home", path: "/home", icon: <HomeIcon /> },
   { label: "About", path: "/about", icon: <InfoIcon /> },
-  { label: "Registry", path: "/registry", icon: <FavoriteIcon /> },
+  { label: "Registry", path: "/registry", icon: <CardGiftcardIcon /> },
   { label: "Gallery", path: "/gallery", icon: <PhotoLibraryIcon /> },
   { label: "RSVP", path: "/rsvp", icon: <EventIcon /> },
   { label: "Travel", path: "/tour", icon: <ExploreIcon /> },
