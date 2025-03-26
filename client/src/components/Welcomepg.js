@@ -208,7 +208,7 @@ const Welcomepg = ({ setIsAuthenticated, setFamilyName }) => {
             <img
               src={qrScanGif}
               alt="QR Code Scan Animation"
-              style={{ maxWidth: "100%", height: "auto" }}
+              style={{ width: "100%", maxWidth: "300px" }}
             />
             <p style={{ marginTop: "20px", fontFamily: "Helvetica, sans-serif", fontSize: "16px", color: "#333" }}>
               Please scan your QR code or use the password provided with your invitation.
