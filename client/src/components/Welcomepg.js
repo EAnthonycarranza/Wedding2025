@@ -12,6 +12,7 @@ import LoginPage, {
   Welcome,
   ButtonAfter,
 } from "@react-login-page/page3";
+import { Alert } from '@mui/material';
 import qrScanGif from "../img/qr-scan.gif"; // Importing the QR scan GIF
 import "./Welcomepg.css"; // <-- Import your CSS file here
 
@@ -67,14 +68,22 @@ const customLoginStyles = {
 
 const helpTextStyles = {
   position: "fixed",
-  bottom: "20px",
+  bottom: "0px",
   left: "0",
   width: "100%",
   textAlign: "center",
   fontFamily: "Helvetica, sans-serif",
   fontSize: "14px",
-  color: "black",
-  padding: "0 10px",
+  color: "#444",
+  padding: "10px 20px",
+  backgroundColor: "#f9f9f9",
+  boxShadow: "0 -1px 5px rgba(0, 0, 0, 0.1)",
+};
+
+const linkStyle = {
+  color: "#007BFF",
+  textDecoration: "none",
+  fontWeight: "bold",
 };
 
 const modalButtonStyles = {
@@ -192,17 +201,18 @@ const Welcomepg = ({ setIsAuthenticated, setFamilyName }) => {
           )}
         </LoginPage>
         <button
-          type="button"
-          style={modalButtonStyles}
-          onClick={() => setShowModal(true)}
-        >
-          View password instructions
-        </button>
+  type="button"
+  className="hover-button"
+  onClick={() => setShowModal(true)}
+>
+  View password instructions
+</button>
+
       </form>
       
       <div style={helpTextStyles}>
-        Having trouble logging in? <a href="sms:2109972900">Text (210) 997-2900</a> for help.
-      </div>
+  Having trouble logging in? <a href="sms:2109972900" style={linkStyle}>Text (210) 997-2900</a> for help.
+</div>
 
       {showModal && (
         <div style={modalOverlayStyles}>
@@ -213,16 +223,19 @@ const Welcomepg = ({ setIsAuthenticated, setFamilyName }) => {
               alt="QR Code Scan Animation"
               className="responsive-qr-image"
             />
-            <p
-              style={{
-                marginTop: "20px",
-                fontFamily: "Helvetica, sans-serif",
-                fontSize: "16px",
-                color: "#333",
-              }}
-            >
-              Please scan your QR code or use the password provided with your invitation.
-            </p>
+<Alert
+  severity="info"
+  sx={{
+    mt: 3,
+    fontSize: '16px',
+    fontFamily: 'Helvetica, sans-serif',
+    color: '#333',
+    backgroundColor: '#e8f4fd',
+    border: '1px solid #90caf9',
+  }}
+>
+  Please scan your QR code or use the password provided with your invitation.
+</Alert>
             <button
               type="button"
               style={closeButtonStyles}
