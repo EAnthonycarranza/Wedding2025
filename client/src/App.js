@@ -458,9 +458,9 @@ function App() {
     </Typography>
 
     <Alert severity="warning" sx={{ mb: 3, textAlign: "center" }}>
-      Please re-enter your password or scan the QR code again.
+      Please enter your password or scan the QR code to login.
       <br />
-      (Found on your invitation.)
+      (Found with your invitation.)
     </Alert>
 
     <Box sx={{ display: "flex", justifyContent: "center", mb: 2 }}>
