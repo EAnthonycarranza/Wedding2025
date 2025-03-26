@@ -19,6 +19,7 @@ const containerStyles = {
   alignItems: "center",
   height: "100vh",
   fontFamily: "'Sacramento', cursive",
+  position: "relative",
 };
 
 const formStyles = {
@@ -59,8 +60,19 @@ const customLoginStyles = {
   "--login-input-bg": "transparent",
   "--login-input-border": "rgba(0, 0, 0, 0.13)",
   "--login-input-placeholder": "#999999",
-  
   borderRadius: "20px",
+};
+
+const helpTextStyles = {
+  position: "fixed",
+  bottom: "20px",
+  left: "0",
+  width: "100%",
+  textAlign: "center",
+  fontFamily: "Helvetica, sans-serif", // Updated to use Helvetica
+  fontSize: "14px",
+  color: "black",
+  padding: "0 10px",
 };
 
 const Welcomepg = ({ setIsAuthenticated, setFamilyName }) => {
@@ -135,6 +147,9 @@ const Welcomepg = ({ setIsAuthenticated, setFamilyName }) => {
           )}
         </LoginPage>
       </form>
+      <div style={helpTextStyles}>
+        Having Trouble logging in? Text (210) 997-2900 for help.
+      </div>
     </div>
   );
 };
