@@ -13,12 +13,13 @@ import LoginPage, {
   ButtonAfter,
 } from "@react-login-page/page3";
 import qrScanGif from "../img/qr-scan.gif"; // Importing the QR scan GIF
+import "./Welcomepg.css"; // <-- Import your CSS file here
 
 const containerStyles = {
   display: "flex",
   justifyContent: "center",
   alignItems: "center",
-  height: "100vh",
+  minHeight: "100vh",
   fontFamily: "'Sacramento', cursive",
   position: "relative",
 };
@@ -141,9 +142,11 @@ const Welcomepg = ({ setIsAuthenticated, setFamilyName }) => {
       const response = await axios.post("/authenticate", { password });
       const token = response.data.token;
       localStorage.setItem("token", token);
+
       const familyName = response.data.familyName;
       setIsAuthenticated(true);
       setFamilyName(familyName);
+
       navigate("/home");
     } catch (error) {
       setError(
@@ -193,24 +196,31 @@ const Welcomepg = ({ setIsAuthenticated, setFamilyName }) => {
           style={modalButtonStyles}
           onClick={() => setShowModal(true)}
         >
-         View password instructions
+          View password instructions
         </button>
       </form>
       
       <div style={helpTextStyles}>
-  Having trouble logging in? <a href="sms:2109972900">Text (210) 997-2900</a> for help.
-</div>
-
+        Having trouble logging in? <a href="sms:2109972900">Text (210) 997-2900</a> for help.
+      </div>
 
       {showModal && (
         <div style={modalOverlayStyles}>
           <div style={modalContentStyles}>
+            {/* Use the CSS class from Welcomepg.css */}
             <img
               src={qrScanGif}
               alt="QR Code Scan Animation"
-              style={{ width: "100%", maxWidth: "300px" }}
+              className="responsive-qr-image"
             />
-            <p style={{ marginTop: "20px", fontFamily: "Helvetica, sans-serif", fontSize: "16px", color: "#333" }}>
+            <p
+              style={{
+                marginTop: "20px",
+                fontFamily: "Helvetica, sans-serif",
+                fontSize: "16px",
+                color: "#333",
+              }}
+            >
               Please scan your QR code or use the password provided with your invitation.
             </p>
             <button

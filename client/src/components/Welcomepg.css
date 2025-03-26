@@ -1,0 +1,16 @@
+
+/* Mobile (up to 767px) => 300px width */
+  @media (max-width: 767px) {
+    .responsive-qr-image {
+      width: 300px;
+    }
+  }
+  
+  /* From 768px and above => 600px width */
+  @media (min-width: 768px) {
+    .responsive-qr-image {
+      width: 600px;
+      max-height: 400px !important;
+    }
+  }
+  
