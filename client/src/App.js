@@ -324,7 +324,7 @@ function App() {
               RSVP for {familyName}
             </Typography>
             <Alert severity="warning" sx={{ mb: 3 }}>
-              RSVP by April 15, 2025. Enter each guest's first and last name separately. Do not combine names.
+              RSVP by April 15, 2025. Enter each guest's first and last name separately.
             </Alert>
             <Alert severity="info" sx={{ mb: 3 }}>
               You can update your RSVP any time.
