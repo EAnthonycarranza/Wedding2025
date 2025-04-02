@@ -220,9 +220,9 @@ function Airbnb() {
             }
 
             if (bathsItem) {
-              const bathsMatch = bathsItem.title.match(/(\d+)\s*bath/);
+              const bathsMatch = bathsItem.title.match(/([\d.]+)\s*bath/);
               baths = bathsMatch ? bathsMatch[1] : "Shared, Dedicated, or Private";
-            }
+            }            
           }
 
           // Extract bedroom count using the full sharingConfig title from the PdpTitleSection
