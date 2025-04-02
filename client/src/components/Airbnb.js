@@ -18,14 +18,15 @@ import {
   Pagination,
   Tooltip,
   Collapse,
+  Paper,
 } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import BedIcon from "@mui/icons-material/Bed";
 import KingBedIcon from "@mui/icons-material/KingBed";
-import MeetingRoomIcon from '@mui/icons-material/MeetingRoom';
+import MeetingRoomIcon from "@mui/icons-material/MeetingRoom";
 import GroupIcon from "@mui/icons-material/Group";
 import StarIcon from "@mui/icons-material/Star";
-import BathtubIcon from "@mui/icons-material/Bathtub"
+import BathtubIcon from "@mui/icons-material/Bathtub";
 import VerifiedUserIcon from "@mui/icons-material/VerifiedUser";
 import { MapContainer, TileLayer, Marker, Popup, Circle } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
@@ -50,6 +51,7 @@ const markerIcon = new L.Icon({
 });
 
 function Airbnb() {
+  // State declarations
   const [listings, setListings] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -66,8 +68,6 @@ function Airbnb() {
     otherThings: null,
   });
   const [fullscreenImage, setFullscreenImage] = useState(null);
-
-  // New States for "About Host" Modal
   const [aboutHostOpen, setAboutHostOpen] = useState(false);
   const [hostAboutText, setHostAboutText] = useState("");
   const [selectedHostName, setSelectedHostName] = useState("");
@@ -76,18 +76,11 @@ function Airbnb() {
   const [hostReviewsHost, setHostReviewsHost] = useState("0");
   const [isSuperhost, setIsSuperhost] = useState(false);
   const [isVerified, setIsVerified] = useState(false);
-
-  // State for dot navigation in image sliders
   const [dotOffset, setDotOffset] = useState(0);
   const dotsPerGroup = 5;
-
-  // New state for collapse functionality
   const [collapsed, setCollapsed] = useState(false);
-
-  // Responsive Hook
   const isWideScreen = useMediaQuery("(min-width:700px)");
 
-  // Fixed destination coordinates
   const destinations = [
     {
       name: "First Assembly of God at San Antonio",
@@ -101,9 +94,9 @@ function Airbnb() {
     },
   ];
 
-  // Create a ref for the top of the component
   const topRef = useRef(null);
 
+  // Fetch listings from the API
   const fetchListings = async () => {
     setLoading(true);
     try {
@@ -117,7 +110,6 @@ function Airbnb() {
       const listingsData = [];
       for (const listing of results) {
         const airbnbId = listing.airbnb_id;
-
         try {
           const detailResponse = await fetch(`/api/airbnb-detail?id=${airbnbId}`);
           const detailData = await detailResponse.json();
@@ -147,17 +139,11 @@ function Airbnb() {
           const hostAbout = hostSection?.about || "Information not available";
 
           const yearsHosting =
-            hostSection?.cardData?.stats?.find(
-              (stat) => stat.type === "YEARS_HOSTING"
-            )?.value || "0";
+            hostSection?.cardData?.stats?.find((stat) => stat.type === "YEARS_HOSTING")?.value || "0";
 
           // Extract Host Review Statistics
-          const hostRatingStat = hostSection?.cardData?.stats?.find(
-            (stat) => stat.type === "RATING"
-          );
-          const hostReviewsStat = hostSection?.cardData?.stats?.find(
-            (stat) => stat.type === "REVIEW_COUNT"
-          );
+          const hostRatingStat = hostSection?.cardData?.stats?.find((stat) => stat.type === "RATING");
+          const hostReviewsStat = hostSection?.cardData?.stats?.find((stat) => stat.type === "REVIEW_COUNT");
 
           const hostRatingHostValue = parseFloat(hostRatingStat?.value) || 0;
           const hostReviewsHostValue = hostReviewsStat?.value || "0";
@@ -173,19 +159,13 @@ function Airbnb() {
           const lat = locationSection?.lat || null;
           const lng = locationSection?.lng || null;
 
-          // Extract General List Content
+          // Extract General List Content and Descriptions
           const generalListContentSection = detailData.find(
             (section) => section.__typename === "GeneralListContentSection"
           );
           const items = generalListContentSection?.items;
-
-          // Extract Descriptions
-          const theSpaceHtml = items.find(
-            (item) => item.title === "The space"
-          )?.html?.htmlText;
-          const otherThingsHtml = items.find(
-            (item) => item.title === "Other things to note"
-          )?.html?.htmlText;
+          const theSpaceHtml = items.find((item) => item.title === "The space")?.html?.htmlText;
+          const otherThingsHtml = items.find((item) => item.title === "Other things to note")?.html?.htmlText;
 
           // Extract Preview Images
           const pdpHeroSection = detailData.find(
@@ -194,12 +174,11 @@ function Airbnb() {
           const previewImages = pdpHeroSection?.previewImages || [];
           console.log("Preview Images for Airbnb ID:", airbnbId, previewImages);
 
-          // Extract Primary HTML Text
+          // Extract Primary HTML Text if needed
           const primaryHtmlText =
-            generalListContentSection?.items?.[0]?.html?.htmlText ||
-            "No description available.";
+            generalListContentSection?.items?.[0]?.html?.htmlText || "No description available.";
 
-          // Extract Beds, Baths, and Guest Count from API response
+          // Extract Beds, Baths, and Guest Count
           let beds = "N/A";
           let baths = "N/A";
           let maxGuestCapacity = availabilitySection?.maxGuestCapacity
@@ -213,19 +192,17 @@ function Airbnb() {
             const bathsItem = availabilitySection.descriptionItems.find((item) =>
               item.title.toLowerCase().includes("bath")
             );
-
             if (bedsItem) {
               const bedsMatch = bedsItem.title.match(/(\d+)\s*bed/);
               beds = bedsMatch ? bedsMatch[1] : "N/A";
             }
-
             if (bathsItem) {
               const bathsMatch = bathsItem.title.match(/([\d.]+)\s*bath/);
               baths = bathsMatch ? bathsMatch[1] : "Shared, Dedicated, or Private";
-            }            
+            }
           }
 
-          // Extract bedroom count using the full sharingConfig title from the PdpTitleSection
+          // Extract bedroom count from the sharingConfig title in PdpTitleSection
           let bedrooms = "N/A";
           const titleSection = detailData.find(
             (section) => section.__typename === "PdpTitleSection"
@@ -237,7 +214,6 @@ function Airbnb() {
             titleSection.shareSave.sharingConfig.title
           ) {
             const title = titleSection.shareSave.sharingConfig.title;
-            // Example title: "Home in San Antonio &middot; &#9733;4.75 &middot; 3 bedrooms &middot; 6 beds &middot; 2 baths"
             const parts = title.split("&middot;");
             const bedroomPart = parts.find((part) =>
               part.toLowerCase().includes("bedroom")
@@ -250,13 +226,11 @@ function Airbnb() {
             }
           }
 
-          // Push the listing data with extracted information
           listingsData.push({
             airbnbId,
             thumbnail: availabilitySection?.thumbnail?.baseUrl || null,
             previewImages,
-            listingTitle:
-              availabilitySection?.listingTitle || "No Title Available",
+            listingTitle: availabilitySection?.listingTitle || "No Title Available",
             maxGuestCapacity,
             lastUpdated: singleData.results[0]?.last_updated || "Unknown",
             roomType: singleData.results[0]?.roomType || "Unknown",
@@ -281,14 +255,11 @@ function Airbnb() {
             isVerified: isVerifiedValue,
           });
         } catch (innerError) {
-          console.error(
-            `Error fetching data for Airbnb ID ${airbnbId}:`,
-            innerError.message
-          );
+          console.error(`Error fetching data for Airbnb ID ${airbnbId}:`, innerError.message);
         }
       }
 
-      // Fetch ETA for each listing to both destinations
+      // Fetch ETA for each listing to each destination
       const enrichedListings = await Promise.all(
         listingsData.map(async (listing) => {
           if (listing.lat && listing.lng) {
@@ -326,22 +297,11 @@ function Airbnb() {
                     console.warn(
                       `Failed to fetch ETA for listing ID ${listing.airbnbId} to ${destination.name}: ${etaResponse.statusText}`
                     );
-                    return {
-                      name: destination.name,
-                      distance: "N/A",
-                      duration: "N/A",
-                    };
+                    return { name: destination.name, distance: "N/A", duration: "N/A" };
                   }
                 } catch (etaError) {
-                  console.error(
-                    `Error fetching ETA for listing ID ${listing.airbnbId} to ${destination.name}:`,
-                    etaError.message
-                  );
-                  return {
-                    name: destination.name,
-                    distance: "N/A",
-                    duration: "N/A",
-                  };
+                  console.error(`Error fetching ETA for listing ID ${listing.airbnbId} to ${destination.name}:`, etaError.message);
+                  return { name: destination.name, distance: "N/A", duration: "N/A" };
                 }
               });
               const etaResults = await Promise.all(etaPromises);
@@ -350,45 +310,26 @@ function Airbnb() {
                 const keyName = `etaTo${result.name.replace(/\s+/g, "")}`;
                 etaData[keyName] = {
                   distance: result.distance,
-                  duration:
-                    result.duration !== "0 minutes" ? result.duration : "N/A",
+                  duration: result.duration !== "0 minutes" ? result.duration : "N/A",
                 };
               });
-              return {
-                ...listing,
-                ...etaData,
-              };
+              return { ...listing, ...etaData };
             } catch (etaError) {
-              console.error(
-                `Error fetching ETAs for listing ID ${listing.airbnbId}:`,
-                etaError.message
-              );
+              console.error(`Error fetching ETAs for listing ID ${listing.airbnbId}:`, etaError.message);
               const etaData = {};
               destinations.forEach((destination) => {
                 const keyName = `etaTo${destination.name.replace(/\s+/g, "")}`;
-                etaData[keyName] = {
-                  distance: "N/A",
-                  duration: "N/A",
-                };
+                etaData[keyName] = { distance: "N/A", duration: "N/A" };
               });
-              return {
-                ...listing,
-                ...etaData,
-              };
+              return { ...listing, ...etaData };
             }
           } else {
             const etaData = {};
             destinations.forEach((destination) => {
               const keyName = `etaTo${destination.name.replace(/\s+/g, "")}`;
-              etaData[keyName] = {
-                distance: "N/A",
-                duration: "N/A",
-              };
+              etaData[keyName] = { distance: "N/A", duration: "N/A" };
             });
-            return {
-              ...listing,
-              ...etaData,
-            };
+            return { ...listing, ...etaData };
           }
         })
       );
@@ -403,8 +344,8 @@ function Airbnb() {
     }
   };
 
+  // Modal handlers
   const handleOpenModal = (description, lat, lng, accordionData, images) => {
-    console.log("Opening modal with images:", images);
     setSelectedDescription(description);
     setSelectedLat(lat);
     setSelectedLng(lng);
@@ -416,7 +357,7 @@ function Airbnb() {
 
   const handleCloseModal = () => setModalOpen(false);
 
-  // Handlers for "About Host" Modal
+  // About Host modal handlers
   const handleOpenAboutHostModal = (
     aboutText,
     hostName,
@@ -439,15 +380,17 @@ function Airbnb() {
 
   const handleCloseAboutHostModal = () => setAboutHostOpen(false);
 
-  // Pagination Logic
+  // Pagination logic
   const indexOfLastListing = currentPage * listingsPerPage;
   const indexOfFirstListing = indexOfLastListing - listingsPerPage;
   const currentListings = listings.slice(indexOfFirstListing, indexOfLastListing);
 
+  // Updated Pagination: Scroll to the top of the component using window.scrollTo
   const handlePageChange = (event, value) => {
     setCurrentPage(value);
     if (topRef.current) {
-      topRef.current.scrollIntoView({ behavior: "smooth" });
+      const topOffset = topRef.current.getBoundingClientRect().top + window.pageYOffset;
+      window.scrollTo({ top: topOffset, behavior: "smooth" });
     }
   };
 
@@ -458,30 +401,27 @@ function Airbnb() {
     }
   }, [selectedImages, dotOffset]);
 
-  // Handlers for Collapse and Expand with Scroll to Top
+  // Collapse/Expand handlers with scroll to top using window.scrollTo
   const handleCollapse = () => {
     setCollapsed(true);
     if (topRef.current) {
-      topRef.current.scrollIntoView({ behavior: "smooth" });
+      const topOffset = topRef.current.getBoundingClientRect().top + window.pageYOffset;
+      window.scrollTo({ top: topOffset, behavior: "smooth" });
     }
   };
 
   const handleExpand = () => {
     setCollapsed(false);
     if (topRef.current) {
-      topRef.current.scrollIntoView({ behavior: "smooth" });
+      const topOffset = topRef.current.getBoundingClientRect().top + window.pageYOffset;
+      window.scrollTo({ top: topOffset, behavior: "smooth" });
     }
   };
 
   if (loading) {
     return (
-      <Box
-        sx={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-        }}
-      >
+          <Box sx={{ display: "flex", justifyContent: "flex-start", alignItems: "center", flexDirection: "row" }}>
+
         <Loading />
       </Box>
     );
@@ -492,7 +432,7 @@ function Airbnb() {
   }
 
   return (
-    <Box>
+    <Box ref={topRef}>
       {!dataLoaded && (
         <Button
           variant="contained"
@@ -501,16 +441,13 @@ function Airbnb() {
             mb: 4,
             backgroundColor: "#ff385c",
             color: "#fff",
-            "&:hover": {
-              backgroundColor: "#e03852",
-            },
+            "&:hover": { backgroundColor: "#e03852" },
           }}
         >
           View Airbnb Selections
         </Button>
       )}
 
-      {/* Wrap listings and pagination inside Collapse for smooth animation */}
       <Collapse in={!collapsed} timeout="auto" unmountOnExit>
         {dataLoaded && (
           <>
@@ -519,11 +456,9 @@ function Airbnb() {
                 variant="contained"
                 onClick={handleCollapse}
                 sx={{
-                  backgroundColor: "#ff385c !important",
-                  color: "#fff !important",
-                  "&:hover": {
-                    backgroundColor: "#e03852 !important",
-                  },
+                  backgroundColor: "#ff385c",
+                  color: "#fff",
+                  "&:hover": { backgroundColor: "#e03852" },
                 }}
               >
                 Hide Airbnb Listings
@@ -531,7 +466,6 @@ function Airbnb() {
             </Box>
             {currentListings.map((listing, index) => (
               <Card key={index} sx={{ mb: 4 }}>
-                {/* Thumbnail */}
                 {listing.thumbnail && (
                   <CardMedia
                     component="img"
@@ -540,14 +474,10 @@ function Airbnb() {
                     alt="Listing Thumbnail"
                   />
                 )}
-
                 <CardContent>
-                  {/* Listing Title */}
                   <Typography variant="h5" gutterBottom>
                     {listing.listingTitle}
                   </Typography>
-
-                  {/* Reordered Listing Details */}
                   <Box
                     sx={{
                       display: "flex",
@@ -557,29 +487,22 @@ function Airbnb() {
                       flexWrap: "wrap",
                     }}
                   >
-                    {/* Guests */}
                     <Box sx={{ display: "flex", alignItems: "center" }}>
                       <Tooltip title="Maximum Guests">
                         <GroupIcon fontSize="small" color="action" aria-label="Guests" />
                       </Tooltip>
                       <Typography variant="body2" color="text.secondary" sx={{ ml: 0.5 }}>
-                        {listing.maxGuestCapacity}{" "}
-                        {listing.maxGuestCapacity === "1" ? "Guest" : "Guests"}
+                        {listing.maxGuestCapacity} {listing.maxGuestCapacity === "1" ? "Guest" : "Guests"}
                       </Typography>
                     </Box>
-
-                    {/* Bedrooms */}
                     <Box sx={{ display: "flex", alignItems: "center" }}>
                       <Tooltip title="Number of Bedrooms">
                         <KingBedIcon fontSize="small" color="action" aria-label="Bedrooms" />
                       </Tooltip>
                       <Typography variant="body2" color="text.secondary" sx={{ ml: 0.5 }}>
-                        {listing.bedrooms}{" "}
-                        {listing.bedrooms === "1" ? "Bedroom" : "Bedrooms"}
+                        {listing.bedrooms} {listing.bedrooms === "1" ? "Bedroom" : "Bedrooms"}
                       </Typography>
                     </Box>
-
-                    {/* Beds */}
                     <Box sx={{ display: "flex", alignItems: "center" }}>
                       <Tooltip title="Number of Beds">
                         <BedIcon fontSize="small" color="action" aria-label="Beds" />
@@ -588,30 +511,23 @@ function Airbnb() {
                         {listing.beds} {listing.beds === "1" ? "Bed" : "Beds"}
                       </Typography>
                     </Box>
-
-                                          {/* Baths */}
-                                          <Box sx={{ display: "flex", alignItems: "center" }}>
-                        <Tooltip title="Number of Baths">
-                          <BathtubIcon fontSize="small" color="action" aria-label="Baths" />
-                        </Tooltip>
-                        <Typography variant="body2" color="text.secondary" sx={{ ml: 0.5 }}>
-                          {listing.baths} {listing.baths === "1" ? "Bath" : "Baths"}
-                        </Typography>
-                      </Box>
-
-                    {/* Room Type */}
                     <Box sx={{ display: "flex", alignItems: "center" }}>
-                    <Tooltip title="Type of Room">
-                      <MeetingRoomIcon fontSize="small" color="action" />
+                      <Tooltip title="Number of Baths">
+                        <BathtubIcon fontSize="small" color="action" aria-label="Baths" />
                       </Tooltip>
-                      <Typography variant="body2" color="text.secondary">
+                      <Typography variant="body2" color="text.secondary" sx={{ ml: 0.5 }}>
+                        {listing.baths} {listing.baths === "1" ? "Bath" : "Baths"}
+                      </Typography>
+                    </Box>
+                    <Box sx={{ display: "flex", alignItems: "center" }}>
+                      <Tooltip title="Type of Room">
+                        <MeetingRoomIcon fontSize="small" color="action" />
+                      </Tooltip>
+                      <Typography variant="body2" color="text.secondary" sx={{ ml: 0.5 }}>
                         {listing.roomType}
                       </Typography>
                     </Box>
                   </Box>
-
-
-                  {/* Host Information and ETA */}
                   <Box
                     sx={{
                       display: "flex",
@@ -622,47 +538,33 @@ function Airbnb() {
                       flexWrap: "wrap",
                     }}
                   >
-                    {/* Host Information */}
-                    <Box sx={{ display: "flex", alignItems: "center" }}>
+                    <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
                       {listing.hostProfilePicture && (
                         <Avatar
                           src={listing.hostProfilePicture}
                           alt={listing.hostName}
-                          sx={{ width: 56, height: 56, mr: 2 }}
+                          sx={{ width: 56, height: 56 }}
                         />
                       )}
                       <Box>
-                        <Typography variant="body1">{listing.hostName}</Typography>
+                        <Typography variant="body1" sx={{ fontWeight: 500 }}>
+                          {listing.hostName}
+                        </Typography>
                         <Typography variant="body2" color="text.secondary">
-                          {listing.yearsHosting}{" "}
-                          {listing.yearsHosting === "1" ? "Year" : "Years"} Hosting
+                          {listing.yearsHosting} {listing.yearsHosting === "1" ? "Year" : "Years"} Hosting
                         </Typography>
                       </Box>
                     </Box>
-
-                    {/* Review and ETA Information */}
-                    <Box
-                      sx={{
-                        display: "flex",
-                        flexDirection: "row",
-                        gap: 4,
-                        flexWrap: "wrap",
-                        alignItems: "center",
-                      }}
-                    >
-                      {/* Review Information */}
+                    <Box sx={{ display: "flex", flexDirection: "column", gap: 1 }}>
                       <Box sx={{ textAlign: "center" }}>
-                        <Typography variant="h6" component="div" color="text.primary">
+                        <Typography variant="h6" color="text.primary">
                           {listing.hostRating.toFixed(2)}
                         </Typography>
-                        <Rating value={listing.hostRating || 0} precision={0.1} readOnly />
-                        <Typography variant="body2" color="text.secondary" sx={{ mt: 0.5 }}>
-                          ({listing.hostReviews}{" "}
-                          {listing.hostReviews === "1" ? "review" : "reviews"})
+                        <Rating value={listing.hostRating || 0} precision={0.1} readOnly size="small" />
+                        <Typography variant="body2" color="text.secondary">
+                          ({listing.hostReviews} {listing.hostReviews === "1" ? "review" : "reviews"})
                         </Typography>
                       </Box>
-
-                      {/* ETA Information */}
                       <Box>
                         {destinations.map((destination, destIndex) => {
                           const etaKey = `etaTo${destination.name.replace(/\s+/g, "")}`;
@@ -670,7 +572,7 @@ function Airbnb() {
                           return (
                             <Box key={destIndex} sx={{ mb: 1 }}>
                               <Typography variant="body2" color="text.secondary">
-                                <strong>From Airbnb &#x2192; {destination.name}</strong>
+                                <strong>From Airbnb → {destination.name}</strong>
                               </Typography>
                               <Typography variant="body2" color="text.secondary">
                                 Distance: {eta.distance}
@@ -686,8 +588,6 @@ function Airbnb() {
                       </Box>
                     </Box>
                   </Box>
-
-                  {/* Action Buttons */}
                   <Box sx={{ mt: 2, display: "flex", gap: 2, flexWrap: "wrap" }}>
                     <Button
                       variant="outlined"
@@ -701,12 +601,9 @@ function Airbnb() {
                         )
                       }
                       sx={{
-                        borderColor: "#ff385c !important",
-                        color: "#ff385c !important",
-                        "&:hover": {
-                          borderColor: "#e03852 !important",
-                          backgroundColor: "rgba(255, 56, 92, 0.04) !important",
-                        },
+                        borderColor: "#ff385c",
+                        color: "#ff385c",
+                        "&:hover": { borderColor: "#e03852", backgroundColor: "rgba(255,56,92,0.04)" },
                       }}
                     >
                       View More
@@ -725,12 +622,9 @@ function Airbnb() {
                         )
                       }
                       sx={{
-                        borderColor: "#ff385c !important",
-                        color: "#ff385c !important",
-                        "&:hover": {
-                          borderColor: "#e03852 !important",
-                          backgroundColor: "rgba(255, 56, 92, 0.04)",
-                        },
+                        borderColor: "#ff385c",
+                        color: "#ff385c",
+                        "&:hover": { borderColor: "#e03852", backgroundColor: "rgba(255,56,92,0.04)" },
                       }}
                     >
                       About Host
@@ -743,11 +637,9 @@ function Airbnb() {
                       rel="noopener noreferrer"
                       aria-label={`Visit Airbnb page for ${listing.listingTitle}`}
                       sx={{
-                        backgroundColor: "#ff385c !important",
-                        color: "#fff !important",
-                        "&:hover": {
-                          backgroundColor: "#e03852 !important",
-                        },
+                        backgroundColor: "#ff385c",
+                        color: "#fff",
+                        "&:hover": { backgroundColor: "#e03852" },
                       }}
                     >
                       Visit Airbnb Page
@@ -774,11 +666,9 @@ function Airbnb() {
             variant="contained"
             onClick={handleCollapse}
             sx={{
-              backgroundColor: "#ff385c !important",
-              color: "#fff !important",
-              "&:hover": {
-                backgroundColor: "#e03852 !important",
-              },
+              backgroundColor: "#ff385c",
+              color: "#fff",
+              "&:hover": { backgroundColor: "#e03852" },
             }}
           >
             Collapse
@@ -792,11 +682,9 @@ function Airbnb() {
             variant="contained"
             onClick={handleExpand}
             sx={{
-              backgroundColor: "#ff385c !important",
-              color: "#fff !important",
-              "&:hover": {
-                backgroundColor: "#e03852 !important",
-              },
+              backgroundColor: "#ff385c",
+              color: "#fff",
+              "&:hover": { backgroundColor: "#e03852" },
             }}
           >
             View Airbnb Listings
@@ -816,107 +704,52 @@ function Airbnb() {
             top: "50%",
             left: "50%",
             transform: "translate(-50%, -50%)",
-            width: "80%",
+            width: { xs: "90%", md: "80%" },
             maxWidth: 800,
             bgcolor: "background.paper",
             boxShadow: 24,
             p: 4,
-            borderRadius: 4,
+            borderRadius: 2,
             maxHeight: "90vh",
             overflowY: "auto",
           }}
         >
-          <Box sx={{ mb: 6 }}>
+          <Box sx={{ mb: 4 }}>
             <Slider
-              dots={true}
-              infinite={true}
+              dots
+              infinite
               speed={500}
               slidesToShow={1}
               slidesToScroll={1}
-              adaptiveHeight={true}
-              autoplay={false}
-              autoplaySpeed={3000}
-              arrows={true}
+              adaptiveHeight
+              arrows
               appendDots={(dots) => {
                 const visibleDots = dots.slice(dotOffset, dotOffset + dotsPerGroup);
                 return (
-                  <div
-                    style={{
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      marginTop: "20px",
-                    }}
-                  >
+                  <Box sx={{ display: "flex", alignItems: "center", justifyContent: "center", mt: 2 }}>
                     {dotOffset > 0 && (
-                      <button
-                        style={{
-                          background: "transparent",
-                          border: "none",
-                          cursor: "pointer",
-                          marginRight: "15px",
-                          fontSize: "18px",
-                        }}
-                        onClick={() =>
-                          setDotOffset(Math.max(dotOffset - dotsPerGroup, 0))
-                        }
-                        aria-label="Previous Dots"
-                      >
+                      <Button onClick={() => setDotOffset(Math.max(dotOffset - dotsPerGroup, 0))} sx={{ minWidth: "auto", p: 0, mr: 2 }}>
                         &lt;
-                      </button>
+                      </Button>
                     )}
-                    <ul
-                      style={{
-                        display: "flex",
-                        listStyle: "none",
-                        padding: 0,
-                        margin: 0,
-                        gap: "10px",
-                      }}
-                    >
+                    <Box component="ul" sx={{ display: "flex", p: 0, m: 0, listStyle: "none", gap: 1 }}>
                       {visibleDots}
-                    </ul>
+                    </Box>
                     {dotOffset + dotsPerGroup < dots.length && (
-                      <button
-                        style={{
-                          background: "transparent",
-                          border: "none",
-                          cursor: "pointer",
-                          marginLeft: "15px",
-                          fontSize: "18px",
-                        }}
-                        onClick={() =>
-                          setDotOffset(
-                            Math.min(dotOffset + dotsPerGroup, dots.length - dotsPerGroup)
-                          )
-                        }
-                        aria-label="Next Dots"
-                      >
+                      <Button onClick={() => setDotOffset(Math.min(dotOffset + dotsPerGroup, dots.length - dotsPerGroup))} sx={{ minWidth: "auto", p: 0, ml: 2 }}>
                         &gt;
-                      </button>
+                      </Button>
                     )}
-                  </div>
+                  </Box>
                 );
               }}
-              customPaging={(i) => (
-                <button
-                  style={{
-                    width: "10px",
-                    height: "10px",
-                    borderRadius: "50%",
-                    background: "none",
-                    border: "none",
-                    padding: 0,
-                    margin: "0 5px",
-                  }}
-                ></button>
+              customPaging={() => (
+                <Box sx={{ width: 10, height: 10, borderRadius: "50%", backgroundColor: "grey.400" }} />
               )}
               beforeChange={(current, next) => {
                 const newGroup = Math.floor(next / dotsPerGroup);
                 const newOffset = newGroup * dotsPerGroup;
-                if (newOffset !== dotOffset) {
-                  setDotOffset(newOffset);
-                }
+                if (newOffset !== dotOffset) setDotOffset(newOffset);
               }}
             >
               {selectedImages.map((image, index) => (
@@ -936,29 +769,14 @@ function Airbnb() {
               ))}
             </Slider>
           </Box>
-          <Typography id="description-modal-title" variant="h5" fontWeight="bold">
+          <Typography id="description-modal-title" variant="h5" sx={{ fontWeight: 600 }}>
             Full Description
           </Typography>
-          <Typography
-            id="description-modal-content"
-            sx={{ mt: 2 }}
-            dangerouslySetInnerHTML={{ __html: selectedDescription }}
-          ></Typography>
+          <Typography id="description-modal-content" sx={{ mt: 2 }} dangerouslySetInnerHTML={{ __html: selectedDescription }} />
           {selectedLat && selectedLng && (
-            <Box sx={{ mt: 3 }}>
-              <MapContainer
-                center={[selectedLat, selectedLng]}
-                zoom={15}
-                style={{
-                  height: "300px",
-                  width: "100%",
-                  marginBottom: "20px",
-                }}
-              >
-                <TileLayer
-                  url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                  attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-                />
+            <Box sx={{ mt: 4 }}>
+              <MapContainer center={[selectedLat, selectedLng]} zoom={15} style={{ height: "300px", width: "100%", mb: 2 }}>
+                <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" attribution='&copy; OpenStreetMap contributors' />
                 <Marker position={[selectedLat, selectedLng]} icon={markerIcon}>
                   <Popup>Airbnb Location</Popup>
                 </Marker>
@@ -967,25 +785,9 @@ function Airbnb() {
                     <Popup>{destination.name}</Popup>
                   </Marker>
                 ))}
-                <Circle
-                  center={[selectedLat, selectedLng]}
-                  radius={482.8}
-                  pathOptions={{
-                    color: "blue",
-                    fillColor: "lightblue",
-                    fillOpacity: 0.5,
-                  }}
-                />
+                <Circle center={[selectedLat, selectedLng]} radius={482.8} pathOptions={{ color: "blue", fillColor: "lightblue", fillOpacity: 0.5 }} />
               </MapContainer>
-              <Typography
-                variant="body1"
-                sx={{
-                  textAlign: "center",
-                  fontStyle: "italic",
-                  fontWeight: "500",
-                  mt: 2,
-                }}
-              >
+              <Typography variant="body1" sx={{ textAlign: "center", fontStyle: "italic", mt: 2 }}>
                 The Airbnb is located within this radius. The exact address will be shared with you after your booking is confirmed.
               </Typography>
             </Box>
@@ -993,53 +795,26 @@ function Airbnb() {
           <Box sx={{ mt: 3 }}>
             <Accordion>
               <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-                <Typography variant="body1" fontWeight="bold">
-                  The Space
-                </Typography>
+                <Typography variant="body1" sx={{ fontWeight: 600 }}>The Space</Typography>
               </AccordionSummary>
               <AccordionDetails>
-                <Typography
-                  variant="body2"
-                  dangerouslySetInnerHTML={{
-                    __html:
-                      selectedAccordionData?.theSpace ||
-                      "Details about the space are not available.",
-                  }}
-                ></Typography>
+                <Typography variant="body2" dangerouslySetInnerHTML={{ __html: selectedAccordionData?.theSpace || "Details about the space are not available." }} />
               </AccordionDetails>
             </Accordion>
-            <Accordion>
+            <Accordion sx={{ mt: 1 }}>
               <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-                <Typography variant="body1" fontWeight="bold">
-                  Other Things to Note
-                </Typography>
+                <Typography variant="body1" sx={{ fontWeight: 600 }}>Other Things to Note</Typography>
               </AccordionSummary>
               <AccordionDetails>
-                <Typography
-                  variant="body2"
-                  dangerouslySetInnerHTML={{
-                    __html:
-                      selectedAccordionData?.otherThings ||
-                      "Details about other things to note are not available.",
-                  }}
-                ></Typography>
+                <Typography variant="body2" dangerouslySetInnerHTML={{ __html: selectedAccordionData?.otherThings || "Details about other things to note are not available." }} />
               </AccordionDetails>
             </Accordion>
           </Box>
-          <Button
-            variant="contained"
-            onClick={handleCloseModal}
-            sx={{
-              backgroundColor: "#ff385c !important",
-              color: "#fff !important",
-              "&:hover": {
-                backgroundColor: "#e03852 !important",
-              },
-              mt: 3,
-            }}
-          >
-            Close & Return
-          </Button>
+          <Box sx={{ mt: 3, display: "flex", justifyContent: "center" }}>
+            <Button variant="contained" onClick={handleCloseModal} sx={{ backgroundColor: "#ff385c", color: "#fff", "&:hover": { backgroundColor: "#e03852" } }}>
+              Close & Return
+            </Button>
+          </Box>
         </Box>
       </Modal>
 
@@ -1055,26 +830,22 @@ function Airbnb() {
             top: "50%",
             left: "50%",
             transform: "translate(-50%, -50%)",
-            width: "60%",
+            width: { xs: "90%", md: "60%" },
             maxWidth: 600,
             bgcolor: "background.paper",
             boxShadow: 24,
             p: 4,
-            borderRadius: 4,
+            borderRadius: 2,
             maxHeight: "80vh",
             overflowY: "auto",
           }}
         >
           <Box sx={{ display: "flex", alignItems: "center", mb: 3 }}>
             {selectedHostProfilePicture && (
-              <Avatar
-                src={selectedHostProfilePicture}
-                alt={selectedHostName}
-                sx={{ width: 80, height: 80, mr: 2 }}
-              />
+              <Avatar src={selectedHostProfilePicture} alt={selectedHostName} sx={{ width: 80, height: 80, mr: 2 }} />
             )}
             <Box>
-              <Typography variant="h6">{selectedHostName}</Typography>
+              <Typography variant="h6" sx={{ fontWeight: 600 }}>{selectedHostName}</Typography>
               <Typography variant="body2" color="text.secondary">
                 {hostYearsHosting()} {hostYearsHosting() === 1 ? "Year" : "Years"} Hosting
               </Typography>
@@ -1085,9 +856,7 @@ function Airbnb() {
               <Tooltip title="Superhost">
                 <Box sx={{ display: "flex", alignItems: "center" }}>
                   <StarIcon sx={{ color: "gold", mr: 0.5 }} />
-                  <Typography variant="body2" color="text.secondary">
-                    Superhost
-                  </Typography>
+                  <Typography variant="body2" color="text.secondary">Superhost</Typography>
                 </Box>
               </Tooltip>
             )}
@@ -1095,14 +864,22 @@ function Airbnb() {
               <Tooltip title="Verified Host">
                 <Box sx={{ display: "flex", alignItems: "center" }}>
                   <VerifiedUserIcon sx={{ color: "blue", mr: 0.5 }} />
-                  <Typography variant="body2" color="text.secondary">
-                    Verified
-                  </Typography>
+                  <Typography variant="body2" color="text.secondary">Verified</Typography>
                 </Box>
               </Tooltip>
             )}
           </Box>
-          <Box sx={{ display: "flex", alignItems: "center", gap: 1, mb: 2 }}>
+          <Box
+  sx={{
+    textAlign: "center",
+    display: "flex",
+    flexDirection: "column",
+    flexWrap: "wrap",
+    alignItems: "center",
+    alignContent: "flex-start",
+  }}
+>
+
             <Rating value={hostRatingHost} precision={0.1} readOnly />
             <Typography variant="body2" color="text.secondary">
               {hostRatingHost.toFixed(2)} ({hostReviewsHost} reviews)
@@ -1116,29 +893,18 @@ function Airbnb() {
               No additional information about the host is available at this time.
             </Typography>
           )}
-          <Button
-            variant="contained"
-            onClick={handleCloseAboutHostModal}
-            sx={{
-              backgroundColor: "#ff385c !important",
-              color: "#fff !important",
-              "&:hover": {
-                backgroundColor: "#e03852 !important",
-              },
-              mt: 3,
-            }}
-          >
-            Close & Return
-          </Button>
+          <Box sx={{ mt: 3, display: "flex", justifyContent: "center" }}>
+            <Button variant="contained" onClick={handleCloseAboutHostModal} sx={{ backgroundColor: "#ff385c", color: "#fff", "&:hover": { backgroundColor: "#e03852" } }}>
+              Close & Return
+            </Button>
+          </Box>
         </Box>
       </Modal>
     </Box>
   );
 
   function listingYearsHosting() {
-    const selectedListing = listings.find(
-      (listing) => listing.hostName === selectedHostName
-    );
+    const selectedListing = listings.find((listing) => listing.hostName === selectedHostName);
     return selectedListing ? selectedListing.yearsHosting : "0";
   }
 
