@@ -556,7 +556,17 @@ function Airbnb() {
                       </Box>
                     </Box>
                     <Box sx={{ display: "flex", flexDirection: "column", gap: 1 }}>
-                      <Box sx={{ textAlign: "center" }}>
+                    <Box
+  sx={{
+    textAlign: "center",
+    display: "flex",
+    flexDirection: "column",
+    flexWrap: "wrap",
+    alignItems: "center",
+    alignContent: "flex-start",
+  }}
+>
+
                         <Typography variant="h6" color="text.primary">
                           {listing.hostRating.toFixed(2)}
                         </Typography>
@@ -869,17 +879,7 @@ function Airbnb() {
               </Tooltip>
             )}
           </Box>
-          <Box
-  sx={{
-    textAlign: "center",
-    display: "flex",
-    flexDirection: "column",
-    flexWrap: "wrap",
-    alignItems: "center",
-    alignContent: "flex-start",
-  }}
->
-
+          <Box sx={{ display: "flex", alignItems: "center", gap: 1, mb: 2 }}>
             <Rating value={hostRatingHost} precision={0.1} readOnly />
             <Typography variant="body2" color="text.secondary">
               {hostRatingHost.toFixed(2)} ({hostReviewsHost} reviews)
