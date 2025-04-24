@@ -40,7 +40,7 @@ function App() {
   const fetchRSVPData = useCallback(
     async (token) => {
       try {
-        const response = await fetch("/rsvp", {
+        const response = await fetch("/api/rsvp", {
           method: "GET",
           headers: {
             Authorization: `Bearer ${token}`,
