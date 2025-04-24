@@ -38,7 +38,7 @@ const ButtomNavBar = () => {
   // Fetch RSVP data to determine if user has RSVP
   useEffect(() => {
     const token = localStorage.getItem("token");
-    fetch("/rsvp", {
+    fetch("/api/rsvp", {
       method: "GET",
       headers: { Authorization: `Bearer ${token}` },
     })

@@ -12,7 +12,7 @@ const RSVPPage = () => {
   const fetchRSVPData = async () => {
     const token = localStorage.getItem("token");
     try {
-      const response = await fetch("/rsvp", {
+      const response = await fetch("/api/rsvp", {
         method: "GET",
         headers: { Authorization: `Bearer ${token}` },
       });

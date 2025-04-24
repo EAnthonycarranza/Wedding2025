@@ -54,7 +54,7 @@ export default function Navbar({ familyName, onLogout }) {
     const fetchRSVP = async () => {
       const token = localStorage.getItem('token');
       try {
-        const res = await fetch('/rsvp', {
+        const res = await fetch('/api/rsvp', {
           method: 'GET',
           headers: { Authorization: `Bearer ${token}` },
         });
