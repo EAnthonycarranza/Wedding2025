@@ -833,7 +833,7 @@ app.get("/check-auth", verifyJWT, (req, res) => {
 // -------------------------------------------------------------------------------------
 
 // 1. Get RSVP Data for a Family (MongoDB)
-app.get("/rsvp", verifyJWT, async (req, res) => {
+app.get("/api/rsvp", verifyJWT, async (req, res) => {
   if (req.familyName === "Guest") {
     return res.status(403).json({ message: "Guest account is not allowed to RSVP." });
   }
@@ -858,7 +858,7 @@ app.get("/rsvp", verifyJWT, async (req, res) => {
 });
 
 // 2. Update RSVP Data (PUT)
-app.put("/rsvp", verifyJWT, async (req, res) => {
+app.put("/api/rsvp", verifyJWT, async (req, res) => {
   if (req.familyName === "Guest") {
     return res.status(403).json({ message: "Guest account is not allowed to RSVP." });
   }
@@ -954,7 +954,7 @@ app.put("/rsvp", verifyJWT, async (req, res) => {
 });
 
 // DELETE route to remove a family member
-app.delete("/rsvp", verifyJWT, async (req, res) => {
+app.delete("/api/rsvp", verifyJWT, async (req, res) => {
   if (req.familyName === "Guest") {
     return res.status(403).json({ message: "Guest account is not allowed to RSVP." });
   }
