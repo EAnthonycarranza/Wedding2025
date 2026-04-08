@@ -1,14 +1,3 @@
-@font-face {
-  font-family: 'icomoon';
-  src: url("../public/fonts/icomoon.eot");
-  src: url("../public/icomoon/fonts/icomoon.eot?#iefix") format("embedded-opentype"),
-       url("../public/icomoon/fonts/icomoon.ttf") format("truetype"),
-       url("../public/icomoon/fonts/icomoon.woff") format("woff"),
-       url("../public/icomoon/fonts/icomoon.svg#icomoon") format("svg");
-  font-weight: normal;
-  font-style: normal;
-}
-
 .App-header {
   background-color: #282c34;
   min-height: 100vh;
@@ -1005,23 +994,24 @@ form label {
 
 /* Default Background Image Styling */
 #fh5co-header {
-  background-position: center top;
-  background-size: cover;
-  background-repeat: no-repeat;
   min-height: 100vh; /* Ensure section has height */
+}
+
+.header-bg {
+  background-image: url("https://storage.googleapis.com/carranzawedding/Untitled%20design%20(91).png") !important;
+  background-size: cover !important;
+  background-repeat: no-repeat !important;
 }
 
 /* Move background image to the left for smaller screens */
 @media screen and (max-width: 768px) {
   #fh5co-header {
-    background-position: 40% top; /* Moves image left */
   }
 }
 
 /* Move it even further left for extra small screens */
 @media screen and (max-width: 480px) {
   #fh5co-header {
-    background-position: 50% top ; /* Moves image more left */
   }
 }
 
