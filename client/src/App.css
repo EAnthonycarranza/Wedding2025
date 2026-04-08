@@ -1001,6 +1001,10 @@ form label {
   background-image: url("https://storage.googleapis.com/carranzawedding/Untitled%20design%20(91).png") !important;
   background-size: cover !important;
   background-repeat: no-repeat !important;
+  background-position: center center !important;
+  height: 900px !important;
+  min-height: 100vh !important;
+  display: block !important;
 }
 
 /* Move background image to the left for smaller screens */
