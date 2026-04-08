@@ -48,7 +48,9 @@ app.use(helmet({
         "'unsafe-inline'",
         "https://stackpath.bootstrapcdn.com",
         "https://maps.googleapis.com",
-        "https://www.myregistry.com"
+        "https://www.myregistry.com",
+        "https://code.jquery.com",
+        "https://accounts.google.com"
       ],
       imgSrc: [
         "'self'",
@@ -66,18 +68,22 @@ app.use(helmet({
         "'self'",
         "https://router.project-osrm.org",
         "https://www.myregistry.com",
-        "https://storage.googleapis.com"
+        "https://storage.googleapis.com",
+        "https://stackpath.bootstrapcdn.com",
+        "https://accounts.google.com"
       ],
       fontSrc: [
         "'self'",
         "https://fonts.googleapis.com",
-        "https://fonts.gstatic.com"
+        "https://fonts.gstatic.com",
+        "data:"
       ],
       mediaSrc: ["'self'"],
       objectSrc: ["'none'"],
       frameSrc: [
         "'self'",
-        "https://www.myregistry.com"   // ← allow MyRegistry iFrame
+        "https://www.myregistry.com",
+        "https://accounts.google.com"
       ],
       frameAncestors: ["'self'", "https://www.myregistry.com"]
 

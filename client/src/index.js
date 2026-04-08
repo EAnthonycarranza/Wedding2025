@@ -15,7 +15,7 @@ root.render(
   <React.StrictMode>
     {/* Wrap the Router in GoogleOAuthProvider */}
     <GoogleOAuthProvider clientId={GOOGLE_CLIENT_ID}>
-      <Router>
+      <Router future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
         <App />
       </Router>
     </GoogleOAuthProvider>
