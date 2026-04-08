@@ -48,13 +48,14 @@ const About = () => {
   role="banner"
   style={{
     position: "relative",
-    backgroundImage: `url(https://storage.googleapis.com/galleryimageswedding/7.jpg)`,
+    backgroundImage: `url("https://storage.googleapis.com/carranzawedding/Untitled%20design%20(92).png")`,
     backgroundSize: "cover",
     backgroundPosition: "center top",
-    backgroundPositionY: "20%", // Moves it slightly downward
+    backgroundRepeat: "no-repeat",
     height: "100vh",
+    display: "block",
+    width: "100%",
   }}
-  data-stellar-background-ratio="0.5"
 >
   <style>
     {`
