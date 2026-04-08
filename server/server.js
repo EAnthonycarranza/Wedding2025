@@ -62,7 +62,8 @@ app.use(helmet({
         "https://*.tile.openstreetmap.org",
         "https://a0.muscache.com",
         "https://unpkg.com",
-        "https://cdn-icons-png.flaticon.com"
+        "https://cdn-icons-png.flaticon.com",
+        "https://theclubatgardenridge.com"
       ],
       connectSrc: [
         "'self'",

@@ -2,13 +2,34 @@ import React from "react";
 
 const CoupleInfo = () => {
   return (
-    <div id="fh5co-couple" className="fh5co-section-gray">
-      <div className="container">
+    <div 
+      id="fh5co-couple" 
+      className="fh5co-section-gray"
+      style={{
+        backgroundImage: `url("https://theclubatgardenridge.com/wp-content/uploads/2023/01/garden_ridge_watercolor_map.webp")`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        backgroundRepeat: "no-repeat",
+        position: "relative"
+      }}
+    >
+      <div 
+        style={{
+          position: "absolute",
+          top: 0,
+          left: 0,
+          width: "100%",
+          height: "100%",
+          backgroundColor: "rgba(255, 255, 255, 0.7)", // Light overlay to keep text readable
+          zIndex: 1
+        }}
+      ></div>
+      <div className="container" style={{ position: "relative", zIndex: 2 }}>
         <div className="row justify-content-center">
           <div className="col-md-8 col-md-offset-2 text-center fh5co-heading animate-box">
-            <h2>Welcome!</h2>
-            <h3>June 28th, 2025</h3>
-            <p>We invited you to celebrate our wedding!</p>
+            <h2 style={{ color: "#323232" }}>Welcome!</h2>
+            <h3 style={{ color: "#323232" }}>June 28th, 2025</h3>
+            <p style={{ color: "#323232" }}>We invited you to celebrate our wedding!</p>
           </div>
         </div>
 
