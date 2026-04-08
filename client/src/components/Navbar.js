@@ -14,14 +14,12 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
 import './Navbar.css';
 
-export default function Navbar({ familyName, onLogout }) {
+export default function Navbar({ familyName, onLogout, hasRSVPData }) {
   const [menuAnchorEl, setMenuAnchorEl] = useState(null);
   const [accountAnchorEl, setAccountAnchorEl] = useState(null);
   const [showNavbar, setShowNavbar] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(window.pageYOffset);
   const [pulse, setPulse] = useState(false);
-  const [hasRSVPData, setHasRSVPData] = useState(false);
-  const [rsvpLoading, setRsvpLoading] = useState(true);
 
   const navigate = useNavigate();
   const theme = useTheme();
@@ -48,28 +46,6 @@ export default function Navbar({ familyName, onLogout }) {
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, [lastScrollY]);
-
-  // Fetch RSVP data to determine if link should appear
-  useEffect(() => {
-    const fetchRSVP = async () => {
-      const token = localStorage.getItem('token');
-      try {
-        const res = await fetch('/api/rsvp', {
-          method: 'GET',
-          headers: { Authorization: `Bearer ${token}` },
-        });
-        const data = await res.json();
-        if (res.ok && data.mongoData?.familyMembers?.length > 0) {
-          setHasRSVPData(true);
-        }
-      } catch (err) {
-        console.error('RSVP fetch error:', err);
-      } finally {
-        setRsvpLoading(false);
-      }
-    };
-    fetchRSVP();
-  }, []);
 
   const handleMenuClick = (e) => setMenuAnchorEl(e.currentTarget);
   const handleMenuClose = () => setMenuAnchorEl(null);

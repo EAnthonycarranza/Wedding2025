@@ -39,6 +39,7 @@ function App() {
   // Fetch RSVP data and set hasRSVP flag
   const fetchRSVPData = useCallback(
     async (token) => {
+      if (!token) return;
       try {
         const response = await fetch("/api/rsvp", {
           method: "GET",
@@ -47,32 +48,25 @@ function App() {
           },
         });
 
-        if (!response.ok) {
-          throw new Error("Failed to fetch RSVP data");
-        }
-
-        const data = await response.json();
-        if (data.mongoData) {
-          setHasRSVP(true);
-        } else {
-          setHasRSVP(false);
-          // Redirect users without RSVP back to home
-          navigate("/home", { replace: true });
+        if (response.ok) {
+          const data = await response.json();
+          if (data.mongoData && data.mongoData.familyMembers?.length > 0) {
+            setHasRSVP(true);
+          } else {
+            setHasRSVP(false);
+          }
         }
       } catch (error) {
         console.error("Error fetching RSVP data:", error);
       }
     },
-    [navigate]
+    []
   );
 
   const checkAuth = useCallback(async () => {
     const token = localStorage.getItem("token");
     if (!token) {
       setIsAuthenticated(false);
-      if (location.pathname !== "/") {
-        setTokenExpired(true);
-      }
       return;
     }
 
@@ -84,21 +78,22 @@ function App() {
         },
       });
 
-      if (!response.ok) {
-        throw new Error("Authentication check failed");
+      if (response.ok) {
+        const data = await response.json();
+        setIsAuthenticated(true);
+        setFamilyName(data.familyName);
+        setFamilyCount(data.familyCount);
+        setTokenExpired(false);
+        fetchRSVPData(token);
+      } else {
+        throw new Error("Auth failed");
       }
-
-      const data = await response.json();
-      setIsAuthenticated(true);
-      setFamilyName(data.familyName);
-      setFamilyCount(data.familyCount);
-      setTokenExpired(false);
-
-      await fetchRSVPData(token);
     } catch (error) {
       console.error("Auth check error:", error);
       setIsAuthenticated(false);
-      setTokenExpired(true);
+      if (location.pathname !== "/") {
+        setTokenExpired(true);
+      }
     }
   }, [fetchRSVPData, location.pathname]);
 
@@ -117,7 +112,7 @@ function App() {
         setTokenExpired(false);
 
         navigate("/home", { replace: true });
-        await fetchRSVPData(jwtToken);
+        fetchRSVPData(jwtToken);
       } catch (error) {
         console.error("Token auth error:", error);
         setIsAuthenticated(false);
@@ -127,6 +122,7 @@ function App() {
     [fetchRSVPData, navigate]
   );
 
+  // Initial load and URL token check
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
     const tokenFromUrl = urlParams.get("token");
@@ -136,11 +132,16 @@ function App() {
     } else {
       checkAuth();
     }
-  }, [authenticateWithToken, checkAuth]);
+    // Only run on mount
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
+  // Route protection - run when location changes but don't re-check if already authenticated
   useEffect(() => {
-    checkAuth();
-  }, [location, checkAuth]);
+    if (!isAuthenticated && location.pathname !== "/") {
+      checkAuth();
+    }
+  }, [location.pathname, isAuthenticated, checkAuth]);
 
   const handleLogout = async () => {
     const token = localStorage.getItem("token");
@@ -162,7 +163,7 @@ function App() {
     }
     localStorage.removeItem("token");
     setIsAuthenticated(false);
-    window.location.reload();
+    navigate("/");
   };
 
   return (
@@ -173,8 +174,9 @@ function App() {
             familyName={familyName}
             isAuthenticated={isAuthenticated}
             onLogout={handleLogout}
+            hasRSVPData={hasRSVP}
           />
-          <ButtomNavBar />
+          <ButtomNavBar hasRSVP={hasRSVP} />
         </>
       )}
 

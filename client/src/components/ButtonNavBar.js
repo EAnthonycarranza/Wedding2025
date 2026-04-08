@@ -24,7 +24,7 @@ const menuItems = [
   { label: "Travel", path: "/tour", icon: <ExploreIcon /> },
 ];
 
-const ButtomNavBar = () => {
+const ButtomNavBar = ({ hasRSVP }) => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   const navigate = useNavigate();
@@ -32,23 +32,6 @@ const ButtomNavBar = () => {
   const [open, setOpen] = useState(false);
   const [rotation, setRotation] = useState(0);
   const [jiggle, setJiggle] = useState(false);
-  const [hasRSVP, setHasRSVP] = useState(false);
-  const [loading, setLoading] = useState(true);
-
-  // Fetch RSVP data to determine if user has RSVP
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-    fetch("/api/rsvp", {
-      method: "GET",
-      headers: { Authorization: `Bearer ${token}` },
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        setHasRSVP(Boolean(data.mongoData && data.mongoData.familyMembers?.length));
-      })
-      .catch((err) => console.error("Error fetching RSVP status:", err))
-      .finally(() => setLoading(false));
-  }, []);
 
   // Filter out RSVP if user has no data
   const items = useMemo(
@@ -118,7 +101,7 @@ const ButtomNavBar = () => {
     };
   }, [open]);
 
-  if (!isMobile || loading) return null;
+  if (!isMobile) return null;
 
   return (
     <div ref={containerRef} className="buttom-nav-container" {...bind()}>
