@@ -13,6 +13,7 @@ const helmet = require("helmet");
 const rateLimit = require("express-rate-limit");
 const axios = require("axios");
 const app = express();
+app.set("trust proxy", 1); // Trust the first proxy (useful for Heroku/local dev)
 const fetch = require("node-fetch"); // Ensure node-fetch@2 is installed
 const pRetry = require("p-retry");   // Ensure p-retry@4 is installed
 const pLimit = require("p-limit");   // For concurrency control
@@ -100,30 +101,40 @@ app.use(express.json());
 
 const JWT_SECRET = process.env.JWT_SECRET || "your_secret_key";
 const MONGO_URI = process.env.MONGO_URI || "mongodb://localhost:27017/weddingDB";
-const SHEET_ID = process.env.GOOGLE_SPREADSHEET_ID;
-const GOOGLE_PRIVATE_KEY = process.env.GOOGLE_PRIVATE_KEY.replace(/\\n/g, "\n");
-const GOOGLE_SERVICE_ACCOUNT_EMAIL = process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL;
-const GCLOUD_BUCKET_NAME = process.env.GCLOUD_BUCKET_NAME;
+const SHEET_ID = process.env.GOOGLE_SPREADSHEET_ID || "";
+const GOOGLE_PRIVATE_KEY = (process.env.GOOGLE_PRIVATE_KEY || "").replace(/\\n/g, "\n");
+const GOOGLE_SERVICE_ACCOUNT_EMAIL = process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL || "";
+const GCLOUD_BUCKET_NAME = process.env.GCLOUD_BUCKET_NAME || "";
 
 // Google Sheets API Setup using Service Account
-const sheetsAuth = new google.auth.GoogleAuth({
-  credentials: {
-    client_email: GOOGLE_SERVICE_ACCOUNT_EMAIL,
-    private_key: GOOGLE_PRIVATE_KEY,
-  },
-  scopes: ["https://www.googleapis.com/auth/spreadsheets"],
-});
-const sheets = google.sheets({ version: "v4", auth: sheetsAuth });
+let sheets;
+if (GOOGLE_SERVICE_ACCOUNT_EMAIL && GOOGLE_PRIVATE_KEY) {
+  const sheetsAuth = new google.auth.GoogleAuth({
+    credentials: {
+      client_email: GOOGLE_SERVICE_ACCOUNT_EMAIL,
+      private_key: GOOGLE_PRIVATE_KEY,
+    },
+    scopes: ["https://www.googleapis.com/auth/spreadsheets"],
+  });
+  sheets = google.sheets({ version: "v4", auth: sheetsAuth });
+} else {
+  console.warn("⚠️ Google Sheets credentials missing. RSVP syncing to sheets will be disabled.");
+}
 
 // Google Cloud Storage
-const storage = new Storage({
-  credentials: {
-    client_email: GOOGLE_SERVICE_ACCOUNT_EMAIL,
-    private_key: GOOGLE_PRIVATE_KEY,
-  },
-  projectId: process.env.GOOGLE_CLOUD_PROJECT,
-});
-const bucket = storage.bucket(GCLOUD_BUCKET_NAME);
+let storage, bucket;
+if (GOOGLE_SERVICE_ACCOUNT_EMAIL && GOOGLE_PRIVATE_KEY && GCLOUD_BUCKET_NAME) {
+  storage = new Storage({
+    credentials: {
+      client_email: GOOGLE_SERVICE_ACCOUNT_EMAIL,
+      private_key: GOOGLE_PRIVATE_KEY,
+    },
+    projectId: process.env.GOOGLE_CLOUD_PROJECT,
+  });
+  bucket = storage.bucket(GCLOUD_BUCKET_NAME);
+} else {
+  console.warn("⚠️ Google Cloud Storage credentials or bucket name missing. File uploads will be disabled.");
+}
 
 let rsvpCollection;
 
@@ -135,9 +146,9 @@ async function connectMongoDB() {
     });
     const database = client.db("weddingDB");
     rsvpCollection = database.collection("rsvps");
-    console.log("Connected to MongoDB and RSVP Collection initialized");
+    console.log("✅ Connected to MongoDB (MongoClient) successfully!");
   } catch (err) {
-    console.error("Error connecting to MongoDB", err);
+    console.error("❌ Error connecting to MongoDB (MongoClient):", err.message);
   }
 }
 connectMongoDB();
@@ -146,7 +157,7 @@ connectMongoDB();
 // MongoDB Connection
 // -------------------------------------------------------------------------------------
 
-mongoose.connect(process.env.MONGO_URI, {
+mongoose.connect(MONGO_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 })
@@ -799,6 +810,7 @@ app.use("/authenticate", authLimiter);
 // User authentication with JWT issuance
 app.post("/authenticate", (req, res) => {
   const { password, token } = req.body;
+  console.log("Auth attempt - password:", password, "token:", token);
   let familyEntry;
   if (password) {
     familyEntry = families.find((family) => family.password === password);
@@ -809,12 +821,14 @@ app.post("/authenticate", (req, res) => {
   }
 
   if (familyEntry) {
+    console.log("Auth success for family:", familyEntry.familyName);
     const { familyName, familyCount } = familyEntry;
     const jwtToken = jwt.sign({ familyName, familyCount }, JWT_SECRET, {
       expiresIn: "1h",
     });
     res.status(200).json({ success: true, token: jwtToken, familyName, familyCount });
   } else {
+    console.log("Auth failed - no matching family entry found");
     res.status(401).json({ success: false, message: "Invalid credentials" });
   }
 });
@@ -1122,7 +1136,14 @@ app.get("/get-cloud-images", async (req, res) => {
 
 // Handle React routing (must be last)
 app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "../client/build", "index.html"));
+  const buildPath = path.join(__dirname, "../client/build", "index.html");
+  if (require("fs").existsSync(buildPath)) {
+    res.sendFile(buildPath);
+  } else {
+    res.status(404).json({
+      message: "React build not found. If you are developing locally, please use port 3000.",
+    });
+  }
 });
 
 const PORT = process.env.PORT || 3001;
