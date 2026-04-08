@@ -26,7 +26,7 @@ const Header = () => {
       className="fh5co-cover header-bg"
       role="banner"
       style={{
-        backgroundImage: `url(https://storage.googleapis.com/galleryimageswedding/20-1.jpg)`,
+        backgroundImage: `url(https://storage.googleapis.com/carranzawedding/Untitled%20design%20(91).png)`,
         backgroundSize: "cover",
         backgroundPosition: backgroundPosition, // Responsive background position
         position: "relative",
