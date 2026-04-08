@@ -23,13 +23,19 @@ const Header = () => {
   return (
     <header
       id="fh5co-header"
-      className="fh5co-cover header-bg"
+      className="fh5co-cover"
       role="banner"
       style={{
-        backgroundPosition: backgroundPosition, // Responsive background position
+        backgroundImage: `url("https://storage.googleapis.com/carranzawedding/Untitled%20design%20(91).png")`,
+        backgroundSize: "cover",
+        backgroundPosition: backgroundPosition,
+        backgroundRepeat: "no-repeat",
         position: "relative",
+        height: "900px",
+        minHeight: "100vh",
+        display: "block",
+        width: "100%",
       }}
-      data-stellar-background-ratio="0.5"
     >
       <div
         className="overlay"
