@@ -204,10 +204,13 @@ const Welcomepg = ({ setIsAuthenticated, setFamilyName }) => {
                   padding: 12px 20px !important;
                   border-radius: 25px !important;
                   cursor: pointer !important;
-                  fontWeight: bold !important;
+                  font-weight: bold !important;
                   width: 100% !important;
                   font-size: 16px !important;
                   transition: all 0.3s ease !important;
+                  font-family: 'Helvetica', 'Arial', sans-serif !important;
+                  text-transform: uppercase !important;
+                  letter-spacing: 1px !important;
                 }
                 .demo-btn-animated:hover {
                   background-color: #d13d7f !important;
