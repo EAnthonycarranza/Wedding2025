@@ -34,9 +34,8 @@ import "leaflet-fullscreen";
 import "./Tourist.css";
 import placesData from "./places.json";
 import RoutingControl from "./RoutingControl";
-import Airbnb from "./Airbnb"; // Your existing Airbnb component
+import Airbnb from "./Airbnb";
 import Hotel from "./Hotel";
-import bgImage from "../img/TravelImg.jpg"; // Background image
 
 // Fix for default Marker icons
 delete L.Icon.Default.prototype._getIconUrl;
@@ -49,7 +48,6 @@ L.Icon.Default.mergeOptions({
 // Helper functions
 function formatDuration(duration) {
   if (!duration) return "";
-  // Remove "0 hours" if present so that only minutes are visible
   return duration.replace(/^0 hours\s*/i, "").trim();
 }
 
@@ -97,9 +95,8 @@ function displayCategory(typeKey) {
   }
 }
 
-// Calculate distance between two coordinates in kilometers using the Haversine formula
 function calculateDistance(lat1, lon1, lat2, lon2) {
-  const R = 6371; // Earth's radius in km
+  const R = 6371; 
   const dLat = (lat2 - lat1) * (Math.PI / 180);
   const dLon = (lon2 - lon1) * (Math.PI / 180);
   const a =
@@ -112,9 +109,6 @@ function calculateDistance(lat1, lon1, lat2, lon2) {
   return R * c;
 }
 
-/**
- * FullscreenControl component - adds the Leaflet fullscreen control
- */
 const FullscreenControl = () => {
   const map = useMap();
   useEffect(() => {
@@ -128,9 +122,6 @@ const FullscreenControl = () => {
   return null;
 };
 
-/**
- * MapCenterChanger component - pans the map when a location is selected
- */
 const MapCenterChanger = ({ center, zoom }) => {
   const map = useMap();
   useEffect(() => {
@@ -142,55 +133,43 @@ const MapCenterChanger = ({ center, zoom }) => {
 };
 
 const Tourist = () => {
-  // States
   const [filter, setFilter] = useState("all");
   const [sortOrder, setSortOrder] = useState("closest");
   const [searchQuery, setSearchQuery] = useState("");
   const [userLocation, setUserLocation] = useState(null);
   const [selectedPlace, setSelectedPlace] = useState(null);
   const [etaData, setEtaData] = useState({});
-  const [airbnbListings, setAirbnbListings] = useState([]);
   const [page, setPage] = useState(1);
   const itemsPerPage = 10;
   const [modalPlace, setModalPlace] = useState(null);
   const [openModal, setOpenModal] = useState(false);
-  // New state for expand/collapse of the Locations List; initially collapsed.
   const [listExpanded, setListExpanded] = useState(false);
 
-  // Ref for Locations List to enable scrolling to it
   const listRef = useRef(null);
-
-  // Default map center
   const center = { lat: 29.553690332030882, lng: -98.37144804803549 };
 
-  // Convert placesData from old categories to new 5 categories
   const updatedPlaces = placesData.map((p) => ({
     ...p,
     type: mapOldCategoryToNew(p.type),
   }));
 
-  // Filter by category first
   const filteredPlaces =
     filter === "all"
       ? updatedPlaces
       : updatedPlaces.filter((place) => place.type === filter);
 
-  // Autocomplete search uses the filtered list
   const searchOptions = filteredPlaces;
 
-  // For the Locations List, further filter by search query (if any)
   const searchedLocations = searchQuery
     ? searchOptions.filter((place) =>
         place.name.toLowerCase().includes(searchQuery.toLowerCase())
       )
     : searchOptions;
 
-  // Clear selected place if filter changes
   useEffect(() => {
     setSelectedPlace(null);
   }, [filter]);
 
-  // Get user's geolocation
   useEffect(() => {
     navigator.geolocation.getCurrentPosition(
       (pos) => {
@@ -200,45 +179,13 @@ const Tourist = () => {
     );
   }, []);
 
-  // Mock Airbnb listings for Demo Mode
-  useEffect(() => {
-    const demoAirbnbs = [
-      {
-        id: "demo-1",
-        name: "Elegant Historic Home near Riverwalk",
-        latitude: 29.4241,
-        longitude: -98.4936,
-        beds: 3,
-        baths: 2,
-        price: "$150",
-        image: "https://a0.muscache.com/im/pictures/miso/hosting-46699110/original/99a67460-b72c-4dc3-bcaf-50d424d057ff.jpeg",
-        url: "https://airbnb.com"
-      },
-      {
-        id: "demo-2",
-        name: "Modern Loft with Skyline Views",
-        latitude: 29.4150,
-        longitude: -98.4850,
-        beds: 2,
-        baths: 1,
-        price: "$120",
-        image: "https://a0.muscache.com/im/pictures/5027a548-ba99-4aac-ad2d-ee5e8f2ad58e.jpg",
-        url: "https://airbnb.com"
-      }
-    ];
-    setAirbnbListings(demoAirbnbs);
-  }, []);
-
-  // Recompute ETAs whenever userLocation or filter changes
   useEffect(() => {
     if (!userLocation) return;
     filteredPlaces.forEach((place) => fetchETA(place));
   }, [userLocation, filter]);
 
-  // Fetch ETA from server (Mocked)
   const fetchETA = async (destination) => {
     if (!userLocation) return;
-    // Simulate API call with mock data
     setTimeout(() => {
       const dist = (calculateDistance(userLocation.lat, userLocation.lng, destination.lat, destination.lon) * 0.621371).toFixed(2);
       const dur = Math.round(dist * 2) + " minutes";
@@ -249,12 +196,10 @@ const Tourist = () => {
     }, 500);
   };
 
-  // Handle marker click or search selection
   const handleSelectPlace = (place) => {
     setSelectedPlace(place);
   };
 
-  // Pagination logic
   const totalPages = Math.ceil(searchedLocations.length / itemsPerPage);
   const sortedLocations = userLocation
     ? [...searchedLocations].sort((a, b) => {
@@ -277,57 +222,57 @@ const Tourist = () => {
 
   return (
     <div>
-      {/* Header Section */}
-      <div
-        style={{
-          height: "900px",
-          backgroundImage: `url(${bgImage})`,
-          backgroundSize: "cover",
-          backgroundPosition: "center",
+      {/* Header Section without image */}
+      <Box
+        sx={{
+          height: "400px",
+          background: "linear-gradient(135deg, #6a11cb 0%, #2575fc 100%)",
           display: "flex",
           flexDirection: "column",
           justifyContent: "center",
           alignItems: "center",
           color: "#fff",
-          textShadow: "2px 2px 5px rgba(0, 0, 0, 0.7)",
-          fontFamily: "'Sacramento', cursive",
+          px: 2
         }}
       >
-        <h1
-          style={{
-            fontSize: "5rem",
+        <Typography
+          variant="h1"
+          sx={{
+            fontSize: { xs: "3.5rem", md: "5rem" },
             margin: "0",
             textAlign: "center",
-            letterSpacing: "2px",
             fontFamily: "'Sacramento', cursive",
-            color: "#fff",
+            textShadow: "2px 2px 4px rgba(0,0,0,0.3)"
           }}
         >
-          Travel Page
-        </h1>
-        <p
-          style={{
-            fontSize: "2rem",
-            marginTop: "10px",
+          Travel & Stay
+        </Typography>
+        <Typography
+          variant="h5"
+          sx={{
+            marginTop: "20px",
             textAlign: "center",
             maxWidth: "600px",
             lineHeight: "1.6",
+            fontWeight: 300,
+            opacity: 0.9
           }}
         >
-          Explore San Antonio and discover amazing places to stay & visit.
-        </p>
-      </div>
+          Discover San Antonio and find the perfect place to rest during our celebration.
+        </Typography>
+      </Box>
 
-      {/* Airbnb & Hotel Buttons */}
       <Box
         sx={{
           display: "flex",
           flexDirection: "column",
-          gap: "10px",
-          margin: "20px auto",
+          gap: "20px",
+          margin: "-50px auto 40px",
           width: "90%",
-          maxWidth: "600px",
+          maxWidth: "800px",
           alignItems: "center",
+          zIndex: 2,
+          position: "relative"
         }}
       >
         <Airbnb />
@@ -341,16 +286,16 @@ const Tourist = () => {
           flexDirection: "column",
           alignItems: "center",
           marginBottom: "20px",
-          padding: "15px",
-          backgroundColor: "#f9f9f9",
-          borderRadius: "12px",
-          boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
+          padding: "25px",
+          backgroundColor: "#fff",
+          borderRadius: "16px",
+          boxShadow: "0px 4px 20px rgba(0, 0, 0, 0.08)",
           maxWidth: "500px",
-          margin: "0 auto",
+          margin: "0 auto 20px",
         }}
       >
-        <Typography variant="subtitle1" sx={{ fontWeight: 600, marginBottom: "10px", color: "#333" }}>
-          Filter by Category:
+        <Typography variant="subtitle1" sx={{ fontWeight: "bold", marginBottom: "15px", color: "#333" }}>
+          Explore by Category
         </Typography>
         <FormControl fullWidth sx={{ maxWidth: "400px" }}>
           <InputLabel id="filter-label">Category</InputLabel>
@@ -360,8 +305,9 @@ const Tourist = () => {
             value={filter}
             label="Category"
             onChange={(e) => setFilter(e.target.value)}
+            sx={{ borderRadius: "8px" }}
           >
-            <MenuItem value="all">All</MenuItem>
+            <MenuItem value="all">All Attractions</MenuItem>
             <MenuItem value="adventure_sports">Adventure & Sports</MenuItem>
             <MenuItem value="culture_history">Culture & History</MenuItem>
             <MenuItem value="nature_animals">Nature & Animals</MenuItem>
@@ -377,16 +323,16 @@ const Tourist = () => {
           flexDirection: "column",
           alignItems: "center",
           marginBottom: "20px",
-          padding: "15px",
-          backgroundColor: "#f9f9f9",
-          borderRadius: "12px",
-          boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
+          padding: "25px",
+          backgroundColor: "#fff",
+          borderRadius: "16px",
+          boxShadow: "0px 4px 20px rgba(0, 0, 0, 0.08)",
           maxWidth: "500px",
-          margin: "0 auto",
+          margin: "0 auto 20px",
         }}
       >
-        <Typography variant="subtitle1" sx={{ fontWeight: 600, marginBottom: "10px", color: "#333" }}>
-          Sort by:
+        <Typography variant="subtitle1" sx={{ fontWeight: "bold", marginBottom: "15px", color: "#333" }}>
+          Sort Locations
         </Typography>
         <FormControl fullWidth sx={{ maxWidth: "400px" }}>
           <InputLabel id="sort-label">Sort Order</InputLabel>
@@ -396,20 +342,19 @@ const Tourist = () => {
             value={sortOrder}
             label="Sort Order"
             onChange={(e) => setSortOrder(e.target.value)}
+            sx={{ borderRadius: "8px" }}
           >
-            <MenuItem value="closest">Closest to your location</MenuItem>
-            <MenuItem value="furthest">Furthest from your location</MenuItem>
+            <MenuItem value="closest">Closest to you</MenuItem>
+            <MenuItem value="furthest">Furthest from you</MenuItem>
           </Select>
         </FormControl>
       </Box>
 
-      {/* Autocomplete Search Section with extra vertical spacing */}
+      {/* Autocomplete Search Section */}
       <Box
         sx={{
           maxWidth: "500px",
-          margin: "0 auto",
-          marginTop: "20px",
-          marginBottom: "20px",
+          margin: "0 auto 40px",
         }}
       >
         <Autocomplete
@@ -420,17 +365,15 @@ const Tourist = () => {
           onChange={(event, value) => {
             if (value) {
               handleSelectPlace(value);
-              // Force pagination to page 1 when a search result is clicked
               setPage(1);
             }
           }}
           renderInput={(params) => (
-            <TextField {...params} label="Search Locations" variant="outlined" />
+            <TextField {...params} label="Search for a specific place" variant="outlined" sx={{ bgcolor: "#fff", borderRadius: "8px" }} />
           )}
         />
       </Box>
 
-      {/* Expand/Collapse Locations List Button and Listing Component */}
       <Box sx={{ maxWidth: "800px", margin: "20px auto", padding: "15px" }}>
         <Button
           variant="contained"
@@ -438,71 +381,66 @@ const Tourist = () => {
           onClick={() => setListExpanded(!listExpanded)}
           sx={{
             mb: 2,
-            background: "linear-gradient(135deg, #6a11cb, #2575fc)",
+            background: "#222",
             color: "#fff",
             textTransform: "none",
+            py: 1.5,
+            borderRadius: "8px",
+            fontSize: "1rem",
+            "&:hover": { background: "#000" }
           }}
         >
-          {listExpanded ? "Collapse Locations List" : "Expand Locations List"}
+          {listExpanded ? "Hide Locations List" : "Show All Locations List"}
         </Button>
         <Collapse in={listExpanded} timeout="auto" unmountOnExit>
           <Box ref={listRef}>
             <Typography
               variant="h5"
-              sx={{ marginBottom: "15px", fontWeight: "bold", textAlign: "center" }}
+              sx={{ marginBottom: "20px", fontWeight: "bold", textAlign: "center" }}
             >
-              Locations List
+              Nearby Points of Interest
             </Typography>
             <Box sx={{ display: "flex", flexDirection: "column", gap: "15px" }}>
               {currentItems.map((place) => (
                 <Paper
                   key={place.id}
-                  elevation={2}
+                  elevation={0}
                   sx={{
                     display: "flex",
-                    flexDirection: "row",
+                    flexDirection: { xs: "column", sm: "row" },
                     alignItems: "center",
                     justifyContent: "space-between",
                     padding: "20px",
                     borderRadius: "12px",
                     width: "100%",
-                    background: "rgba(255, 255, 255, 0.9)",
+                    border: "1px solid #eee",
                     borderLeft: `6px solid ${
                       place.type === "adventure_sports" ? "#FF5722" : 
                       place.type === "culture_history" ? "#9C27B0" :
                       place.type === "nature_animals" ? "#4CAF50" : "#2196F3"
                     }`,
-                    transition: "transform 0.2s",
+                    transition: "all 0.2s",
                     "&:hover": {
-                      transform: "scale(1.01)",
+                      boxShadow: "0 4px 12px rgba(0,0,0,0.05)",
+                      borderColor: "#ddd"
                     }
                   }}
                 >
-                  <Box sx={{ flex: 1 }}>
+                  <Box sx={{ flex: 1, width: "100%" }}>
                     <Typography variant="h6" sx={{ fontWeight: "bold", color: "#333", mb: 0.5 }}>
                       {place.name}
                     </Typography>
                     <Box sx={{ display: "flex", gap: "15px", flexWrap: "wrap", mb: 1 }}>
-                      <Typography variant="body2" sx={{ bgcolor: "#eee", px: 1, py: 0.5, borderRadius: "4px", fontSize: "12px", fontWeight: "bold" }}>
+                      <Typography variant="body2" sx={{ bgcolor: "#f0f0f0", px: 1, py: 0.5, borderRadius: "4px", fontSize: "12px", fontWeight: "bold", color: "#666" }}>
                         {displayCategory(place.type)}
                       </Typography>
                       {userLocation && (
                         <>
-                          <Typography variant="body2" sx={{ color: "#666", display: "flex", alignItems: "center" }}>
-                            <strong>Distance:</strong>&nbsp;
-                            {(
-                              calculateDistance(
-                                userLocation.lat,
-                                userLocation.lng,
-                                place.lat,
-                                place.lon
-                              ) * 0.621371
-                            ).toFixed(2)}{" "}
-                            miles
+                          <Typography variant="body2" sx={{ color: "#666" }}>
+                            <strong>Distance:</strong> {(calculateDistance(userLocation.lat, userLocation.lng, place.lat, place.lon) * 0.621371).toFixed(2)} miles
                           </Typography>
                           <Typography variant="body2" sx={{ color: "#666" }}>
-                            <strong>ETA:</strong>&nbsp;
-                            {etaData[place.id] ? formatDuration(etaData[place.id].duration) : "calculating..."}
+                            <strong>ETA:</strong> {etaData[place.id] ? formatDuration(etaData[place.id].duration) : "calculating..."}
                           </Typography>
                         </>
                       )}
@@ -512,17 +450,19 @@ const Tourist = () => {
                   <Box
                     sx={{
                       display: "flex",
-                      flexDirection: { xs: "column", sm: "row" },
                       gap: "10px",
+                      width: { xs: "100%", sm: "auto" },
+                      mt: { xs: 2, sm: 0 }
                     }}
                   >
                     <Button
                       variant="outlined"
+                      fullWidth
                       sx={{
-                        color: "#6a11cb",
-                        borderColor: "#6a11cb",
+                        color: "#222",
+                        borderColor: "#222",
                         textTransform: "none",
-                        borderRadius: "20px",
+                        borderRadius: "8px",
                         fontWeight: "bold"
                       }}
                       onClick={() => {
@@ -534,13 +474,15 @@ const Tourist = () => {
                     </Button>
                     <Button
                       variant="contained"
+                      fullWidth
                       sx={{
-                        background: "linear-gradient(135deg, #6a11cb, #2575fc)",
+                        background: "#222",
                         color: "#fff",
                         textTransform: "none",
-                        borderRadius: "20px",
+                        borderRadius: "8px",
                         fontWeight: "bold",
-                        px: 3
+                        px: 3,
+                        "&:hover": { background: "#000" }
                       }}
                       onClick={() =>
                         window.open(
@@ -549,13 +491,13 @@ const Tourist = () => {
                         )
                       }
                     >
-                      Directions
+                      Maps
                     </Button>
                   </Box>
                 </Paper>
               ))}
             </Box>
-            <Box sx={{ display: "flex", justifyContent: "center", marginTop: "20px" }}>
+            <Box sx={{ display: "flex", justifyContent: "center", marginTop: "30px" }}>
               <Pagination count={totalPages} page={page} onChange={handleChangePage} color="primary" />
             </Box>
           </Box>
@@ -563,13 +505,12 @@ const Tourist = () => {
       </Box>
 
       {/* Map Section */}
-      <div className="flex-container">
-        <div className="map-section">
+      <Box sx={{ p: { xs: 1, md: 4 }, bgcolor: "#f9f9f9" }}>
+        <Box sx={{ borderRadius: "20px", overflow: "hidden", boxShadow: "0 10px 30px rgba(0,0,0,0.1)", border: "1px solid #ddd" }}>
           <MapContainer
             center={[center.lat, center.lng]}
             zoom={12}
-            className="map-container"
-            style={{ height: "700px", width: "100%" }}
+            style={{ height: "600px", width: "100%" }}
             fullscreenControl={false}
           >
             <TileLayer
@@ -592,7 +533,7 @@ const Tourist = () => {
                   })
                 }
               >
-                <Tooltip permanent>Your Current Location</Tooltip>
+                <Tooltip permanent>You</Tooltip>
               </Marker>
             )}
             <Marker
@@ -605,7 +546,7 @@ const Tourist = () => {
                 })
               }
             >
-              <Tooltip permanent>The Club at Garden Ridge - The Venue</Tooltip>
+              <Tooltip permanent>The Venue</Tooltip>
             </Marker>
             <Marker
               position={[29.56512967904875, -98.49049598737209]}
@@ -618,7 +559,7 @@ const Tourist = () => {
               }
             >
               <Tooltip permanent>
-                First Assembly of God at San Antonio - The Ceremony
+                The Ceremony
               </Tooltip>
             </Marker>
             {filteredPlaces.map((place) => (
@@ -629,97 +570,48 @@ const Tourist = () => {
                   click: () => handleSelectPlace(place),
                 }}
               >
-                <Tooltip direction="top" offset={[0, -10]} opacity={1}>
+                <Tooltip direction="top" offset={[0, -10]}>
                   {place.name}
                 </Tooltip>
                 <Popup>
-                  <strong
-                    style={{
-                      fontSize: "1.3rem",
-                      fontWeight: "700",
-                      fontFamily: "'Roboto Slab', serif",
-                      color: "#1a73e8",
-                      marginBottom: "8px",
-                      display: "block",
-                      textAlign: "center",
-                      textShadow: "1px 1px 2px rgba(0, 0, 0, 0.3)",
-                    }}
-                  >
-                    {place.name}
-                  </strong>
-                  <div
-                    style={{
-                      fontSize: "1rem",
-                      fontWeight: "500",
-                      fontFamily: "'Open Sans', sans-serif",
-                      color: "#4a4a4a",
-                      lineHeight: "1.6",
-                      textAlign: "left",
-                      marginTop: "5px",
-                    }}
-                  >
-                    <span style={{ display: "block", marginBottom: "5px" }}>
-                      <strong style={{ color: "#000", fontWeight: "600" }}>
-                        Type:
-                      </strong>{" "}
-                      {displayCategory(place.type)}
-                    </span>
-                    {etaData[place.id] && (
-                      <>
-                        <span style={{ display: "block", marginBottom: "5px" }}>
-                          <strong style={{ color: "#000", fontWeight: "600" }}>
-                            ETA:
-                          </strong>{" "}
-                          {formatDuration(etaData[place.id].duration)}
-                        </span>
-                        <span style={{ display: "block" }}>
-                          <strong style={{ color: "#000", fontWeight: "600" }}>
-                            Distance:
-                          </strong>{" "}
-                          {etaData[place.id].distance}
-                        </span>
-                      </>
-                    )}
-                  </div>
-                  <Button
-                    variant="contained"
-                    sx={{
-                      fontSize: "0.9rem",
-                      color: "#ffffff",
-                      background: "linear-gradient(135deg, #6a11cb, #2575fc)",
-                      padding: "8px 12px",
-                      borderRadius: "8px",
-                      textTransform: "none",
-                      boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
-                      transition: "background 0.3s ease-in-out, transform 0.2s",
-                      border: "none",
-                      cursor: "pointer",
-                      mb: 1,
-                    }}
-                    onClick={() =>
-                      window.open(
-                        `https://www.google.com/maps/dir/?api=1&destination=${place.lat},${place.lon}`,
-                        "_blank"
-                      )
-                    }
-                  >
-                    Get Directions
-                  </Button>
-                  <Button
-                    variant="outlined"
-                    sx={{
-                      fontSize: "0.9rem",
-                      color: "#6a11cb",
-                      borderColor: "#6a11cb",
-                      textTransform: "none",
-                    }}
-                    onClick={() => {
-                      setModalPlace(place);
-                      setOpenModal(true);
-                    }}
-                  >
-                    View Details
-                  </Button>
+                  <Box sx={{ p: 1 }}>
+                    <Typography variant="subtitle1" sx={{ fontWeight: "bold", color: "#1a73e8", mb: 1 }}>
+                      {place.name}
+                    </Typography>
+                    <Typography variant="body2" sx={{ mb: 2 }}>
+                      <strong>Category:</strong> {displayCategory(place.type)}
+                    </Typography>
+                    <Button
+                      variant="contained"
+                      fullWidth
+                      size="small"
+                      sx={{
+                        background: "linear-gradient(135deg, #6a11cb, #2575fc)",
+                        mb: 1,
+                        textTransform: "none"
+                      }}
+                      onClick={() =>
+                        window.open(
+                          `https://www.google.com/maps/dir/?api=1&destination=${place.lat},${place.lon}`,
+                          "_blank"
+                        )
+                      }
+                    >
+                      Directions
+                    </Button>
+                    <Button
+                      variant="outlined"
+                      fullWidth
+                      size="small"
+                      sx={{ textTransform: "none", color: "#222", borderColor: "#222" }}
+                      onClick={() => {
+                        setModalPlace(place);
+                        setOpenModal(true);
+                      }}
+                    >
+                      View Details
+                    </Button>
+                  </Box>
                 </Popup>
               </Marker>
             ))}
@@ -736,38 +628,34 @@ const Tourist = () => {
               />
             )}
           </MapContainer>
-        </div>
-      </div>
+        </Box>
+      </Box>
 
       {/* Modal for View Details */}
       <Dialog open={openModal} onClose={() => setOpenModal(false)} maxWidth="sm" fullWidth>
         {modalPlace && (
           <>
-            <DialogTitle>{modalPlace.name}</DialogTitle>
+            <DialogTitle sx={{ fontWeight: "bold", fontSize: "1.5rem" }}>{modalPlace.name}</DialogTitle>
             <DialogContent dividers>
-              {modalPlace.image && (
-                <Box sx={{ width: "100%", mb: 2 }}>
-                  <img
-                    src={modalPlace.image}
-                    alt={modalPlace.name}
-                    style={{ width: "100%", borderRadius: "8px" }}
-                  />
-                </Box>
-              )}
-              <Typography variant="body1" sx={{ mb: 2 }}>
+              <Typography variant="body1" sx={{ mb: 3, lineHeight: 1.7, color: "#444" }}>
                 {modalPlace.description}
               </Typography>
-              <Typography variant="body2" color="textSecondary">
-                Category: {displayCategory(modalPlace.type)}
-              </Typography>
+              <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+                <Typography variant="body2" sx={{ bgcolor: "#f0f0f0", px: 1.5, py: 0.5, borderRadius: "20px", fontWeight: "bold", color: "#666" }}>
+                  {displayCategory(modalPlace.type)}
+                </Typography>
+              </Box>
             </DialogContent>
-            <DialogActions>
+            <DialogActions sx={{ p: 3 }}>
               <Button
                 variant="contained"
                 sx={{
-                  background: "linear-gradient(135deg, #6a11cb, #2575fc)",
+                  background: "#222",
                   color: "#fff",
                   textTransform: "none",
+                  borderRadius: "8px",
+                  px: 4,
+                  "&:hover": { background: "#000" }
                 }}
                 onClick={() =>
                   window.open(
@@ -783,8 +671,9 @@ const Tourist = () => {
                 variant="outlined"
                 sx={{
                   textTransform: "none",
-                  color: "#6a11cb",
-                  borderColor: "#6a11cb",
+                  color: "#222",
+                  borderColor: "#222",
+                  borderRadius: "8px"
                 }}
               >
                 Close
