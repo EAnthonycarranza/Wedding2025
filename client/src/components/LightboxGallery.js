@@ -1,77 +1,12 @@
-import React, { useMemo } from "react";
-import Lightbox from "yet-another-react-lightbox";
-import Zoom from "yet-another-react-lightbox/plugins/zoom";
-import Download from "yet-another-react-lightbox/plugins/download";
-import Thumbnails from "yet-another-react-lightbox/plugins/thumbnails";
-import Fullscreen from "yet-another-react-lightbox/plugins/fullscreen";
-import Slideshow from "yet-another-react-lightbox/plugins/slideshow";
-import Counter from "yet-another-react-lightbox/plugins/counter";
-import Share from "yet-another-react-lightbox/plugins/share";
+// File: LightboxGallery.js
+import React, { useState, useEffect, useCallback, useRef } from "react";
+import { Box, IconButton, Typography, CircularProgress, Tooltip } from "@mui/material";
+import CloseIcon from "@mui/icons-material/Close";
+import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
+import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
+import DownloadIcon from "@mui/icons-material/Download";
+import ShareIcon from "@mui/icons-material/Share";
 import { saveAs } from "file-saver";
-import { useMediaQuery, useTheme } from "@mui/material";
-
-import "yet-another-react-lightbox/styles.css";
-import "yet-another-react-lightbox/plugins/thumbnails.css";
-
-// 1) A tiny custom plugin to add a "Save to Photos" button in the top toolbar.
-function SaveToPhotosPlugin({ getSlides, currentIndex }) {
-  // This function attempts to use the Web Share API with a File object:
-  const handleSaveToPhotos = async () => {
-    try {
-      const slides = getSlides();
-      const { src } = slides[currentIndex];
-
-      // Attempt to fetch the image as a blob
-      const response = await fetch(src);
-      if (!response.ok) {
-        throw new Error(`Failed to fetch image: ${src}`);
-      }
-      const blob = await response.blob();
-      const file = new File([blob], "gallery-image.jpg", { type: blob.type });
-
-      // Check if the browser can share a file
-      if (navigator.canShare && navigator.canShare({ files: [file] })) {
-        await navigator.share({
-          files: [file],
-          title: "Wedding Photo",
-          text: "Check out this wedding photo!",
-        });
-      } else {
-        // If not supported, fallback to normal download
-        fallbackDownload(blob);
-      }
-    } catch (error) {
-      console.error("Save to Photos error:", error);
-    }
-  };
-
-  // Fallback: normal download with a fixed filename
-  const fallbackDownload = (blob) => {
-    saveAs(blob, "gallery-image.jpg");
-  };
-
-  return {
-    // YARL calls this to render a custom toolbar button
-    render: {
-      button: ({ slideIndex }) => {
-        // Only show the button on the currently displayed slide
-        if (slideIndex !== currentIndex) return null;
-
-        return {
-          key: "saveToPhotos",
-          label: "Save to Photos",
-          onClick: handleSaveToPhotos,
-          // An optional icon SVG
-          icon: (
-            <svg viewBox="0 0 24 24" fill="currentColor" style={{ width: 20, height: 20 }}>
-              <path d="M5 4v16h14V4H5zm2 2h10v8H7V6zm0 10h10v2H7v-2z" />
-            </svg>
-          ),
-        };
-      },
-    },
-  };
-}
 
 const LightboxGallery = ({
   isOpen,
@@ -80,92 +15,230 @@ const LightboxGallery = ({
   onClose,
   setCurrentIndex,
 }) => {
-  const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+  const [loading, setLoading] = useState(true);
+  const touchStartX = useRef(null);
+  const touchEndX = useRef(null);
 
-  // Build slides from your images array
-  const slides = useMemo(
-    () =>
-      images.map((image) => ({
-        src: image,
-      })),
-    [images]
-  );
+  const handleNext = useCallback(() => {
+    setLoading(true);
+    setCurrentIndex((prev) => (prev + 1) % images.length);
+  }, [images.length, setCurrentIndex]);
 
-  // Keep the current index in sync
-  const handleViewChange = (viewEvent) => {
-    const newIndex =
-      typeof viewEvent === "number" ? viewEvent : viewEvent?.index;
-    if (newIndex !== currentIndex) {
-      setCurrentIndex(newIndex);
-    }
-  };
+  const handlePrev = useCallback(() => {
+    setLoading(true);
+    setCurrentIndex((prev) => (prev - 1 + images.length) % images.length);
+  }, [images.length, setCurrentIndex]);
 
-  // A custom function for the built-in Download plugin to force a specific filename
-  const customDownloadFn = async (slide, number) => {
+  const handleDownload = async () => {
     try {
-      const response = await fetch(slide.src);
-      if (!response.ok) {
-        throw new Error(`Failed to fetch image: ${slide.src}`);
-      }
+      const src = images[currentIndex];
+      const filename = src.split("/").pop() || "wedding-photo.jpg";
+      // Use the proxy to avoid CORS issues
+      const proxyUrl = `/api/proxy-image?url=${encodeURIComponent(src)}`;
+      const response = await fetch(proxyUrl);
       const blob = await response.blob();
-      // Force the filename here, e.g. gallery-1.jpg, gallery-2.jpg, etc.
-      saveAs(blob, `gallery-${number + 1}.jpg`);
+      saveAs(blob, filename);
     } catch (error) {
-      console.error("Error downloading image:", error);
+      console.error("Download error:", error);
     }
   };
+
+  const handleShare = async () => {
+    try {
+      const src = images[currentIndex];
+      const response = await fetch(`/api/proxy-image?url=${encodeURIComponent(src)}`);
+      const blob = await response.blob();
+      const file = new File([blob], "wedding-photo.jpg", { type: blob.type });
+
+      if (navigator.canShare && navigator.canShare({ files: [file] })) {
+        await navigator.share({
+          files: [file],
+          title: "Wedding Photo",
+          text: "Check out this photo from the wedding!",
+        });
+      } else {
+        // Fallback to clipboard
+        await navigator.clipboard.writeText(window.location.href);
+        alert("Link copied to clipboard!");
+      }
+    } catch (error) {
+      console.error("Share error:", error);
+    }
+  };
+
+  // Keyboard navigation
+  useEffect(() => {
+    if (!isOpen) return;
+    const handleKeyDown = (e) => {
+      if (e.key === "ArrowRight") handleNext();
+      if (e.key === "ArrowLeft") handlePrev();
+      if (e.key === "Escape") onClose();
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [isOpen, handleNext, handlePrev, onClose]);
+
+  // Touch navigation for mobile
+  const handleTouchStart = (e) => {
+    touchStartX.current = e.targetTouches[0].clientX;
+  };
+
+  const handleTouchMove = (e) => {
+    touchEndX.current = e.targetTouches[0].clientX;
+  };
+
+  const handleTouchEnd = () => {
+    if (!touchStartX.current || !touchEndX.current) return;
+    const distance = touchStartX.current - touchEndX.current;
+    const isSignificantSwipe = Math.abs(distance) > 50;
+    if (isSignificantSwipe) {
+      if (distance > 0) handleNext();
+      else handlePrev();
+    }
+    touchStartX.current = null;
+    touchEndX.current = null;
+  };
+
+  if (!isOpen) return null;
 
   return (
-    <Lightbox
-      open={isOpen}
-      close={onClose}
-      slides={slides}
-      index={currentIndex}
-      on={{
-        view: handleViewChange,
+    <Box
+      sx={{
+        position: "fixed",
+        top: 0,
+        left: 0,
+        width: "100vw",
+        height: "100vh",
+        bgcolor: "rgba(0, 0, 0, 0.95)",
+        zIndex: 9999,
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
+        overflow: "hidden",
+        touchAction: "none",
       }}
-      plugins={[
-        Counter,
-        !isMobile && Thumbnails,
-        !isMobile && Zoom,
-        Fullscreen,
-        Download,
-        Share,
-        Slideshow,
-        // 2) Add our custom "Save to Photos" plugin
-        SaveToPhotosPlugin,
-      ].filter(Boolean)}
-      carousel={{
-        finite: false,
-        preload: isMobile ? 1 : 2, // Load fewer images ahead on mobile
-        padding: "16px",
-        spacing: "10%",
-      }}
-      zoom={{ maxZoomPixelRatio: 3 }}
-      // The key part: pass our custom downloadFn to override the default
-      download={{
-        downloadFn: customDownloadFn,
-      }}
-      thumbnails={{ width: 100, height: 80, borderRadius: 5 }}
-      fullscreen={{ auto: false }}
-      slideshow={{ autoplay: false, delay: 3000 }}
-      counter={{ position: "top-center" }}
-      share={{
-        url: window.location.href,
-        socialMedia: ["facebook", "twitter", "email"],
-      }}
-      styles={{
-        container: { backgroundColor: "rgba(0, 0, 0, 0.95)" },
-        image: {
-          display: "block",
-          margin: "auto",
-          maxWidth: "90%",
-          maxHeight: "90%",
-          objectFit: "contain",
-        },
-      }}
-    />
+      onTouchStart={handleTouchStart}
+      onTouchMove={handleTouchMove}
+      onTouchEnd={handleTouchEnd}
+    >
+      {/* Top Toolbar */}
+      <Box
+        sx={{
+          position: "absolute",
+          top: 0,
+          left: 0,
+          width: "100%",
+          p: 2,
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          background: "linear-gradient(to bottom, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0) 100%)",
+          zIndex: 10,
+        }}
+      >
+        <Typography sx={{ color: "#fff", fontWeight: "bold" }}>
+          {currentIndex + 1} / {images.length}
+        </Typography>
+        <Box sx={{ display: "flex", gap: 1 }}>
+          <Tooltip title="Share">
+            <IconButton onClick={handleShare} sx={{ color: "#fff" }}>
+              <ShareIcon />
+            </IconButton>
+          </Tooltip>
+          <Tooltip title="Download">
+            <IconButton onClick={handleDownload} sx={{ color: "#fff" }}>
+              <DownloadIcon />
+            </IconButton>
+          </Tooltip>
+          <IconButton onClick={onClose} sx={{ color: "#fff" }}>
+            <CloseIcon fontSize="large" />
+          </IconButton>
+        </Box>
+      </Box>
+
+      {/* Main Image Container */}
+      <Box
+        sx={{
+          width: "100%",
+          height: "100%",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          position: "relative",
+        }}
+      >
+        {loading && (
+          <CircularProgress
+            sx={{ position: "absolute", color: "#fff" }}
+          />
+        )}
+        <img
+          src={images[currentIndex]}
+          alt={`Gallery item ${currentIndex + 1}`}
+          onLoad={() => setLoading(false)}
+          style={{
+            maxWidth: "100%",
+            maxHeight: "100%",
+            objectFit: "contain",
+            userSelect: "none",
+            WebkitUserDrag: "none",
+            display: loading ? "none" : "block",
+          }}
+        />
+      </Box>
+
+      {/* Navigation Arrows (Desktop) */}
+      <Box
+        sx={{
+          display: { xs: "none", md: "block" },
+        }}
+      >
+        <IconButton
+          onClick={handlePrev}
+          sx={{
+            position: "absolute",
+            left: 20,
+            top: "50%",
+            transform: "translateY(-50%)",
+            color: "#fff",
+            bgcolor: "rgba(255,255,255,0.1)",
+            "&:hover": { bgcolor: "rgba(255,255,255,0.2)" },
+          }}
+        >
+          <ArrowBackIosNewIcon fontSize="large" />
+        </IconButton>
+        <IconButton
+          onClick={handleNext}
+          sx={{
+            position: "absolute",
+            right: 20,
+            top: "50%",
+            transform: "translateY(-50%)",
+            color: "#fff",
+            bgcolor: "rgba(255,255,255,0.1)",
+            "&:hover": { bgcolor: "rgba(255,255,255,0.2)" },
+          }}
+        >
+          <ArrowForwardIosIcon fontSize="large" />
+        </IconButton>
+      </Box>
+
+      {/* Mobile Hint */}
+      <Box
+        sx={{
+          position: "absolute",
+          bottom: 20,
+          display: { xs: "block", md: "none" },
+          textAlign: "center",
+          width: "100%",
+        }}
+      >
+        <Typography variant="caption" sx={{ color: "rgba(255,255,255,0.5)" }}>
+          Swipe left/right to navigate
+        </Typography>
+      </Box>
+    </Box>
   );
 };
 
