@@ -29,7 +29,7 @@ import "./App.css";
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [familyName, setFamilyName] = useState(\"\");
+  const [familyName, setFamilyName] = useState("");
   const [familyCount, setFamilyCount] = useState(0);
   const [hasRSVP, setHasRSVP] = useState(false);
   const [tokenExpired, setTokenExpired] = useState(false);
