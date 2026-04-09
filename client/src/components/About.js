@@ -2,6 +2,7 @@
 import React from "react";
 import "../styles/style.css";
 import CoupleInfo from "./CoupleInfo";
+import Events from "./Events";
 import Timeline from "./Timeline";
 
 const About = () => {
@@ -151,6 +152,9 @@ const About = () => {
 
       {/* Couple Info Section */}
       <CoupleInfo />
+
+      {/* Events Section */}
+      <Events />
 
       {/* Timeline Section */}
       <Timeline />
