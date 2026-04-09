@@ -5,9 +5,9 @@ const Footer = () => {
   return (
     <footer style={footerStyle}>
       <div className="container">
-        <p>&copy; 2025 Carranza Coding. All Rights Reserved.</p>
+        <p>&copy; 2025 Wedding 2025. All Rights Reserved.</p>
         <p>
-          Built with love by Anthony & Christina.
+          Built by <a href="https://codingcarranza.com/" target="_blank" rel="noopener noreferrer" style={linkStyle}>Coding Carranza</a>
         </p>
       </div>
     </footer>
@@ -20,6 +20,13 @@ const footerStyle = {
   textAlign: 'center',
   borderTop: '1px solid #e7e7e7',
   marginTop: '50px'
+};
+
+const linkStyle = {
+  color: '#000',
+  fontWeight: 'bold',
+  textDecoration: 'none',
+  borderBottom: '2px solid #000'
 };
 
 export default Footer;
