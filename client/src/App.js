@@ -21,11 +21,11 @@ import NavBar from "./components/Navbar";
 import Footer from "./components/Footer";
 import Registry from "./components/Registry";
 import Tourist from "./components/Tourist";
-import Itinerary from \"./components/Itinerary\";
-import ButtomNavBar from \"./components/ButtonNavBar\";
-import DemoRSVPModal from \"./components/DemoRSVPModal\";
-import qrScanGif from \"./img/qr-scan.gif\";
-import \"./App.css\";
+import Itinerary from "./components/Itinerary";
+import ButtomNavBar from "./components/ButtonNavBar";
+import DemoRSVPModal from "./components/DemoRSVPModal";
+import qrScanGif from "./img/qr-scan.gif";
+import "./App.css";
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -40,10 +40,10 @@ function App() {
 
   // Effect to handle Demo Modal visibility
   useEffect(() => {
-    const isDemoMode = localStorage.getItem(\"isDemoMode\") === \"true\";
-    const demoComplete = localStorage.getItem(\"demoRSVPComplete\") === \"true\";
+    const isDemoMode = localStorage.getItem("isDemoMode") === "true";
+    const demoComplete = localStorage.getItem("demoRSVPComplete") === "true";
 
-    if (isDemoMode && !demoComplete && location.pathname === \"/home\") {
+    if (isDemoMode && !demoComplete && location.pathname === "/home") {
       setShowDemoModal(true);
     }
   }, [location.pathname]);
