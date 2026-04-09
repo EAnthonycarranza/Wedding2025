@@ -13,6 +13,10 @@ const Events = () => {
         backgroundPosition: "center",
         backgroundRepeat: "no-repeat",
         position: "relative",
+        minHeight: "850px", // Explicit height fallback
+        display: "block",
+        width: "100%",
+        clear: "both"
       }}
     >
       {/* Semi-transparent Overlay */}
