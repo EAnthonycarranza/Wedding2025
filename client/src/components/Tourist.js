@@ -200,16 +200,45 @@ const Tourist = () => {
     );
   }, []);
 
-  // Fetch Airbnb listings
+  // Mock Airbnb listings for Demo Mode
   useEffect(() => {
-    fetch("/api/airbnb-listings")
-      .then((res) => res.json())
-      .then((data) => {
-        const fetched = data.message || [];
-        const validAirbnbs = fetched.filter((l) => l.latitude && l.longitude);
-        setAirbnbListings(validAirbnbs);
-      })
-      .catch((err) => console.error("Failed to load Airbnb listings:", err));
+    const isDemo = localStorage.getItem("isDemoMode") === "true";
+    if (isDemo) {
+      const demoAirbnbs = [
+        {
+          id: "demo-1",
+          name: "Elegant Historic Home near Riverwalk",
+          latitude: 29.4241,
+          longitude: -98.4936,
+          beds: 3,
+          baths: 2,
+          price: "$150",
+          image: "https://a0.muscache.com/im/pictures/miso/hosting-46699110/original/99a67460-b72c-4dc3-bcaf-50d424d057ff.jpeg",
+          url: "https://airbnb.com"
+        },
+        {
+          id: "demo-2",
+          name: "Modern Loft with Skyline Views",
+          latitude: 29.4150,
+          longitude: -98.4850,
+          beds: 2,
+          baths: 1,
+          price: "$120",
+          image: "https://a0.muscache.com/im/pictures/5027a548-ba99-4aac-ad2d-ee5e8f2ad58e.jpg",
+          url: "https://airbnb.com"
+        }
+      ];
+      setAirbnbListings(demoAirbnbs);
+    } else {
+      fetch("/api/airbnb-listings")
+        .then((res) => res.json())
+        .then((data) => {
+          const fetched = data.message || [];
+          const validAirbnbs = fetched.filter((l) => l.latitude && l.longitude);
+          setAirbnbListings(validAirbnbs);
+        })
+        .catch((err) => console.error("Failed to load Airbnb listings:", err));
+    }
   }, []);
 
   // Recompute ETAs whenever userLocation or filter changes
@@ -444,80 +473,90 @@ const Tourist = () => {
               {currentItems.map((place) => (
                 <Paper
                   key={place.id}
+                  elevation={2}
                   sx={{
                     display: "flex",
-                    flexDirection: { xs: "column", sm: "row" },
-                    alignItems: { xs: "flex-start", sm: "center" },
-                    padding: { xs: "10px", sm: "10px" },
-                    gap: { xs: "10px", sm: "15px" },
-                    borderRadius: "8px",
+                    flexDirection: "row",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                    padding: "20px",
+                    borderRadius: "12px",
                     width: "100%",
+                    background: "rgba(255, 255, 255, 0.9)",
+                    borderLeft: `6px solid ${
+                      place.type === "adventure_sports" ? "#FF5722" : 
+                      place.type === "culture_history" ? "#9C27B0" :
+                      place.type === "nature_animals" ? "#4CAF50" : "#2196F3"
+                    }`,
+                    transition: "transform 0.2s",
+                    "&:hover": {
+                      transform: "scale(1.01)",
+                    }
                   }}
                 >
-                  {place.image ? (
-                    <Box sx={{ width: { xs: "100%", sm: "100px" } }}>
-                      <img
-                        src={place.image}
-                        alt={place.name}
-                        style={{ width: "100%", height: "auto", borderRadius: "8px" }}
-                      />
-                    </Box>
-                  ) : (
-                    <Box
-                      sx={{
-                        width: { xs: "100%", sm: "100px" },
-                        height: { xs: "auto", sm: "80px" },
-                        backgroundColor: "#ccc",
-                        borderRadius: "8px",
-                      }}
-                    />
-                  )}
                   <Box sx={{ flex: 1 }}>
-                    <Typography variant="subtitle1" sx={{ fontWeight: "bold" }}>
+                    <Typography variant="h6" sx={{ fontWeight: "bold", color: "#333", mb: 0.5 }}>
                       {place.name}
                     </Typography>
-                    {userLocation && (
-                      <>
-                        <Typography variant="body2" sx={{ color: "#555" }}>
-                          Distance:{" "}
-                          {(
-                            calculateDistance(
-                              userLocation.lat,
-                              userLocation.lng,
-                              place.lat,
-                              place.lon
-                            ) * 0.621371
-                          ).toFixed(2)}{" "}
-                          miles
-                        </Typography>
-                        <Typography variant="body2" sx={{ color: "#555" }}>
-                          ETA: {etaData[place.id] ? formatDuration(etaData[place.id].duration) : "N/A"}
-                        </Typography>
-                      </>
-                    )}
-                    <Typography variant="body2" sx={{ color: "#555" }}>
-                      Category: {displayCategory(place.type)}
-                    </Typography>
+                    <Box sx={{ display: "flex", gap: "15px", flexWrap: "wrap", mb: 1 }}>
+                      <Typography variant="body2" sx={{ bgcolor: "#eee", px: 1, py: 0.5, borderRadius: "4px", fontSize: "12px", fontWeight: "bold" }}>
+                        {displayCategory(place.type)}
+                      </Typography>
+                      {userLocation && (
+                        <>
+                          <Typography variant="body2" sx={{ color: "#666", display: "flex", alignItems: "center" }}>
+                            <strong>Distance:</strong>&nbsp;
+                            {(
+                              calculateDistance(
+                                userLocation.lat,
+                                userLocation.lng,
+                                place.lat,
+                                place.lon
+                              ) * 0.621371
+                            ).toFixed(2)}{" "}
+                            miles
+                          </Typography>
+                          <Typography variant="body2" sx={{ color: "#666" }}>
+                            <strong>ETA:</strong>&nbsp;
+                            {etaData[place.id] ? formatDuration(etaData[place.id].duration) : "calculating..."}
+                          </Typography>
+                        </>
+                      )}
+                    </Box>
                   </Box>
+                  
                   <Box
                     sx={{
                       display: "flex",
-                      flexDirection: { xs: "column", sm: "column" },
-                      gap: "5px",
-                      width: { xs: "100%", sm: "auto" },
+                      flexDirection: { xs: "column", sm: "row" },
+                      gap: "10px",
                     }}
                   >
                     <Button
-                      fullWidth
+                      variant="outlined"
+                      sx={{
+                        color: "#6a11cb",
+                        borderColor: "#6a11cb",
+                        textTransform: "none",
+                        borderRadius: "20px",
+                        fontWeight: "bold"
+                      }}
+                      onClick={() => {
+                        setModalPlace(place);
+                        setOpenModal(true);
+                      }}
+                    >
+                      Details
+                    </Button>
+                    <Button
                       variant="contained"
                       sx={{
                         background: "linear-gradient(135deg, #6a11cb, #2575fc)",
                         color: "#fff",
                         textTransform: "none",
-                        boxShadow: "0px 4px 6px rgba(0,0,0,0.1)",
-                        "&:hover": {
-                          background: "linear-gradient(135deg, #2575fc, #6a11cb)",
-                        },
+                        borderRadius: "20px",
+                        fontWeight: "bold",
+                        px: 3
                       }}
                       onClick={() =>
                         window.open(
@@ -526,22 +565,7 @@ const Tourist = () => {
                         )
                       }
                     >
-                      Get Directions
-                    </Button>
-                    <Button
-                      fullWidth
-                      variant="outlined"
-                      sx={{
-                        color: "#6a11cb",
-                        borderColor: "#6a11cb",
-                        textTransform: "none",
-                      }}
-                      onClick={() => {
-                        setModalPlace(place);
-                        setOpenModal(true);
-                      }}
-                    >
-                      View Details
+                      Directions
                     </Button>
                   </Box>
                 </Paper>
