@@ -48,7 +48,7 @@ const About = () => {
   role="banner"
   style={{
     position: "relative",
-    backgroundImage: `url("https://storage.googleapis.com/carranzawedding/Untitled%20design%20(92).png")`,
+    backgroundImage: `url("https://storage.googleapis.com/carranzawedding/Untitled%20design%20(96).png")`,
     backgroundSize: "cover",
     backgroundPosition: "center top",
     backgroundRepeat: "no-repeat",
