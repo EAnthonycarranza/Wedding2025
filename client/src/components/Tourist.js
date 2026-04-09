@@ -36,6 +36,7 @@ import placesData from "./places.json";
 import RoutingControl from "./RoutingControl";
 import Airbnb from "./Airbnb";
 import Hotel from "./Hotel";
+import bgImage from "../img/TravelImg.jpg";
 
 // Fix for default Marker icons
 delete L.Icon.Default.prototype._getIconUrl;
@@ -222,11 +223,13 @@ const Tourist = () => {
 
   return (
     <div>
-      {/* Header Section without image */}
+      {/* Header Section with background image restored */}
       <Box
         sx={{
-          height: "400px",
-          background: "linear-gradient(135deg, #6a11cb 0%, #2575fc 100%)",
+          height: "600px",
+          backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url(${bgImage})`,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
           display: "flex",
           flexDirection: "column",
           justifyContent: "center",
