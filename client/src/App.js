@@ -21,20 +21,33 @@ import NavBar from "./components/Navbar";
 import Footer from "./components/Footer";
 import Registry from "./components/Registry";
 import Tourist from "./components/Tourist";
-// import Itinerary from "./components/Itinerary";
-import ButtomNavBar from "./components/ButtonNavBar";
-import qrScanGif from "./img/qr-scan.gif";
-import "./App.css";
+import Itinerary from \"./components/Itinerary\";
+import ButtomNavBar from \"./components/ButtonNavBar\";
+import DemoRSVPModal from \"./components/DemoRSVPModal\";
+import qrScanGif from \"./img/qr-scan.gif\";
+import \"./App.css\";
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [familyName, setFamilyName] = useState("");
+  const [familyName, setFamilyName] = useState(\"\");
   const [familyCount, setFamilyCount] = useState(0);
   const [hasRSVP, setHasRSVP] = useState(false);
   const [tokenExpired, setTokenExpired] = useState(false);
+  const [showDemoModal, setShowDemoModal] = useState(false);
 
   const location = useLocation();
   const navigate = useNavigate();
+
+  // Effect to handle Demo Modal visibility
+  useEffect(() => {
+    const isDemoMode = localStorage.getItem(\"isDemoMode\") === \"true\";
+    const demoComplete = localStorage.getItem(\"demoRSVPComplete\") === \"true\";
+
+    if (isDemoMode && !demoComplete && location.pathname === \"/home\") {
+      setShowDemoModal(true);
+    }
+  }, [location.pathname]);
+
 
   // Fetch RSVP data and set hasRSVP flag
   const fetchRSVPData = useCallback(
@@ -162,6 +175,8 @@ function App() {
       }
     }
     localStorage.removeItem("token");
+    localStorage.removeItem("isDemoMode");
+    localStorage.removeItem("demoRSVPComplete");
     setIsAuthenticated(false);
     navigate("/");
   };
@@ -273,6 +288,11 @@ function App() {
       )}
 
       {isAuthenticated && <Footer />}
+      
+      <DemoRSVPModal 
+        open={showDemoModal} 
+        onClose={() => setShowDemoModal(false)} 
+      />
     </div>
   );
 }

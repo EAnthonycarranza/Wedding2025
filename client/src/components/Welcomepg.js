@@ -188,6 +188,30 @@ const Welcomepg = ({ setIsAuthenticated, setFamilyName }) => {
           <Submit style={buttonStyles}>
             {loading ? "Logging in..." : "Log In"}
           </Submit>
+          <div style={{ marginTop: '10px', textAlign: 'center' }}>
+            <button
+              type="button"
+              onClick={() => {
+                localStorage.setItem("isDemoMode", "true");
+                localStorage.setItem("token", "demo-token");
+                setIsAuthenticated(true);
+                setFamilyName("Guest Mode");
+                navigate("/home");
+              }}
+              style={{
+                backgroundColor: 'transparent',
+                color: '#F14E95',
+                border: '2px solid #F14E95',
+                padding: '10px 20px',
+                borderRadius: '20px',
+                cursor: 'pointer',
+                fontWeight: 'bold',
+                width: '100%'
+              }}
+            >
+              Explore Guest Demo
+            </button>
+          </div>
           <ButtonAfter visible={false} />
           <Banner
             style={{
