@@ -816,8 +816,17 @@ app.use("/authenticate", authLimiter);
 
 // User authentication with JWT issuance
 app.post("/authenticate", (req, res) => {
-  const { password, token } = req.body;
-  console.log("Auth attempt - password:", password, "token:", token);
+  const { password, token, isGuestMode } = req.body;
+  console.log("Auth attempt - password:", password, "token:", token, "isGuestMode:", isGuestMode);
+  
+  // Special case for Guest Mode button
+  if (isGuestMode) {
+    const jwtToken = jwt.sign({ familyName: "Guest Mode", familyCount: 0 }, JWT_SECRET, {
+      expiresIn: "5h",
+    });
+    return res.status(200).json({ success: true, token: jwtToken, familyName: "Guest Mode", familyCount: 0 });
+  }
+
   let familyEntry;
   if (password) {
     familyEntry = families.find((family) => family.password === password);

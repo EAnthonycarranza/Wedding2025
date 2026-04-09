@@ -8,6 +8,7 @@ import Slideshow from "yet-another-react-lightbox/plugins/slideshow";
 import Counter from "yet-another-react-lightbox/plugins/counter";
 import Share from "yet-another-react-lightbox/plugins/share";
 import { saveAs } from "file-saver";
+import { useMediaQuery, useTheme } from "@mui/material";
 
 import "yet-another-react-lightbox/styles.css";
 import "yet-another-react-lightbox/plugins/thumbnails.css";
@@ -79,6 +80,9 @@ const LightboxGallery = ({
   onClose,
   setCurrentIndex,
 }) => {
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+
   // Build slides from your images array
   const slides = useMemo(
     () =>
@@ -123,15 +127,21 @@ const LightboxGallery = ({
       }}
       plugins={[
         Counter,
-        Thumbnails,
-        Zoom,
+        !isMobile && Thumbnails,
+        !isMobile && Zoom,
         Fullscreen,
         Download,
         Share,
         Slideshow,
         // 2) Add our custom "Save to Photos" plugin
         SaveToPhotosPlugin,
-      ]}
+      ].filter(Boolean)}
+      carousel={{
+        finite: false,
+        preload: isMobile ? 1 : 2, // Load fewer images ahead on mobile
+        padding: "16px",
+        spacing: "10%",
+      }}
       zoom={{ maxZoomPixelRatio: 3 }}
       // The key part: pass our custom downloadFn to override the default
       download={{

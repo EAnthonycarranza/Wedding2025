@@ -221,12 +221,19 @@ const Welcomepg = ({ setIsAuthenticated, setFamilyName }) => {
             <button
               type="button"
               className="demo-btn-animated"
-              onClick={() => {
-                localStorage.setItem("isDemoMode", "true");
-                localStorage.setItem("token", "demo-token");
-                setIsAuthenticated(true);
-                setFamilyName("Guest Mode");
-                navigate("/home");
+              onClick={async () => {
+                try {
+                  const response = await axios.post("/authenticate", { isGuestMode: true });
+                  const token = response.data.token;
+                  localStorage.setItem("token", token);
+                  localStorage.setItem("isDemoMode", "true");
+                  setIsAuthenticated(true);
+                  setFamilyName("Guest Mode");
+                  navigate("/home");
+                } catch (err) {
+                  console.error("Guest mode auth error:", err);
+                  setError("Failed to enter Guest Mode. Please try again.");
+                }
               }}
             >
               EXPLORE GUEST DEMO

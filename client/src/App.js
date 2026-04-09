@@ -98,15 +98,18 @@ function App() {
         setFamilyCount(data.familyCount);
         setTokenExpired(false);
         fetchRSVPData(token);
-      } else {
-        throw new Error("Auth failed");
+      } else if (response.status === 401 || response.status === 403) {
+        // Explicit auth failure
+        setIsAuthenticated(false);
+        if (location.pathname !== "/") {
+          setTokenExpired(true);
+        }
       }
+      // For other errors (like 500 or network issues), we don't immediately kick them out
+      // if we already have a token in localStorage, just in case it's a temporary server issue.
     } catch (error) {
       console.error("Auth check error:", error);
-      setIsAuthenticated(false);
-      if (location.pathname !== "/") {
-        setTokenExpired(true);
-      }
+      // Don't set tokenExpired to true on network errors to prevent aggressive logouts on mobile
     }
   }, [fetchRSVPData, location.pathname]);
 
