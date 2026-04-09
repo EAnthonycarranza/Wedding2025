@@ -91,12 +91,15 @@ const Gallery = () => {
 
       for (let i = 0; i < galleryItems.length; i++) {
         const url = galleryItems[i];
-        const filename = `image-${i + 1}.jpg`;
-        console.log(`Fetching ${url}...`);
-        const response = await fetch(url);
+        const filename = url.split("/").pop() || `image-${i + 1}.jpg`;
+        console.log(`Fetching ${url} via proxy...`);
+        
+        // Use our backend proxy to avoid CORS issues
+        const proxyUrl = `/api/proxy-image?url=${encodeURIComponent(url)}`;
+        const response = await fetch(proxyUrl);
 
         if (!response.ok) {
-          console.error(`Failed to fetch ${url}: ${response.statusText}`);
+          console.error(`Failed to fetch ${url} via proxy: ${response.statusText}`);
           continue;
         }
         const blob = await response.blob();

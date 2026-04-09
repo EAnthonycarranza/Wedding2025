@@ -1141,6 +1141,37 @@ app.get("/get-cloud-images", async (req, res) => {
   }
 });
 
+// Proxy endpoint to download images from GCS without CORS issues
+app.get("/api/proxy-image", async (req, res) => {
+  const imageUrl = req.query.url;
+  if (!imageUrl) {
+    return res.status(400).json({ error: "Missing image URL" });
+  }
+
+  // Security: Ensure the URL is from our allowed GCS bucket
+  if (!imageUrl.startsWith("https://storage.googleapis.com/carranzawedding/")) {
+    return res.status(403).json({ error: "Forbidden: URL not allowed" });
+  }
+
+  try {
+    const response = await axios({
+      url: imageUrl,
+      method: "GET",
+      responseType: "stream",
+    });
+
+    // Set appropriate content type if available from the source
+    if (response.headers["content-type"]) {
+      res.setHeader("Content-Type", response.headers["content-type"]);
+    }
+
+    response.data.pipe(res);
+  } catch (error) {
+    console.error("Proxy image error:", error.message);
+    res.status(500).json({ error: "Failed to fetch image" });
+  }
+});
+
 // Handle React routing (must be last)
 app.get("*", (req, res) => {
   const buildPath = path.join(__dirname, "../client/build", "index.html");
