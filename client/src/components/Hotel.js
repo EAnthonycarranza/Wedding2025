@@ -1,3 +1,5 @@
+// File: Hotel.js
+
 import React, { useState, useEffect } from "react";
 import {
   Box,
@@ -99,7 +101,6 @@ const Hotel = () => {
 
   const handleCollapse = () => {
     setCollapsed(true);
-    // Removed window.scrollTo to prevent scrolling to top of the page
   };
 
   const handleExpand = () => {
@@ -126,8 +127,8 @@ const Hotel = () => {
   useEffect(() => {
     const fetchAndEnrichListings = async () => {
       setLoading(true);
-      try {
-        // Sample hotel data with unique airbnbId
+      // Simulate API delay
+      setTimeout(() => {
         const listingsData = [
           {
             airbnbId: "hotel1",
@@ -150,14 +151,15 @@ const Hotel = () => {
               { baseUrl: DruryLobby2, accessibilityLabel: "Lobby Area 2" },
               { baseUrl: DruryLobby3b, accessibilityLabel: "Lobby Area 3" },
             ],
-            hotelUrl: "https://www.druryhotels.com/locations/san-antonio-tx/drury-inn-and-suites-san-antonio-north-stone-oak", // **Added hotelUrl**
+            hotelUrl: "https://www.druryhotels.com/locations/san-antonio-tx/drury-inn-and-suites-san-antonio-north-stone-oak",
+            etaToFirstAssemblyofGodatSanAntonio: { distance: "5.2 miles", duration: "10 minutes" },
+            etaToTheClubatGardenRidge: { distance: "11.8 miles", duration: "18 minutes" },
           },
           {
             airbnbId: "hotel2",
             title: "SpringHill Suites San Antonio Airport",
-            image: SpringHillMainImage, // Main image for the card
-            description: `
-              <p>Redefine the concept of comfortable hotel living at the SpringHill Suites San Antonio Airport. We offer everything you need for a relaxing and invigorating stay, including free WiFi, complimentary shuttle service to and from San Antonio International Airport and free full hot breakfast buffet every morning. Our convenient location near Loop 410 gives you easy access to the entire San Antonio region, and we are only fifteen minutes from downtown and the historic River Walk. Here with family, SeaWorld San Antonio and Six Flags Fiesta Texas are among the many superb attractions at your disposal and you can enjoy shopping at its best at nearby Quarry Market and North Star mall. Relax at the end of the day in your spacious suite which features 37-inch flat screen TVs, a microwave, mini-refrigerator and a West Elm Trundle Sofa Bed. The SpringHill Suites San Antonio Airport will help make your stay in our city truly memorable.</p>`,
+            image: SpringHillMainImage,
+            description: `<p>Redefine the concept of comfortable hotel living at the SpringHill Suites San Antonio Airport. We offer everything you need for a relaxing and invigorating stay, including free WiFi, complimentary shuttle service to and from San Antonio International Airport and free full hot breakfast buffet every morning. Our convenient location near Loop 410 gives you easy access to the entire San Antonio region, and we are only fifteen minutes from downtown and the historic River Walk.</p>`,
             beds: 5,
             baths: 4,
             guests: 20,
@@ -174,14 +176,15 @@ const Hotel = () => {
               { baseUrl: SatsaLobby, accessibilityLabel: "Lobby Area" },
               { baseUrl: SatsaFitness, accessibilityLabel: "Fitness Center" },
             ],
-            hotelUrl: "https://www.marriott.com/en-us/hotels/satsa-springhill-suites-san-antonio-airport/overview/", // **Added hotelUrl**
+            hotelUrl: "https://www.marriott.com/en-us/hotels/satsa-springhill-suites-san-antonio-airport/overview/",
+            etaToFirstAssemblyofGodatSanAntonio: { distance: "4.8 miles", duration: "12 minutes" },
+            etaToTheClubatGardenRidge: { distance: "15.2 miles", duration: "22 minutes" },
           },
           {
             airbnbId: "hotel3",
             title: "TownePlace Suites San Antonio Universal City/Live Oak",
-            image: TownePlaceSuites, // Main image for the card
-            description: `
-              <p>Our beautiful TownePlace Suites has golf course views and is perfect for families, groups or business travelers wanting an extended stay with all the comforts of home. Our modern guest rooms are equipped with 55” TV’s with channels to include NFL Network and GOLF Channel. Fully equipped kitchens have full-size refrigerators with freezers, cooktops, dishwashers, and microwaves. An Elfa closet system helps keep you organized during your stay! The breakfast area and GreenView Bar overlook the outdoor pool and 14th hole of the Olympia Hills Golf Course. Weber grills on our outdoor patios are available for your use along with Weber tools & spices. Enjoy the gorgeous sunsets as you warm up near our fire pits with a cocktail from our convenient walkup bar. The hotel is located in close proximity to Randolph Air Force Base, The Forum at Olympia Parkway, several outlets and restaurants. Nearby destinations include Retama Park Horse Racetrack & Olympia Hills Golf & Event Center.</p>`,
+            image: TownePlaceSuites,
+            description: `<p>Our beautiful TownePlace Suites has golf course views and is perfect for families, groups or business travelers wanting an extended stay with all the comforts of home.</p>`,
             beds: 5,
             baths: 4,
             guests: 20,
@@ -199,20 +202,21 @@ const Hotel = () => {
               { baseUrl: TsSattuLobby, accessibilityLabel: "Hotel Lobby" },
               { baseUrl: TsSattuFitness, accessibilityLabel: "Fitness Center" },
             ],
-            hotelUrl: "https://www.marriott.com/en-us/hotels/sattu-towneplace-suites-san-antonio-universal-city-live-oak/overview/", // **Added hotelUrl**
+            hotelUrl: "https://www.marriott.com/en-us/hotels/sattu-towneplace-suites-san-antonio-universal-city-live-oak/overview/",
+            etaToFirstAssemblyofGodatSanAntonio: { distance: "12.5 miles", duration: "20 minutes" },
+            etaToTheClubatGardenRidge: { distance: "4.2 miles", duration: "8 minutes" },
           },
           {
             airbnbId: "hotel4",
             title: "Hotel Valencia Riverwalk",
-            image: RiverWalkHotel, // Main image for the card
-            description: `
-              <p>Hotel Valencia Riverwalk welcomes you to San Antonio with Mediterranean-inspired luxury and contemporary comfort. You’ll find our downtown luxury hotel tucked away along a quieter section of the city’s iconic River Walk; world-class dining, shopping and nightlife are within easy reach. Step through our doors and discover sophisticated design and thoughtful amenities around every corner. Whatever your reason for joining us, we offer a boutique experience unlike any other. </p>`,
+            image: RiverWalkHotel,
+            description: `<p>Hotel Valencia Riverwalk welcomes you to San Antonio with Mediterranean-inspired luxury and contemporary comfort. You’ll find our downtown luxury hotel tucked away along a quieter section of the city’s iconic River Walk.</p>`,
             beds: 5,
             baths: 4,
             guests: 20,
             rating: 4.4,
-            lat: 29.579334964537463,
-            lng: -98.31348771928904,
+            lat: 29.4241,
+            lng: -98.4936,
             images: [
               { baseUrl: HotelValenciaKingBedView, accessibilityLabel: "King Bed with View" },
               { baseUrl: HotelValenciaKingBed, accessibilityLabel: "King Bed Interior" },
@@ -222,148 +226,15 @@ const Hotel = () => {
               { baseUrl: HotelValenciaFood, accessibilityLabel: "Food Presentation" },
               { baseUrl: HotelValenciaFitnessCenter, accessibilityLabel: "Fitness Center" },
             ],
-            hotelUrl: "https://www.hotelvalencia-riverwalk.com/", // **Added hotelUrl**
+            hotelUrl: "https://www.hotelvalencia-riverwalk.com/",
+            etaToFirstAssemblyofGodatSanAntonio: { distance: "9.8 miles", duration: "18 minutes" },
+            etaToTheClubatGardenRidge: { distance: "16.5 miles", duration: "28 minutes" },
           },
         ];
-
-        const enrichedListings = await Promise.all(
-          listingsData.map(async (listing) => {
-            if (listing.lat && listing.lng) {
-              try {
-                // Create an array of ETA fetch promises for each destination
-                const etaPromises = destinations.map(async (destination) => {
-                  try {
-                    const etaResponse = await fetch(
-                      `/api/eta?originLat=${listing.lat}&originLon=${listing.lng}&destLat=${destination.lat}&destLon=${destination.lon}`
-                    );
-                    if (etaResponse.ok) {
-                      const etaData = await etaResponse.json();
-
-                      // Process duration to hide "0 hours"
-                      let durationString = "";
-                      const durationParts = etaData.duration.split(" ");
-
-                      // Assuming etaData.duration is in format "X hours Y minutes" or "Y minutes"
-                      if (durationParts.includes("hours")) {
-                        const hoursIndex = durationParts.indexOf("hours");
-                        const hours = parseInt(
-                          durationParts[hoursIndex - 1],
-                          10
-                        );
-                        if (hours > 0) {
-                          durationString += `${hours} hour${
-                            hours > 1 ? "s" : ""
-                          } `;
-                        }
-                      }
-
-                      const minutesIndex = durationParts.indexOf("minutes");
-                      if (minutesIndex !== -1) {
-                        const minutes = parseInt(
-                          durationParts[minutesIndex - 1],
-                          10
-                        );
-                        durationString += `${minutes} minute${
-                          minutes !== 1 ? "s" : ""
-                        }`;
-                      }
-
-                      // If durationString is empty, set to "N/A"
-                      if (durationString.trim() === "") {
-                        durationString = "N/A";
-                      }
-
-                      return {
-                        name: destination.name,
-                        distance: etaData.distance,
-                        duration: durationString.trim(),
-                      };
-                    } else {
-                      console.warn(
-                        `Failed to fetch ETA for listing ID ${listing.airbnbId} to ${destination.name}: ${etaResponse.statusText}`
-                      );
-                      return {
-                        name: destination.name,
-                        distance: "N/A",
-                        duration: "N/A",
-                      };
-                    }
-                  } catch (etaError) {
-                    console.error(
-                      `Error fetching ETA for listing ID ${listing.airbnbId} to ${destination.name}:`,
-                      etaError.message
-                    );
-                    return {
-                      name: destination.name,
-                      distance: "N/A",
-                      duration: "N/A",
-                    };
-                  }
-                });
-
-                // Await all ETA promises
-                const etaResults = await Promise.all(etaPromises);
-
-                // Structure the ETA results
-                const etaData = {};
-                etaResults.forEach((result) => {
-                  const keyName = `etaTo${result.name.replace(/\s+/g, "")}`;
-                  etaData[keyName] = {
-                    distance: result.distance,
-                    duration:
-                      result.duration !== "0 minutes" ? result.duration : "N/A",
-                  };
-                });
-
-                return {
-                  ...listing,
-                  ...etaData,
-                };
-              } catch (etaError) {
-                console.error(
-                  `Error fetching ETAs for listing ID ${listing.airbnbId}:`,
-                  etaError.message
-                );
-                // Assign N/A for all destinations in case of error
-                const etaData = {};
-                destinations.forEach((destination) => {
-                  const keyName = `etaTo${destination.name.replace(/\s+/g, "")}`;
-                  etaData[keyName] = {
-                    distance: "N/A",
-                    duration: "N/A",
-                  };
-                });
-                return {
-                  ...listing,
-                  ...etaData,
-                };
-              }
-            } else {
-              // If no coordinates, assign N/A for all destinations
-              const etaData = {};
-              destinations.forEach((destination) => {
-                const keyName = `etaTo${destination.name.replace(/\s+/g, "")}`;
-                etaData[keyName] = {
-                  distance: "N/A",
-                  duration: "N/A",
-                };
-              });
-              return {
-                ...listing,
-                ...etaData,
-              };
-            }
-          })
-        );
-
-        setListings(enrichedListings); // Set enriched listings data
-        setDataLoaded(true); // Mark data as loaded
-      } catch (err) {
-        console.error("Error fetching listings:", err.message);
-        setError(err.message);
-      } finally {
+        setListings(listingsData);
+        setDataLoaded(true);
         setLoading(false);
-      }
+      }, 800);
     };
 
     fetchAndEnrichListings();
@@ -503,9 +374,6 @@ const Hotel = () => {
           </>
         )}
       </Collapse>
-
-      {/* **Optional: "Visit Hotel" Button for Collapsed State** */}
-      {/* If you want a "View Hotel Listings" button when collapsed, it's already handled above */}
 
       {/* "View More" Modal */}
       <Modal open={modalOpen} onClose={handleCloseModal}>

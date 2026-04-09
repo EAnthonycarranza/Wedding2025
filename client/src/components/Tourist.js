@@ -202,43 +202,31 @@ const Tourist = () => {
 
   // Mock Airbnb listings for Demo Mode
   useEffect(() => {
-    const isDemo = localStorage.getItem("isDemoMode") === "true";
-    if (isDemo) {
-      const demoAirbnbs = [
-        {
-          id: "demo-1",
-          name: "Elegant Historic Home near Riverwalk",
-          latitude: 29.4241,
-          longitude: -98.4936,
-          beds: 3,
-          baths: 2,
-          price: "$150",
-          image: "https://a0.muscache.com/im/pictures/miso/hosting-46699110/original/99a67460-b72c-4dc3-bcaf-50d424d057ff.jpeg",
-          url: "https://airbnb.com"
-        },
-        {
-          id: "demo-2",
-          name: "Modern Loft with Skyline Views",
-          latitude: 29.4150,
-          longitude: -98.4850,
-          beds: 2,
-          baths: 1,
-          price: "$120",
-          image: "https://a0.muscache.com/im/pictures/5027a548-ba99-4aac-ad2d-ee5e8f2ad58e.jpg",
-          url: "https://airbnb.com"
-        }
-      ];
-      setAirbnbListings(demoAirbnbs);
-    } else {
-      fetch("/api/airbnb-listings")
-        .then((res) => res.json())
-        .then((data) => {
-          const fetched = data.message || [];
-          const validAirbnbs = fetched.filter((l) => l.latitude && l.longitude);
-          setAirbnbListings(validAirbnbs);
-        })
-        .catch((err) => console.error("Failed to load Airbnb listings:", err));
-    }
+    const demoAirbnbs = [
+      {
+        id: "demo-1",
+        name: "Elegant Historic Home near Riverwalk",
+        latitude: 29.4241,
+        longitude: -98.4936,
+        beds: 3,
+        baths: 2,
+        price: "$150",
+        image: "https://a0.muscache.com/im/pictures/miso/hosting-46699110/original/99a67460-b72c-4dc3-bcaf-50d424d057ff.jpeg",
+        url: "https://airbnb.com"
+      },
+      {
+        id: "demo-2",
+        name: "Modern Loft with Skyline Views",
+        latitude: 29.4150,
+        longitude: -98.4850,
+        beds: 2,
+        baths: 1,
+        price: "$120",
+        image: "https://a0.muscache.com/im/pictures/5027a548-ba99-4aac-ad2d-ee5e8f2ad58e.jpg",
+        url: "https://airbnb.com"
+      }
+    ];
+    setAirbnbListings(demoAirbnbs);
   }, []);
 
   // Recompute ETAs whenever userLocation or filter changes
@@ -247,22 +235,18 @@ const Tourist = () => {
     filteredPlaces.forEach((place) => fetchETA(place));
   }, [userLocation, filter]);
 
-  // Fetch ETA from server
+  // Fetch ETA from server (Mocked)
   const fetchETA = async (destination) => {
     if (!userLocation) return;
-    try {
-      const res = await fetch(
-        `/api/eta?originLat=${userLocation.lat}&originLon=${userLocation.lng}&destLat=${destination.lat}&destLon=${destination.lon}`
-      );
-      const data = await res.json();
-      if (res.ok) {
-        setEtaData((prev) => ({ ...prev, [destination.id]: data }));
-      } else {
-        console.error("Error fetching ETA:", data.error);
-      }
-    } catch (e) {
-      console.error("Error fetching ETA:", e);
-    }
+    // Simulate API call with mock data
+    setTimeout(() => {
+      const dist = (calculateDistance(userLocation.lat, userLocation.lng, destination.lat, destination.lon) * 0.621371).toFixed(2);
+      const dur = Math.round(dist * 2) + " minutes";
+      setEtaData((prev) => ({ 
+        ...prev, 
+        [destination.id]: { distance: dist + " miles", duration: dur } 
+      }));
+    }, 500);
   };
 
   // Handle marker click or search selection
