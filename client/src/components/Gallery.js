@@ -1,6 +1,6 @@
 // File: Gallery.js
 import React, { useState, useEffect } from "react";
-import { useTheme, useMediaQuery, Pagination } from "@mui/material";
+import { useTheme, useMediaQuery, Pagination, Backdrop, CircularProgress, Typography, Box } from "@mui/material";
 import JSZip from "jszip";
 import { saveAs } from "file-saver";
 import LightboxGallery from "./LightboxGallery";
@@ -63,6 +63,8 @@ const Gallery = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [currentPage, setCurrentPage] = useState(0);
   const [pageSize, setPageSize] = useState(computedPageSize);
+  const [downloading, setDownloading] = useState(false);
+  const [downloadProgress, setDownloadProgress] = useState(0);
 
   // Update pageSize when breakpoint values change.
   useEffect(() => {
@@ -86,6 +88,8 @@ const Gallery = () => {
   // Download all images as a zip file.
   const downloadAllPhotos = async () => {
     try {
+      setDownloading(true);
+      setDownloadProgress(0);
       const zip = new JSZip();
       const folder = zip.folder("wedding-gallery");
 
@@ -93,6 +97,9 @@ const Gallery = () => {
         const url = galleryItems[i];
         const filename = url.split("/").pop() || `image-${i + 1}.jpg`;
         console.log(`Fetching ${url} via proxy...`);
+        
+        // Update progress
+        setDownloadProgress(i + 1);
         
         // Use our backend proxy to avoid CORS issues
         const proxyUrl = `/api/proxy-image?url=${encodeURIComponent(url)}`;
@@ -110,6 +117,8 @@ const Gallery = () => {
       saveAs(zipBlob, "wedding-gallery.zip");
     } catch (error) {
       console.error("Error downloading photos:", error.message);
+    } finally {
+      setDownloading(false);
     }
   };
 
@@ -201,6 +210,22 @@ const Gallery = () => {
           Download All Photos
         </button>
       </div>
+
+      {/* Download Progress Loading Animation */}
+      <Backdrop
+        sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1, display: 'flex', flexDirection: 'column', gap: 2 }}
+        open={downloading}
+      >
+        <CircularProgress color="inherit" size={60} thickness={4} />
+        <Box sx={{ textAlign: 'center' }}>
+          <Typography variant="h6" component="div" sx={{ fontWeight: 'bold' }}>
+            Preparing Your Photos
+          </Typography>
+          <Typography variant="body1" component="div">
+            Downloading {downloadProgress} of {galleryItems.length}...
+          </Typography>
+        </Box>
+      </Backdrop>
     </div>
   );
 };
