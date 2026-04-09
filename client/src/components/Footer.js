@@ -5,7 +5,7 @@ const Footer = () => {
   return (
     <footer style={footerStyle}>
       <div className="container">
-        <p>&copy; 2025 Wedding 2025. All Rights Reserved.</p>
+        <p>Designed with love by Christina and Anthony</p>
         <p>
           Built by <a href="https://codingcarranza.com/" target="_blank" rel="noopener noreferrer" style={linkStyle}>Coding Carranza</a>
         </p>
