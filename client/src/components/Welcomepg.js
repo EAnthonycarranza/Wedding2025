@@ -188,9 +188,36 @@ const Welcomepg = ({ setIsAuthenticated, setFamilyName }) => {
           <Submit style={buttonStyles}>
             {loading ? "Logging in..." : "Log In"}
           </Submit>
-          <div style={{ marginTop: '10px', textAlign: 'center' }}>
+          <div style={{ marginTop: '15px', textAlign: 'center' }}>
+            <style>
+              {`
+                @keyframes pulse-demo {
+                  0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(241, 78, 149, 0.7); }
+                  70% { transform: scale(1.05); box-shadow: 0 0 0 10px rgba(241, 78, 149, 0); }
+                  100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(241, 78, 149, 0); }
+                }
+                .demo-btn-animated {
+                  animation: pulse-demo 2s infinite;
+                  background-color: #F14E95 !important;
+                  color: white !important;
+                  border: none !important;
+                  padding: 12px 20px !important;
+                  border-radius: 25px !important;
+                  cursor: pointer !important;
+                  fontWeight: bold !important;
+                  width: 100% !important;
+                  font-size: 16px !important;
+                  transition: all 0.3s ease !important;
+                }
+                .demo-btn-animated:hover {
+                  background-color: #d13d7f !important;
+                  transform: scale(1.1) !important;
+                }
+              `}
+            </style>
             <button
               type="button"
+              className="demo-btn-animated"
               onClick={() => {
                 localStorage.setItem("isDemoMode", "true");
                 localStorage.setItem("token", "demo-token");
@@ -198,18 +225,8 @@ const Welcomepg = ({ setIsAuthenticated, setFamilyName }) => {
                 setFamilyName("Guest Mode");
                 navigate("/home");
               }}
-              style={{
-                backgroundColor: 'transparent',
-                color: '#F14E95',
-                border: '2px solid #F14E95',
-                padding: '10px 20px',
-                borderRadius: '20px',
-                cursor: 'pointer',
-                fontWeight: 'bold',
-                width: '100%'
-              }}
             >
-              Explore Guest Demo
+              EXPLORE GUEST DEMO
             </button>
           </div>
           <ButtonAfter visible={false} />
