@@ -54,7 +54,7 @@ const CoupleInfo = () => {
             }}
           >
             <img
-              src="https://storage.googleapis.com/galleryimageswedding/6.jpg"
+              src="https://storage.googleapis.com/carranzawedding/Untitled%20design%20(95).png"
               alt="Groom"
               style={{
                 width: "200px",
